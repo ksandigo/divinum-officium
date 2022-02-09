@@ -26,7 +26,7 @@ sub invitatorium {
     : '';
 
   if (
-    $version =~ /Trid|Monastic/i
+    $version =~ /Trid|Monastic|Bavariae/i
     && (!$name
       || ($name eq 'Quad' && $dayofweek != 0))
     )
@@ -46,7 +46,7 @@ sub invitatorium {
   my @invit = split("\n", $invit{$name});
   setbuild('Psalterium/Matutinum Special', $name, 'Invitatorium ord');
   my $ant = chompd($invit[$i]);
-  if ($version =~ /Monastic/i && $dayofweek && $winner =~ /Pasc/ && $winner !~ /Pasc[07]/ && $winner !~ /Pasc5-4/) {
+  if ($version =~ /Monastic|Bavariae/i && $dayofweek && $winner =~ /Pasc/ && $winner !~ /Pasc[07]/ && $winner !~ /Pasc5-4/) {
     $ant = chompd($prayers{$lang}{"Alleluia Duplex"}) . $prayers{$lang}{"Alleluia Simplex"};
     $ant =~ s/\., (.*)/, * \u\1/;
   } else {
@@ -140,7 +140,7 @@ sub hymnusmatutinum {
 # collects and returns psalms and lections for matutinum
 sub psalmi_matutinum {
   $lang = shift;
-  if ($version =~ /monastic/i && $winner{Rule} !~ /Matutinum Romanum/i) { return psalmi_matutinum_monastic($lang); }
+  if ($version =~ /monastic|Bavariae/i && $winner{Rule} !~ /Matutinum Romanum/i) { return psalmi_matutinum_monastic($lang); }
   my %psalmi = %{setupstring($datafolder, $lang, 'Psalterium/Psalmi matutinum.txt')};
   my $d = ($version =~ /trident/i) ? 'Daya' : 'Day';
   my $dw = $dayofweek;
@@ -556,7 +556,7 @@ sub lectiones {
 
   #benedictiones for nocturn III
   if ($i == 3 && $rule !~ /ex C1[02]/ && $rule !~ /Special Evangelii Benedictio/i) {
-    ($a[3], $a[4], $a[5]) = ($a[5], $a[3], $a[4]) if ($version =~ /Monastic/i);
+    ($a[3], $a[4], $a[5]) = ($a[5], $a[3], $a[4]) if ($version =~ /Monastic|Bavariae/i);
 
     my $w = lectio($j1, $lang);
 
@@ -571,7 +571,7 @@ sub lectiones {
       my $j = 6;
       if ($winner{Rank} =~ /(virgin|vidua|poenitentis|pœnitentis|C6|C7)/i) { $j += 2; }
       if ($winner{Rank} =~ /ss\./i) { $j++; }
-      $a[($version =~ /Monastic/) ? 4 : 3] = $a[$j];
+      $a[($version =~ /Monastic|Bavariae/) ? 4 : 3] = $a[$j];
     }
     if ($rule =~ /Ipsa Virgo Virginum/i && !$divaux) { $a[3] = $a[10]; }
     if ($rule =~ /Quorum Festum/i && !$divaux) { $a[3] = $a[7]; }
@@ -771,7 +771,7 @@ sub lectio : ScriptFunc {
     #$w1 =~ s/^\!.*?\n//;
     $w .= $w1;
   }
-  if ($version =~ /monastic/i && $num == 3) { $w = monastic_lectio3($w, $lang); }
+  if ($version =~ /monastic|Bavariae/i && $num == 3) { $w = monastic_lectio3($w, $lang); }
 
   #look for commune if sancti and ex or wide
   if (!$w && $winner =~ /sancti/i && $rule =~ /(ex\s*C|vide\s*C)/i) {
@@ -922,7 +922,7 @@ sub lectio : ScriptFunc {
   }
   if (($ltype1960 || ($winner =~ /Sancti/i && $rank < 2)) && $num > 2) { $num = 3; $w = addtedeum($w); }
   if ($num == 3 && $winner =~ /Tempora/ && $rule !~ /9 lectiones/i && $rule =~ /Feria Te Deum/i) { $w = addtedeum($w); }
-  if ($version =~ /monastic/i) { $w =~ s/\&teDeum//g; }
+  if ($version =~ /monastic|Bavariae/i) { $w =~ s/\&teDeum//g; }
 
   #get item from [Responsory$num] if no responsory
   if ($w && $w !~ /\nR\./ && $w !~ /\&teDeum/i) {
@@ -932,7 +932,7 @@ sub lectio : ScriptFunc {
     if ($version =~ /1960/ && $winner =~ /tempora/i && $dayofweek == 0 && $dayname[0] =~ /(Adv|Quad)/i && $na == 3) {
       $na = 9;
     }
-    if (contract_scripture($num) && $version !~ /Monastic/i) { $na = 3; }
+    if (contract_scripture($num) && $version !~ /Monastic|Bavariae/i) { $na = 3; }
 
     if ($version =~ /1955|1960/ && exists($w{"Responsory$na 1960"})) {
       $s = $w{"Responsory$na 1960"};
@@ -1217,7 +1217,7 @@ sub responsory_gloria {
     delete($winner2{Responsory9});
   }
   if ($num == 8 && exists($winner{Responsory9}) && ($rule !~ /12 lectio/)) { return $w; }
-  if ($version =~ /Monastic/i && $num == 2) { return $prev; }
+  if ($version =~ /Monastic|Bavariae/i && $num == 2) { return $prev; }
   my $flag = 0;
 
   my $read_per_noct = ($rule =~ /12 lectio/) ? 4 : 3;
@@ -1396,7 +1396,7 @@ sub initiarule {
     : ($version =~ /1570/i) ? '1570'
     : ($version =~ /Trid/) ? '1910'
     : ($version =~ /1960/) ? '1960'
-    : 'DA';
+    : 'DA'; ## redirect later on
   my @lines;
 
   if ($num < 4 && $version !~ /monastic/i && (@lines = do_read("$datafolder/Latin/Tabulae/Str$ver$year.txt"))) {

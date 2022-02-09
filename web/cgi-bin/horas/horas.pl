@@ -451,7 +451,7 @@ sub psalm : ScriptFunc {
     $num = $1;
 
     if ( ($version =~ /Trident/i && $num =~ /(62|148|149)/)
-      || ($version =~ /Monastic/i && $num =~ /(115|148|149)/))
+      || ($version =~ /Monastic|Bavariae/i && $num =~ /(115|148|149)/))
     {
       $nogloria = 1;
     }
@@ -662,7 +662,7 @@ sub settone {
   my @parray;
   my $tone = '';
 
-  if ($version =~ /Monastic/i) {
+    if ($version =~ /Monastic|Bavariae/i) {           # da bin ich mir nicht sicher
     if ($hora =~ /Matutinum/i) { return ''; }
 
     if ($hora =~ /(Laudes|Vespera)/i) {
@@ -1220,7 +1220,7 @@ sub getordinarium {
   if ($command =~ /Matutinum/i && $rule =~ /Special Matutinum Incipit/i) { $suffix .= "e"; }
   if ($version =~ /(1955|1960|Newcal)/) { $suffix .= "1960"; }
   elsif ($version =~ /trident/i && $hora =~ /(laudes|vespera)/i) { $suffix .= "Trid"; }
-  elsif ($version =~ /Monastic/i) { $suffix .= "M"; }
+    elsif ($version =~ /Monastic|Bavariae/i) { $suffix .= "M"; }  # mal schauen
   elsif ($version =~ /Ordo Praedicatorum/i) { $suffix .= "OP"; }
   my $fname = checkfile($lang, "Ordinarium/$command$suffix.txt");
 
