@@ -188,6 +188,7 @@ sub getrank {
   our $hymncontract = 0;
   my $kalendarname =
       ($version =~ /Monastic/i) ? 'M'
+    : ($version =~ /Bavariae/) ? '1954'  # to be redirected later on
     : ($version =~ /1570/) ? 1570
     : ($version =~ /Trident/i) ? 1888
     : ($version =~ /Divino/i) ? '1954'
@@ -215,6 +216,7 @@ sub getrank {
     : ($version =~ /Divino/i) ? 'DA'
     : ($version =~ /(1955|1960)/) ? '1960'
     : ($version =~ /monastic/i) ? 'M'
+    : ($version =~ /Bavariae/i) ? 'DA' # to be redirected later on
     : ($version =~ /1570/) ? '1570'
     : ($version =~ /1910/) ? 1910
     : '1960';
@@ -804,7 +806,7 @@ sub getrank {
       if ($name =~ /^C[0-9]/i) { $name = "$communename/$name"; }
       if ($name !~ /(Sancti|Commune|Tempora)/i) { $name = "$temporaname/$name"; }
       $commune = "$name.txt";
-      if ($version =~ /trident/i && $version !~ /monastic/i) { $communetype = 'ex'; }
+      if ($version =~ /trident|Bavariae/i && $version !~ /monastic/i) { $communetype = 'ex'; }
     }
     if ($version =~ /1960/ && $vespera == 1 && $rank >= 6 && $comrank < 5) { $commemoratio = ''; $srank[2] = 0; }
 
@@ -1636,6 +1638,10 @@ sub setmdir {
     $sanctiname = 'SanctiM';
     $temporaname = 'TemporaM';
     $communename = 'CommuneM';
+  } elsif ($version =~ /Bavariae/i) {
+      $sanctiname = 'SanctiB';
+      $temporaname = 'TemporaM';
+      $communename = 'CommuneM';
   } else {
     $sanctiname = 'Sancti';
     $temporaname = 'Tempora';

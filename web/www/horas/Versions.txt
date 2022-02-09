@@ -6,3 +6,4 @@ Rubrics 1960
 1960 Newcalendar
 Monastic
 Ordo Praedicatorum
+Bavariae
