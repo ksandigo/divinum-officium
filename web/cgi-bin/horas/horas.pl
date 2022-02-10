@@ -1220,7 +1220,8 @@ sub getordinarium {
   if ($command =~ /Matutinum/i && $rule =~ /Special Matutinum Incipit/i) { $suffix .= "e"; }
   if ($version =~ /(1955|1960|Newcal)/) { $suffix .= "1960"; }
   elsif ($version =~ /trident/i && $hora =~ /(laudes|vespera)/i) { $suffix .= "Trid"; }
-    elsif ($version =~ /Monastic|Bavariae/i) { $suffix .= "M"; }  # mal schauen
+  elsif ($version =~ /Monastic/i) { $suffix .= "M"; }  # mal schauen
+  elsif ($version =~ /Bavariae/i) { $suffix .= "B"; }  # mal schauen
   elsif ($version =~ /Ordo Praedicatorum/i) { $suffix .= "OP"; }
   my $fname = checkfile($lang, "Ordinarium/$command$suffix.txt");
 

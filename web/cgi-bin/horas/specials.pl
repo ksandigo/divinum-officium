@@ -427,7 +427,7 @@ sub specials {
       my %suffr = %{setupstring($datafolder, $lang, 'Psalterium/Major Special.txt')};
       my ($suffr, $comment);
 
-      if ($version =~ /trident/i) {
+      if ($version =~ /trident|Bavariae/i) {
         if ($dayname[0] =~ /pasc/i && $dayname[1] =~ /(?:feria|vigilia)/i) { 
           $suffr = ($hora =~ /Laudes/) ? $suffr{"Suffragium2"} : $suffr{"Suffragium2v"}; }
         else {
