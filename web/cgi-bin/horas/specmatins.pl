@@ -580,7 +580,7 @@ sub lectiones {
     if ($w =~ $evan_regexp) { $a[4] = $benedictio{Evangelica9}; }
     setbuild2("B" . ($j1+2) . ". : " . beginwith($a[4]));
   }
-  if ($version =~ /1960/ && $lang =~ /Latin/i) { $a[1] = 'Jube, Dómine, benedícere.'; }
+  if ($version =~ /1960|Bavariae/ && $lang =~ /Latin/i) { $a[1] = 'Jube, Dómine, benedícere.'; }
 
   push(@s, "_");
 
@@ -688,7 +688,7 @@ sub lectio : ScriptFunc {
     }
   }
   
-  if($version =~ /(1570|1910|Divino)/i && $month == 12 && $day == 14 && $dayofweek !~ 3){ $w{"Lectio$num"} = $c{"Lectio$num"};}
+  if($version =~ /(1570|1910|Divino|Bavariae)/i && $month == 12 && $day == 14 && $dayofweek !~ 3){ $w{"Lectio$num"} = $c{"Lectio$num"};}
 
   #scriptura1960
   if ( $num < 3
