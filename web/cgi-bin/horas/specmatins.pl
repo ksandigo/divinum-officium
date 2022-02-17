@@ -582,7 +582,7 @@ sub lectiones {
         if ($w =~ $evan_regexp) { $a[4] = $benedictio{Evangelica9}; }   # "Per evangélica dicta, …"
         setbuild2("B" . ($j1+2) . ". : " . beginwith($a[4]));
     }
-    if ($version =~ /1960|Bavariae/ && $lang =~ /Latin/i) { $a[1] = 'Jube, Dómine, benedícere.'; } # always for non choir
+    if ($version =~ /1960|Bavariae/ && $lang =~ /Latin/i) { $a[1] = 'Jube, Dómine, benedícere.'; } # always for non choir ???
     
     push(@s, "_");
     
@@ -646,7 +646,7 @@ sub lectio : ScriptFunc {
             && $winner{Rank} !~ /vigil/i
             && ( $version !~ /monastic/i
                 || $dayname[0] !~ /Nat|Epi1/i)
-            )      # sanctoral simplex feast (unless monastic in Nativitytide and Epiphany => strangely the  Octave days of Stephanus, Joannes, Innocents)
+            )      # sanctoral simplex feast (unless monastic in Nativitytide and Epiphany => prevent the former Octave days of Stephanus, Joannes, Innocents)
         )
     {
         $num = 4;   # diverge to legend
@@ -740,31 +740,30 @@ sub lectio : ScriptFunc {
     #prepares for case of homily instead of scripture
     my $homilyflag = (exists($commemoratio{Lectio1})
         && $commemoratio{Lectio1} =~ /\!(Matt|Mark|Marc|Luke|Luc|Joannes|John)\s+[0-9]+\:[0-9]+\-[0-9]+/i) ? 1 : 0;
-    
-    if (
-        !$w         # we don't have a lectio yet
-        && (
-            ($communetype =~ /^ex/i && $commune !~ /Sancti/i && $rank > 3)      # either we have ex C. for duplex majus or higher
+    if (!$w         # we don't have a lectio yet
+        && (($communetype =~ /^ex/i && $commune !~ /Sancti/i && $rank > 3)      # either we have ex C. for duplex majus or higher
             || ( ($num < 4 || ($num == 4 && $rule =~ /12 lectiones/i))
-            && $homilyflag
-            && exists($commune{"Lectio$num"}))                                  # or we look for a homily from the referred C or Sanctoral
+                && $homilyflag
+                && exists($commune{"Lectio$num"})   # or we look for a homily from the referred C or Sanctoral
+            )
         )
-    )
-    {
+    )   {
         %w = (columnsel($lang)) ? %commune : %commune2;
         $w = $w{"Lectio$num"};
         if ($w && $num == 1) { setbuild2("Lectio1-3 from Tempora/$file replacing homily"); }
     }
     
+    # fill with Scriptura for 1st nocturn if possible
     if (!$w         # we still don't have a lectio yet
         && ($num < 4 || ($num == 4 && $rule =~ /12 lectiones/i)) # for the first nocturn
         && exists($scriptura{"Lectio$num"})
-        && ($version !~ /trident/i || $rank < 5))   # not in Tridentinum Duplex II. vel I. classis
-    {
+        && ($version !~ /trident/i || $rank < 5) # not in Tridentinum Duplex II. vel I. classis
+        && ($version !~ /Bavariae/i || !($dayname[0] =~ /(Pasc[1-6]|Pent)/i && monthday() !~ /^11[1-5]\-/ && $winner{Rank} !~ /vigil|quattuor/i) || $dayofweek == 0)  # also not in Bavariae in aestate on a feria (for now)
+    )   {
         %w = (columnsel($lang)) ? %scriptura : %scriptura2;
         $w = $w{"Lectio$num"};
         if ($w && $num == 1) { setbuild2("Lectio1 ex scriptura"); }
-    } elsif (!$w && $num == 4 && exists($commemoratio{"Lectio$num"}) && ($version =~ /1960/i)) {
+    } elsif (!$w && $num == 4 && exists($commemoratio{"Lectio$num"}) && ($version =~ /1960/i)) { # diverged 3rd lesson in 1960
         %w = (columnsel($lang)) ? %commemoratio : %commemoratio2;
         $w = $w{"Lectio$num"};
         if ($w && $num == 4) { setbuild2("Lectio3 ex commemoratio"); }
@@ -777,9 +776,10 @@ sub lectio : ScriptFunc {
         #$w1 =~ s/^\!.*?\n//;
         $w .= $w1;
     }
-    if ($version =~ /monastic|Bavariae/i && $num == 3) { $w = monastic_lectio3($w, $lang); }
     
-    #look for commune if sancti and ex or wide
+    if ($version =~ /monastic|Bavariae/i && $num == 3) { $w = monastic_lectio3($w, $lang); } # check for diverge in monastic
+    
+    #look for commune if sancti and ex or vide
     if (!$w && $winner =~ /sancti/i && $rule =~ /(ex\s*C|vide\s*C)/i) {
         my %com = (columnsel($lang)) ? %commune : %commune2;
         
@@ -820,16 +820,17 @@ sub lectio : ScriptFunc {
     }
     my $wo = $w;
     
-    #look for commemoratio 9
+    #look for commemoratio 9 (or 12)
     #if ($rule =~ /9 lectio/i && $rank < 2) {$rule =~ s/9 lectio//i;}
-    if ( $version !~ /1960|Monastic/i
+    if ($version !~ /1960|Monastic/i
         && $commune !~ /C10/
         && $rule !~ /no93/i
         && $winner{Rank} !~ /Octav.*(Epi|Corp)/i
-    && ($dayofweek != 0 || $winner =~ /Sancti/i || $winner =~ /Nat2/i)
-    && (($rule =~ /9 lectio/i && $num == 9) || ($rule !~ /9 lectio/i && $num == 3 && $winner !~ /Tempora/i))
-    || ($rank < 2 && $winner =~ /Sancti/i && $num == 4))
-    {
+        && ($dayofweek != 0 || $winner =~ /Sancti/i || $winner =~ /Nat2/i)
+        && (($rule =~ /9 lectio/i && $num == 9) || ($rule =~ /12 lectio/i && $num == 12)
+            || ($rule !~ /(9|12) lectio/i && $num == 3 && $winner !~ /Tempora/i))
+        || ($rank < 2 && $winner =~ /Sancti/i && $num == 4)
+    )   {
         %w = (columnsel($lang)) ? %winner : %winner2;
         
         if (($w{Rank} =~ /Simplex/i || ($version =~ /1955/ && $rank == 1.5)) && exists($w{'Lectio94'})) {
@@ -838,16 +839,15 @@ sub lectio : ScriptFunc {
             $w = $w{'Lectio93'};
         }
         
-        if (
-            ($commemoratio =~ /tempora/i || $commemoratio =~ /01\-05/)
+        if (($commemoratio =~ /tempora/i || $commemoratio =~ /01\-05/)
             && ($homilyflag || exists($commemoratio{Lectio7}))
-        && $comrank > 1
-        && ( $rank > 4
-        || ($rank >= 3 && $version =~ /Trident/i)
-        || $homilyflag
-        || exists($winner{Lectio1}))
-        )
-        {
+            && $comrank > 1
+            && ($rank > 4
+                || ($rank >= 3 && $version =~ /Trident/i)
+                || $homilyflag
+                || exists($winner{Lectio1})
+            )
+        )   {
             %w = (columnsel($lang)) ? %commemoratio : %commemoratio2;
             $wc = $w{"Lectio7"};
             $wc ||= $w{"Lectio1"};
@@ -868,7 +868,7 @@ sub lectio : ScriptFunc {
         }
         my $cflag = 1;    #*************  03-30-10
         if ($winner{Rule} =~ /9 lectiones/i && exists($winner{Responsory9})) { $cflag = 0; }
-        if ($winner{Rule} !~ /9 lectiones/i && exists($winner{Responsory3})) { $cflag = 0; }
+        if ($winner{Rule} !~ /(9|12) lectiones/i && exists($winner{Responsory3})) { $cflag = 0; }
         
         if ( $commemoratio =~ /sancti/i
             && $commemoratio{Rank} =~ /S\. /i

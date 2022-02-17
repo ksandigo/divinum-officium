@@ -1,5 +1,9 @@
 @Sancti/06-14
 
+[Rule]
+vide C4a;mtv
+12 lectiones
+
 [Rank]
 S. Basilii Magni Confessoris et Ecclesiæ Doctoris;;Duplex;;3;;vide C4
 

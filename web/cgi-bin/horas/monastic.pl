@@ -136,7 +136,8 @@ sub psalmi_matutinum_monastic {
 
   if ($rule =~ /12 lectiones/) {
     lectiones(1, $lang);
-  } elsif ($dayname[0] =~ /(Pasc[1-6]|Pent)/i && $month < 11 && $winner{Rank} !~ /vigil|quattuor/i) {
+      #  } elsif ($dayname[0] =~ /(Pasc[1-6]|Pent)/i && $month < 11 && $winner{Rank} !~ /vigil|quattuor/i) {
+  } elsif ($dayname[0] =~ /(Pasc[1-6]|Pent)/i && monthday() !~ /^11[1-5]\-/ && $winner{Rank} !~ /vigil|quattuor/i) {
     if ($winner =~ /Tempora/i
       || !(exists($winner{Lectio94}) || exists($winner{Lectio4})))
     {
@@ -156,7 +157,7 @@ sub psalmi_matutinum_monastic {
     lectiones(2, $lang);
     push(@s, "\n", '!Nocturn III.', '_');
 
-    if (($dayname[0] eq "Quad6") && ($dayofweek > 3))  {
+      if (($dayname[0] eq "Quad6") && ($dayofweek > 3))  { # tenebrae
       for (16..18) { antetpsalm_mm($psalmi[$_], $_); }
       antetpsalm_mm('', -2);
       push(@s, $psalmi[19], $psalmi[20], "\n");
@@ -188,10 +189,11 @@ sub psalmi_matutinum_monastic {
     if (exists($w{LectioE})) {    #** set evangelium
       @e = split("\n", $w{LectioE}); }
 
-    if (!$e[0] || $e[0] =~ /LectioE/) {
+    if (!$e[0] || $e[0] =~ /LectioE/) { # if missing or cross-reference
       my $dt = $datafolder; $dt =~ s/horas/missa/g;
       my $w = ($e[0] =~ /(.*):LectioE/) ? "${1}.txt" : $winner;
       $w =~ s/M//g;
+      $w =~ s/B//g; # auch von SanctiB nach Sancti verweisen
       my %missa = %{setupstring($dt, $lang, $w)};
       @e = split("\n", $missa{Evangelium});
     }
@@ -208,6 +210,8 @@ sub psalmi_matutinum_monastic {
     push(@s, @e, "R. " . translate("Amen", $lang), "_", "\$Te decet");
     return;
   }
+    
+  # 2nd nocturn in ferial style office (continued)
   my ($w, $c) = getproprium('MM Capitulum', $lang, 0, 1);
   my %s = %{setupstring($datafolder, $lang, 'Psalterium/Matutinum Special.txt')};
 
