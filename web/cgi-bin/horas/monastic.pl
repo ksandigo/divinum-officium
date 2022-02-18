@@ -116,7 +116,7 @@ sub psalmi_matutinum_monastic {
     for ($i = 0; $i < 3; $i++) { $psalmi[$i + 16] = $c[$i]; }
   }
 
-  if (($rank > 4.9 || $votive =~ /C8/) && !(($dayname[0] =~ /Pasc0/) && ($dayofweek > 2))) {
+  if ((($rank > 4.9 || $votive =~ /C8/) || ($rank > 3.9 && $version =~ /Bavariae/i)) && !(($dayname[0] =~ /Pasc0/) && ($dayofweek > 2))) {
     #** get proper Ant Matutinum for II. and I. class feasts unless it's Wednesday thru Saturday of the Easter Octave
     my ($w, $c) = getproprium('Ant Matutinum', $lang, 0, 1);
     if ($w) {
@@ -202,6 +202,7 @@ sub psalmi_matutinum_monastic {
       my $dt = $datafolder; $dt =~ s/horas/missa/g;
       my $w = ($e[0] =~ /(.*):LectioE/) ? "${1}.txt" : $winner;
       $w =~ s/M//g;         # there is no corresponding folder missa/latin/SanctiM
+      $w =~ s/B//g; # auch von SanctiB nach Sancti verweisen
       my %missa = %{setupstring($dt, $lang, $w)};
       @e = split("\n", $missa{Evangelium});
     }
@@ -271,19 +272,30 @@ sub antetpsalm_mm {
     if ($hora =~ /Vespera/i)
     {
       if ($ind == 0) { $line[0] = Alleluia_ant($lang, 0, 0); $lastantiphon = ''; } 
-      else { $line[0] = ''; $lastantiphon = Alleluia_ant($lang, 0, 0); }
+      else { $line[0] = ''; $lastantiphon = Alleluia_ant($lang, 1, 0); }  # test von 0 auf 1
     }
     elsif ($hora =~ /Laudes/i && $winner{Rank} !~ /Dominica/i )
     {
       if ($ind == 0) { $line[0] = Alleluia_ant($lang, 0, 0); $lastantiphon = ''; }
       if ($ind == 1) { $line[0] = ''; $lastantiphon = ''; }
-      if ($ind == 2) { $line[0] = ''; $lastantiphon = Alleluia_ant($lang, 0, 0); }
+      if ($ind == 2) { $line[0] = ''; $lastantiphon = Alleluia_ant($lang, 1, 0); } # test von 0 auf 1
       if ($ind == 3) { ensure_single_alleluia($line[0], $lang); }
-      if ($ind == 4) { $line[0] = Alleluia_ant($lang, 0, 0); }
+      if ($ind == 4) { $line[0] = Alleluia_ant($lang, 1, 0); } #test
     }
   }
-  if ($line[0] && $lastantiphon) { push(@s, "Ant. $lastantiphon"); push(@s, "\n"); }
-  if ($line[0]) { push(@s, "Ant. $line[0]"); $lastantiphon = $line[0]; }
+  if ($version =~/Bavariae/i) {
+      my @ant = split('\*', $line[0]);
+      my $ant = $line[0];
+      postprocess_ant($ant, $lang);
+      my $ant1 = ($duplex > 2) ? $ant : $ant[0];
+
+      if ($line[0] && $lastantiphon) { push(@s, "Ant. $lastantiphon"); push(@s, "\n"); }
+      if ($ant1) { push(@s, "Ant. $ant1"); $lastantiphon = $ant; }
+  }
+  else {
+      if ($line[0] && $lastantiphon) { push(@s, "Ant. $lastantiphon"); push(@s, "\n"); }
+      if ($line[0]) { push(@s, "Ant. $line[0]"); $lastantiphon = $line[0]; }
+  }
   my $p = $line[1];
   my @p = split(';', $p);
   my $i = 0;

@@ -450,8 +450,8 @@ sub psalm : ScriptFunc {
   if ($num =~ /^-(.*)/) {
     $num = $1;
 
-      if ( ($version =~ /Trident/i && $num =~ /(62|148|149)/)     # Tridentine Laudes: Pss. 62/66 & 148/149/150 under 1 gloria
-        || ($version =~ /Monastic/i && $num =~ /(115|148|149)/))  # Monastic Vespers: Pss. 115/116 & 148/149/150 under 1 gloria
+    if ( ($version =~ /Trident/i && $num =~ /(62|148|149)/)             # Tridentine Laudes: Pss. 62/66 & 148/149/150 under 1 gloria
+      || ($version =~ /Monastic|Bavariae/i && $num =~ /(115|148|149)/)) # Monastic Vespers: Pss. 115/116 & 148/149/150 under 1 gloria
     {
       $nogloria = 1;
     }
@@ -662,7 +662,7 @@ sub settone {
   my @parray;
   my $tone = '';
 
-  if ($version =~ /Monastic/i) {
+    if ($version =~ /Monastic|Bavariae/i) {           # da bin ich mir nicht sicher
     if ($hora =~ /Matutinum/i) { return ''; }
 
     if ($hora =~ /(Laudes|Vespera)/i) {
@@ -1220,7 +1220,8 @@ sub getordinarium {
   if ($command =~ /Matutinum/i && $rule =~ /Special Matutinum Incipit/i) { $suffix .= "e"; } # for Epiphanias
   if ($version =~ /(1955|1960|Newcal)/) { $suffix .= "1960"; }
   elsif ($version =~ /trident/i && $hora =~ /(laudes|vespera)/i) { $suffix .= "Trid"; }
-  elsif ($version =~ /Monastic/i) { $suffix .= "M"; }
+  elsif ($version =~ /Monastic/i) { $suffix .= "M"; }  # mal schauen
+  elsif ($version =~ /Bavariae/i) { $suffix .= "B"; }  # mal schauen
   elsif ($version =~ /Ordo Praedicatorum/i) { $suffix .= "OP"; }
   my $fname = checkfile($lang, "Ordinarium/$command$suffix.txt");
 
