@@ -481,124 +481,124 @@ sub votivenocturn {
 #input: the index number for the nocturn, 0 for 3 lectiones only and the language
 #collects and prints the the Benedictio, and set the call for the lectiones/responsory
 sub lectiones {
-  my $num = shift;
-  my $lang = shift;
-  my $evan_regexp = translate('Evangelist', $lang);
-
-  # some vernaculars have no translated parts, so add English and Latin
-  # cannot use translate('Evangelist', 'English') as it is anavailable
-  $evan_regexp .= '|Matt|Marc|Luc|Joannes' if ($lang !~ /Latin/);
-  $evan_regexp .= '|Matt|Mark|Luke|John' if ($lang !~ /English/);
-  $evan_regexp = '!(?:' . $evan_regexp . ')\s+\d+';
-  $evan_regexp = qr/$evan_regexp/;
-  push(@s, "\n");
-
-  if ($rule !~ /Limit.*?Benedictio/i) {
-    push(@s, "\&pater_noster");
-  } else {
-    push(@s, "\$Pater noster");
-  }
-  my %benedictio = %{setupstring($datafolder, $lang, 'Psalterium/Benedictions.txt')};
-  my $i = $num;
-  
-  my $j0 = 0;
-  my $j1 = 1 + (($num == 0) ? 0 : 2 * ($rule =~ /12 lectio/ ? 4 : 3));    # for 3 lect: 1; for 9: 7; for 12: 9 (used to look for homily)
-  
-  #if ($dayname[0] =~ /Pasc0/i) {$i = 3;}
-  if ($num == 0) {                                  # in the case of a single nocturn of 3 lessons
-    $i =
-    ($dayofweek == 1 || $dayofweek == 4) ? 1        # Monday, Thursday
-    : ($dayofweek == 2 || $dayofweek == 5) ? 2      # Tuesday, Friday
-    : ($dayofweek == 3 || $dayofweek == 6) ? 3      # Wednesday, Saturday
-    : 1;                                            # Sunday (as a default in error)
-    my $w = lectio(1, $lang);                       # get first lectio
-    
-    if ($w =~ $evan_regexp) {                       # if first lectio is homily
-      $j0 = $i;                                     # update j0 depending on dayofweek (used for Absolutio)
-      $i = 3;                                       # Benedictions itself are taken from Noct. 3
-    }
-  } else {                                          # in the case of a regular nocturn
-    $i = $num;                                      # take the Benedictions from that nocturn
-  }
-  my @a = split("\n", $benedictio{"Nocturn $i"});     # benedictions for nocturn / homily at single, then from 3rd
-  
-  if ($j0) {                                          # if homily at single nocturn only
-    my @a1 = split("\n", $benedictio{"Nocturn $j0"}); # get benedictios from nocturn of the weekday as well
-    $a[0] = $a1[0];                                   # and update absolutio
-  }
-
-  if ($rule =~ /Special Benedictio/) {
-    %mariae = %{setupstring($datafolder, $lang, "$communename/C10.txt")};
-    @a = split("\n", $mariae{Benedictio});
-    setbuild2('Special benedictio');
-  }
-
-  if ($rule =~ /Special Evangelii Benedictio/i && $num == 3) {
-    my %w = (columnsel($lang)) ? %winner : %winner2;
-    @a = split("\n", $w{Benedictio3});
-    setbuild2('Special Evangelii Benedictio');
-  }
-
-  #absolutiones
-  if ($rule !~ /Limit.*?Benedictio/i) {
-    push(@s, "Absolutio. $a[0]");
-    push(@s, "\n");
-  }
-  
-  # if 1960 or monastic of ferial type diverge to sub routine
-  my $ltype1960 = gettype1960();
-  if ($ltype1960) { return lect1960($lang, $evan_regexp); }
-  
-  if ($winner =~ /sancti/i && $rule !~ /Special Evangelii Benedictio/i) { # if winner is sanctoral
-    $i = ($num > 0) ? $num : 3;
-    @a = split("\n", $benedictio{"Nocturn $i"});
-  }
-  my $divaux = ($rule =~ /Divinum auxilium/i || $commune{Rule} =~ /Divinum auxilium/i) ? 1 : 0;
-  if ($i == 3 && $winner{Rank} =~ /Mari.* Virgin/i && !$divaux) { $a[3] = $a[10]; }   # Special B.M.V. benedictio '… ipsa Virgo'
-  
-  #benedictiones for nocturn III
-  if ($i == 3 && $rule !~ /ex C1[02]/ && $rule !~ /Special Evangelii Benedictio/i) {
-    ($a[3], $a[4], $a[5]) = ($a[5], $a[3], $a[4]) if ($version =~ /Monastic/i);       # Monastic requires different order for 3rd nocturn
-    
-    my $w = lectio($j1, $lang);             # get lectio at the spot, where we expect a homily
-    
-    if ($w =~ $evan_regexp) {
-      $a[2] = $benedictio{Evangelica};      # if it is indeed a homily, ensure "Evangélica lectio…"
-    } elsif ($a[2] =~ /(evang|Gospel)/i) {
-      $a[2] = $a[5];                        # if there is no homily, replace "Evangélica lectio…"
-    }
-    setbuild2("B$j1. : " . beginwith($a[2]));
-
-    if ($winner =~ /sancti/i && ($winner{Rank} =~ /(s\.|ss\.)/i && $winner{Rank} !~ /vigil/i) && !$divaux) {
-      my $j = 6;                                                                          # "Cujus …, ipse"
-      if ($winner{Rank} =~ /(virgin|vidua|poenitentis|pœnitentis|C6|C7)/i) { $j += 2; }   # "Cujus …, ipsa"
-      if ($winner{Rank} =~ /ss\./i) { $j++; }                                             # "Quorum / Quarum"
-      $a[($version =~ /Monastic/) ? 4 : 3] = $a[$j];                                      # Replace Benediction 8 (or 11)
-    }
-    if ($rule =~ /Ipsa Virgo Virginum/i && !$divaux) { $a[3] = $a[10]; }                  # Special B.M.V. benedictio '… ipsa Virgo'
-    if ($rule =~ /Quorum Festum/i && !$divaux) { $a[3] = $a[7]; }                         # Feast of several saints in tempora
-    setbuild2("B" . ($j1+1) . ". : " . beginwith($a[3]));
-    $w = lectio($j1+2, $lang);                                                            # check if final Lectio is a commemorated Homily
-    if ($w =~ $evan_regexp) { $a[4] = $benedictio{Evangelica9}; }                         # "Per evangélica dicta, …"
-    setbuild2("B" . ($j1+2) . ". : " . beginwith($a[4]));
-  }
-  if ($version =~ /1960/ && $lang =~ /Latin/i) { $a[1] = 'Jube, Dómine, benedícere.'; }
-
-  push(@s, "_");
-
-  my $read_per_noct = ($rule =~ /12 lectio/) ? 4 : 3;
-
-  $num = 1 if ($num < 1);
-  
-  for my $i (1..$read_per_noct) {                 # push all the lectios
-    my $l = ($num - 1) * $read_per_noct + $i;
-    if ($rule !~ /Limit.*?Benedictio/i) {
-      push(@s, "V. $a[1]");                       # push "Jube, …"
-      push(@s, "Benedictio. $a[$i+1]");           # push Benedictio
-    }
-    push(@s, "\&lectio($l)");                     # the lesson is going to be added by the subroutine below at a later time
-    push(@s, "\n");
-  }
+	my $num = shift;
+	my $lang = shift;
+	my $evan_regexp = translate('Evangelist', $lang);
+	
+	# some vernaculars have no translated parts, so add English and Latin
+	# cannot use translate('Evangelist', 'English') as it is anavailable
+	$evan_regexp .= '|Matt|Marc|Luc|Joannes' if ($lang !~ /Latin/);
+	$evan_regexp .= '|Matt|Mark|Luke|John' if ($lang !~ /English/);
+	$evan_regexp = '!(?:' . $evan_regexp . ')\s+\d+';
+	$evan_regexp = qr/$evan_regexp/;
+	push(@s, "\n");
+	
+	if ($rule !~ /Limit.*?Benedictio/i) {
+		push(@s, "\&pater_noster");
+	} else {
+		push(@s, "\$Pater noster");
+	}
+	my %benedictio = %{setupstring($datafolder, $lang, 'Psalterium/Benedictions.txt')};
+	my $i = $num;
+	
+	my $j0 = 0;
+	my $j1 = 1 + (($num == 0) ? 0 : 2 * ($rule =~ /12 lectio/ ? 4 : 3));    # for 3 lect: 1; for 9: 7; for 12: 9 (used to look for homily)
+	
+	#if ($dayname[0] =~ /Pasc0/i) {$i = 3;}
+	if ($num == 0) {                                  # in the case of a single nocturn of 3 lessons
+		$i =
+		($dayofweek == 1 || $dayofweek == 4) ? 1        # Monday, Thursday
+		: ($dayofweek == 2 || $dayofweek == 5) ? 2      # Tuesday, Friday
+		: ($dayofweek == 3 || $dayofweek == 6) ? 3      # Wednesday, Saturday
+		: 1;                                            # Sunday (as a default in error)
+		my $w = lectio(1, $lang);                       # get first lectio
+		
+		if ($w =~ $evan_regexp) {                       # if first lectio is homily
+			$j0 = $i;                                     # update j0 depending on dayofweek (used for Absolutio)
+			$i = 3;                                       # Benedictions itself are taken from Noct. 3
+		}
+	} else {                                          # in the case of a regular nocturn
+		$i = $num;                                      # take the Benedictions from that nocturn
+	}
+	my @a = split("\n", $benedictio{"Nocturn $i"});     # benedictions for nocturn / homily at single, then from 3rd
+	
+	if ($j0) {                                          # if homily at single nocturn only
+		my @a1 = split("\n", $benedictio{"Nocturn $j0"}); # get benedictios from nocturn of the weekday as well
+		$a[0] = $a1[0];                                   # and update absolutio
+	}
+	
+	if ($rule =~ /Special Benedictio/) {
+		%mariae = %{setupstring($datafolder, $lang, "$communename/C10.txt")};
+		@a = split("\n", $mariae{Benedictio});
+		setbuild2('Special benedictio');
+	}
+	
+	if ($rule =~ /Special Evangelii Benedictio/i && $num == 3) {
+		my %w = (columnsel($lang)) ? %winner : %winner2;
+		@a = split("\n", $w{Benedictio3});
+		setbuild2('Special Evangelii Benedictio');
+	}
+	
+	#absolutiones
+	if ($rule !~ /Limit.*?Benedictio/i) {
+		push(@s, "Absolutio. $a[0]");
+		push(@s, "\n");
+	}
+	
+	# if 1960 or monastic of ferial type diverge to sub routine
+	my $ltype1960 = gettype1960();
+	if ($ltype1960) { return lect1960($lang, $evan_regexp); }
+	
+	if ($winner =~ /sancti/i && $rule !~ /Special Evangelii Benedictio/i) { # if winner is sanctoral
+		$i = ($num > 0) ? $num : 3;
+		@a = split("\n", $benedictio{"Nocturn $i"});                        # should be no change to line 523 ???
+	}
+	my $divaux = ($rule =~ /Divinum auxilium/i || $commune{Rule} =~ /Divinum auxilium/i) ? 1 : 0;
+	if ($i == 3 && $winner{Rank} =~ /Mari.* Virgin/i && !$divaux) { $a[3] = $a[10]; }   # Special B.M.V. benedictio '… ipsa Virgo'
+	
+	#benedictiones for nocturn III
+	if ($i == 3 && $rule !~ /ex C1[02]/ && $rule !~ /Special Evangelii Benedictio/i) {
+		($a[3], $a[4], $a[5]) = ($a[5], $a[3], $a[4]) if ($version =~ /Monastic/i);       # Monastic requires different order for 3rd nocturn
+		
+		my $w = lectio($j1, $lang);             # get lectio at the spot, where we expect a homily
+		
+		if ($w =~ $evan_regexp) {
+			$a[2] = $benedictio{Evangelica};      # if it is indeed a homily, ensure "Evangélica lectio…"
+		} elsif ($a[2] =~ /(evang|Gospel)/i) {
+			$a[2] = $a[5];                        # if there is no homily, replace "Evangélica lectio…"
+		}
+		setbuild2("B$j1. : " . beginwith($a[2]));
+		
+		if ($winner =~ /sancti/i && ($winner{Rank} =~ /(s\.|ss\.)/i && $winner{Rank} !~ /vigil/i) && !$divaux) {
+			my $j = 6;                                                                          # "Cujus …, ipse"
+			if ($winner{Rank} =~ /(virgin|vidua|poenitentis|pœnitentis|C6|C7)/i) { $j += 2; }   # "Cujus …, ipsa"
+			if ($winner{Rank} =~ /ss\./i) { $j++; }                                             # "Quorum / Quarum"
+			$a[($version =~ /Monastic|Bavariae/) ? 4 : 3] = $a[$j];                             # Replace Benediction 8 (or 11)
+		}
+		if ($rule =~ /Ipsa Virgo Virginum/i && !$divaux) { $a[3] = $a[10]; }                  # Special B.M.V. benedictio '… ipsa Virgo'
+		if ($rule =~ /Quorum Festum/i && !$divaux) { $a[3] = $a[7]; }                         # Feast of several saints in tempora
+		setbuild2("B" . ($j1+1) . ". : " . beginwith($a[3]));
+		$w = lectio($j1+2, $lang);                                                            # check if final Lectio is a commemorated Homily
+		if ($w =~ $evan_regexp) { $a[4] = $benedictio{Evangelica9}; }                         # "Per evangélica dicta, …"
+		setbuild2("B" . ($j1+2) . ". : " . beginwith($a[4]));
+	}
+	if ($version =~ /1960|Bavariae/ && $lang =~ /Latin/i) { $a[1] = 'Jube, Dómine, benedícere.'; } # always for non choir ???
+	
+	push(@s, "_");
+	
+	my $read_per_noct = ($rule =~ /12 lectio/) ? 4 : 3;
+	
+	$num = 1 if ($num < 1);
+	
+	for my $i (1..$read_per_noct) {                 # push all the lectios
+		my $l = ($num - 1) * $read_per_noct + $i;
+		if ($rule !~ /Limit.*?Benedictio/i) {
+			push(@s, "V. $a[1]");                       # push "Jube, …"
+			push(@s, "Benedictio. $a[$i+1]");           # push Benedictio
+		}
+		push(@s, "\&lectio($l)");                     # the lesson is going to be added by the subroutine below at a later time
+		push(@s, "\n");
+	}
 }
 
 sub matins_lectio_responsory_alleluia(\$$) {
@@ -628,428 +628,430 @@ sub getC10readingname {
 # print the appropriate lectio collected from the winner or commune
 # handles the commemoratio as last
 sub lectio : ScriptFunc {
-  my $num = shift;
-  my $lang = shift;
-  $ltype1960 = gettype1960();
-  if ($winner =~ /C12/i) { $ltype1960 = 0; }  # Officium parvum B.M.V.
-  
-  if ($ltype1960 == 2 && $num == 3) {     # 3rd reading in a Sunday office
-    $num = 7;       # diverge to Gospel / Homily
-  } elsif (
-  ($ltype1960 == 3 && $num == 3 && $votive !~ /(C9|Defunctorum)/i) # 3rd reading in sanctoral office of 3 readings
-  || (
-  $version !~ /1960/
-  && $rule !~ /1 et 2 lectiones/i
-  && $num == 3
-  && $winner =~ /Sancti/i
-  && $rank < 2
-  && $winner{Rank} !~ /vigil/i
-  && ( $version !~ /monastic/i
-  || $dayname[0] !~ /Nat|Epi1/i)
-  )      # sanctoral simplex feast (unless monastic in Nativitytide and Epiphany => prevent the former Octave days of Stephanus, Joannes, Innocents)
-  )
-  {
-    $num = 4;   # diverge to legend
-  }
-  my %w = (columnsel($lang)) ? %winner : %winner2;
-
-  #Nat1-0 special rule
-  # TODO: Get rid of this special case by separating the temporal and sanctoral
-  # parts of Christmas, thus allowing occurring Scripture to be defined.
-  if ($num <= 3 && $rule =~ /Lectio1 Sancti/i && $winner =~ /tempora/i && $day >= 29) {
-    my $c;
-
-    if ($rule =~ /no commemoratio/i) {
-
-      # XXX: The commemoration has been suppressed, so we hardcode a path to
-      # the sanctoral part.
-      $c = officestring($datafolder, $lang, "Sancti/12-$day.txt");
-      $c->{'Lectio2'} .= $c->{'Lectio3'} if (contract_scripture(2));
-    } else {
-      $c = (columnsel($lang)) ? \%commemoratio : \%commemoratio2;
-    }
-    $w{"Lectio$num"} = $c->{"Lectio$num"};
-    $w{"Responsory$num"} = $c->{"Responsory$num"};
-  }
-  
-  # special rule for not having "Ss. Nominis" and missing readings on 01-13 for Monastic
-  # add first nocturn lessons from the actual tempora // as TempraM/Epi1-….txt is still incomplete it leads to issues on 01-13
-  # TODO: get TemporaM folder updated and completed
-  if ((($winner eq 'TemporaM/Nat2-0.txt') || ($winner eq 'SanctiM/01-13.txt')) && $num <= 4) { 
-    $c = officestring($datafolder, $lang,
-    $winner =~ /Tempora/ ? sprintf("SanctiM/01-%02d.txt",$day) : "TemporaM/Epi1-$dayofweek.txt");
-    $w{"Lectio$num"} = $c->{"LectioM$num"} || $c->{"Lectio$num"};
-  }
-
-  #Lectio1 tempora
-  if ($num <= 3 && $rule =~ /Lectio1 tempora/i && exists($scriptura{"Lectio$num"})) {
-    my %c = (columnsel($lang)) ? %scriptura : %scriptura2;
-    $w{"Lectio$num"} = $c{"Lectio$num"};
-
-    if ($version =~ /Trident/i && exists($w{"ResponsoryT$num"})) {
-      $w{"Responsory$num"} = $c{"Responsory$num"};
-    } else {
-      $w{"Responsory$num"} = $c{"Responsory$num"};
-    }
-  }
-  
-  # TODO: There seems to be a mismatch between taking care of a conflict of Die VII infra 8vam Immaculata Conceptio. and Q.T. in Adventum
-  # The lessons are repeated from the feast day 12-08 unless it is Feria IV Q.T.?
-  if($version =~ /(1570|1910|Divino)/i && $month == 12 && $day == 14 && $dayofweek !~ 3){ $w{"Lectio$num"} = $c{"Lectio$num"};}
-
-  #scriptura1960
-  if ( $num < 3
-    && $version =~ /1960/
-    && $rule =~ /scriptura1960/i
-    && exists($scriptura{"Lectio$num"}))
-  {
-    my %c = (columnsel($lang)) ? %scriptura : %scriptura2;
-    $w{"Lectio$num"} = $c{"Lectio$num"};
-
-    if ($num == 2 && $votive !~ /(C9|Defunctorum)/i && ($dayname[1] !~ /feria/i || $commemoratio)) {
-      if ($w{Lectio2} =~ /(.*?)\_/s) { $w{Lectio2} = $1; }
-      my $w1 = $c{"Lectio3"};
-      $w{Lectio2} .= $w1;
-    }
-  }
-
-  #** handle initia table (Str$ver$year)
-  my $file = initiarule($month, $day, $year);
-  if ($file) { %w = resolveitable(\%w, $file, $lang); }
-
-  #StJamesRule
-  if ($num < 4 && $rule =~ /StJamesRule=([a-z,]+)\s/i)    #was also: && $version !~ /1961/
-  {
-    %w = StJamesRule(\%w, $lang, $num, $1);
-  }
-
-  #Sancta Maria Sabbato special rule
-  if ($winner =~ /C12/i) {
-    if (($version =~ /1960/ || ($winner =~ /Sancti/i && $rank < 2)) && $num == 4) { $num = 3; }
-    $num = $num % 3;
-    if ($num == 0) { $num = 3; }
-  }
-  my $w = $w{"Lectio$num"};
-  if (($num < 4 || ($num == 4 && $rule =~ /12 lectiones/i)) && $rule =~ /Lectio1 Quad/i && $dayname[0] !~ /Quad/i) { $w = ''; } # some saints in April when after easter
-  if (($num < 4 || ($num == 4 && $rule =~ /12 lectiones/i)) && $commemoratio{Rank} =~ /Quattuor/i && $month == 9) { $w = ''; } # Q.T. Septembris...
-  
-  if ($w && $num % 3 == 1) {
-    my @n = split('/', $winner);
-    setbuild2("Lectio$num ex $n[0]");
-  }
-
-  #prepares for case of homily instead of scripture
-  my $homilyflag = (exists($commemoratio{Lectio1})
-  && $commemoratio{Lectio1} =~ /\!(Matt|Mark|Marc|Luke|Luc|Joannes|John)\s+[0-9]+\:[0-9]+\-[0-9]+/i) ? 1 : 0;
-  if (!$w         # we don't have a lectio yet
-    && (($communetype =~ /^ex/i && $commune !~ /Sancti/i && $rank > 3)      # either we have 'ex C.' on Duplex majus or higher
-    || ( ($num < 4 || ($num == 4 && $rule =~ /12 lectiones/i))              # or we are in the first nocturn
-    && $homilyflag                                                          # and there is a homily to be commemorated
-      && exists($commune{"Lectio$num"})                                     # which has not been superseded by the sanctoral
-      )
-    )
-  ) {
-    %w = (columnsel($lang)) ? %commune : %commune2;
-    $w = $w{"Lectio$num"};
-    if ($w && $num == 1) { setbuild2("Lectio1-3 from Tempora/$file replacing homily"); }
-  }
-  
-  # fill with Scriptura for 1st nocturn if possible
-  if (!$w                                                     # we still don't have a lectio yet as there is no homily
-    && ($num < 4 || ($num == 4 && $rule =~ /12 lectiones/i))  # for the first nocturn
-    && exists($scriptura{"Lectio$num"})                       # there is scripture available
-  && ($version !~ /trident/i || $rank < 5)                    # but not in Tridentinum Duplex II. vel I. classis
-  )   {
-    %w = (columnsel($lang)) ? %scriptura : %scriptura2;
-    $w = $w{"Lectio$num"};
-    if ($w && $num == 1) { setbuild2("Lectio1 ex scriptura"); }
-  } elsif (!$w && $num == 4 && exists($commemoratio{"Lectio$num"}) && ($version =~ /1960/i)) { # handle diverged 3rd lesson in 1960
-    %w = (columnsel($lang)) ? %commemoratio : %commemoratio2;
-    $w = $w{"Lectio$num"};
-    if ($w && $num == 4) { setbuild2("Lectio3 ex commemoratio"); }
-  }
-
-  if (contract_scripture($num)) {
-    if ($w =~ /(.*?)\_/s) { $w = $1; }
-    my $w1 = $w{'Lectio3'};
-
-    #$w1 =~ s/^\!.*?\n//;
-    $w .= $w1;
-  }
-  if ($version =~ /monastic/i && $num == 3) { $w = monastic_lectio3($w, $lang); }
-
-  #look for commune if sancti and 'ex' or 'vide'
-  if (!$w && $winner =~ /sancti/i && $rule =~ /(ex\s*C|vide\s*C)/i) {
-    my %com = (columnsel($lang)) ? %commune : %commune2;
-
-    if (exists($com{"Lectio$num"})) {
-      $w = $com{"Lectio$num"};
-      if ($w && $num % 3 == 1) { setbuild2("Lectio$num ex $commune{Name}"); }
-    }
-  }
-
-  if (!$w && exists($commune{"Lectio$num"})) {
-    my %c = (columnsel($lang)) ? %commune : %commune2;
-    $w = $c{"Lectio$num"};
-
-    if ($num == 2 && $version =~ /1960/) {
-      my $w1 = $c{'Lectio3'};
-      $w .= $w1;
-    }
-  }
-
-  if ($commune{Rule} =~ /Special Lectio $num/) {
-    %mariae = %{setupstring($datafolder, $lang, "$communename/C10.txt")};
-    my $name = getC10readingname();
-    $w = $mariae{$name};
-    setbuild2("Mariae $name");
-  }
-
-  # Combine lessons 8 and 9 if there's a commemoration to be read in place of
-  # lesson 9, and if the office of the day requires it. In fact the rubrics
-  # always *permit* such a contraction, but we don't support that yet.
-  if ( $version !~ /1960/
-    && $num == 8
-    && $rule =~ /Contract8/i
-    && (exists($winner{Lectio93}) || exists($commemoratio{Lectio7})))
-  {
-    %w = (columnsel($lang)) ? %winner : %winner2;
-    $w = $w{Lectio8} . $w{Lectio9};
-    $w =~ s/\&teDeum//;
-  }
-  my $wo = $w;
-
-  #look for commemoratio 9
-  #if ($rule =~ /9 lectio/i && $rank < 2) {$rule =~ s/9 lectio//i;}
-  if ( $version !~ /1960|Monastic/i
-    && $commune !~ /C10/
-    && $rule !~ /no93/i
-    && $winner{Rank} !~ /Octav.*(Epi|Corp)/i
-    && ($dayofweek != 0 || $winner =~ /Sancti/i || $winner =~ /Nat2/i)
-    && (($rule =~ /9 lectio/i && $num == 9) || ($rule !~ /9 lectio/i && $num == 3 && $winner !~ /Tempora/i))
-    || ($rank < 2 && $winner =~ /Sancti/i && $num == 4))
-  {
-    %w = (columnsel($lang)) ? %winner : %winner2;
-
-    if (($w{Rank} =~ /Simplex/i || ($version =~ /1955/ && $rank == 1.5)) && exists($w{'Lectio94'})) {
-      $w = $w{'Lectio94'};
-    } elsif (exists($w{'Lectio93'})) {
-      $w = $w{'Lectio93'};
-    }
-
-    if (
-         ($commemoratio =~ /tempora/i || $commemoratio =~ /01\-05/)
-      && ($homilyflag || exists($commemoratio{Lectio7}))
-      && $comrank > 1
-      && ( $rank > 4
-        || ($rank >= 3 && $version =~ /Trident/i)
-        || $homilyflag
-        || exists($winner{Lectio1}))
-      )
-    {
-      %w = (columnsel($lang)) ? %commemoratio : %commemoratio2;
-      $wc = $w{"Lectio7"};
-      $wc ||= $w{"Lectio1"};
-
-      if ($wc) {
-        setbuild2("Last lectio Commemoratio ex Tempore #1");
-        my %comm = %{setupstring($datafolder, $lang, 'Psalterium/Comment.txt')};
-        my @comm = split("\n", $comm{'Lectio'});
-        $comment = ($commemoratio{Rank} =~ /Feria/) ? $comm[0] : ($commemoratio =~ /01\-05/) ? $comm[3] : $comm[1];
-        $w = setfont($redfont, $comment) . "\n$wc";
-      }
-    }
-
-    if ($transfervigil) {
-      if (!(-e "$datafolder/$lang/$transfervigil")) { $transfervigil =~ s/v\.txt/\.txt/; }
-      my %tro = %{setupstring($datafolder, $lang, $transfervigil)};
-      if (exists($tro{'Lectio Vigilia'})) { $w = $tro{'Lectio Vigilia'}; }
-    }
-    my $cflag = 1;    #*************  03-30-10
-    if ($winner{Rule} =~ /9 lectiones/i && exists($winner{Responsory9})) { $cflag = 0; }
-    if ($winner{Rule} !~ /9 lectiones/i && exists($winner{Responsory3})) { $cflag = 0; }
-
-    if ( $commemoratio =~ /sancti/i
-      && $commemoratio{Rank} =~ /S\. /i
-      && ($winner !~ /tempora/i || $winner{Rank} < 5)
-      && ($version !~ /1955/ || $comrank > 4)
-      && $cflag)
-    {
-      %w = (columnsel($lang)) ? %commemoratio : %commemoratio2;
-      my $ji = 94;
-      $wc = $w{"Lectio$ji"};
-
-      if (!$wc && $w{Rank} !~ /infra octav/i) {
-        $wc = '';
-
-        for ($ji = 4; $ji < 7; $ji++) {
-          my $w1 = $w{"Lectio$ji"};
-          if (!$w1 || ($ji > 4 && $w1 =~ /\!/)) { last; }
-          if ($wc =~ /(.*?)\_/s) { $wc = $1; }
-          $wc .= $w1;
-        }
-      }
-      $wc ||= $w{"Lectio93"};
-
-      if ($wc) {
-        setbuild2("Last lectio: Commemoratio from Sancti #$ji");
-        my %comm = %{setupstring($datafolder, $lang, 'Psalterium/Comment.txt')};
-        my @comm = split("\n", $comm{'Lectio'});
-        $comment = $comm[2];
-        $w = setfont($redfont, $comment) . "\n$wc";
-      }
-    }
-    if ($winner{Rank} =~ /Octav.*(Epi|Corp)/i && $w !~ /!.*Vigil/i) { $w = $wo; }
-    ;    #*** if removed from top
-    if (exists($w{'Lectio Vigilia'})) { $w = $w{'Lectio Vigilia'}; }
-    if ($w =~ /!.*?Octav/i || $w{Rank} =~ /Octav/i) { $w = $wo; }
-    $w = addtedeum($w);
-  }
-
-  if ($ltype1960 == 3 && $num == 4) {
-    if (exists($w{'Lectio94'})) {
-      $w = $w{'Lectio94'};
-    }    #contracted legend for commemoratio
-    else {
-      my $w1 = %w;
-      if ($version =~ /newcal/i && !exists($w{Lectio5})) { %w = (columnsel($lang)) ? %commune : %commune2; }
-      my $i = 5;
-
-      while ($i < 7) {
-        my $w1 = $w{"Lectio$i"};
-        if (!$w1 || $w1 =~ /\!/) { last; }
-        if ($w =~ /(.*?)\_/s) { $w = $1; }
-        $w .= $w1;
-        $i++;
-      }
-      %w = %w1;
-    }
-  }
-  if (($ltype1960 || ($winner =~ /Sancti/i && $rank < 2)) && $num > 2) { $num = 3; $w = addtedeum($w); }
-  if ($num == 3 && $winner =~ /Tempora/ && $rule !~ /9 lectiones/i && $rule =~ /Feria Te Deum/i) { $w = addtedeum($w); }
-  if ($version =~ /monastic/i) { $w =~ s/\&teDeum//g; } # remove te deum from ninth/twelve lesson as it comes only after the last response
-  
-  #get item from [Responsory$num] if no responsory
-  if ($w && $w !~ /\nR\./ && $w !~ /\&teDeum/i) {
-    my $s = '';
-    $na = $num;
-
-    if ($version =~ /1960/ && $winner =~ /tempora/i && $dayofweek == 0 && $dayname[0] =~ /(Adv|Quad)/i && $na == 3) {
-      $na = 9;
-    }
-    if (contract_scripture($num) && $version !~ /Monastic/i) { $na = 3; }
-
-    if ($version =~ /1955|1960/ && exists($w{"Responsory$na 1960"})) {
-      $s = $w{"Responsory$na 1960"};
-    } elsif ($rule =~ /Responsory Feria/i) {
-      if (exists($scriptura{"Responsory$na"})) {
-        $s = (columnsel($lang)) ? $scriptura{"Responsory$na"} : $scriptura2{"Responsory$na"};
-      } else {
-        $s = (columnsel($lang)) ? $scriptura{"Lectio$na"} : $scriptura2{"Lectio$na"};
-
-        if ($s =~ /\n\_(.*?)/s) {
-          $s = "_$1";
-        } else {
-          $s = '';
-        }
-      }
-
-      if (!$s && $version =~ /1960/ && exists($scriptura{"Responsory$na 1960"})) {
-        $s = (columnsel($lang)) ? $scriptura{"Responsory$na 1960"} : $scriptura2{"Responsory$na 1960"};
-      }
-    } else {
-      if ($version eq "Monastic" && $dayofweek != 0 && $month == 1 && $day > 6 && $day < 13) {
-        $na += 4 if ($dayofweek == 2 || $dayofweek == 5) ;
-        if ($dayofweek == 3) { # Saturday dont work due C10 || $dayofweek == 6 ) {
-          $na += 1 if ($na > 1);
-          $na += 8;
-        }
-      }
-      if (exists($w{"Responsory$na"})) {
-        $s = $w{"Responsory$na"};
-      } elsif ($version =~ /1960/ && exists($commune{"Responsory$na"})) {
-        my %c = (columnsel($lang)) ? %commune : %commune2;
-        $s = $c{"Responsory$na"};
-      }
-      if (exists($winner{"Responsory$na"})) { $s = ''; }
-
-      #$$$ watch initia rule
-    }
-
-    if (!$s) {
-      my %w = (columnsel($lang)) ? %winner : %winner2;
-      if ($winner =~ /C9/ && $na == 9) { $na = 91; }
-      if (exists($w{"Responsory$na"})) { $s = $w{"Responsory$na"}; }
-
-      if (!$s) {
-        %w = (columnsel($lang)) ? %commune : %commune2;
-        if (exists($w{"Responsory$na"})) { $s = $w{"Responsory$na"}; }
-      }
-    }
-    matins_lectio_responsory_alleluia($s, $lang);
-    $w =~ s/\s*$/\n\_\n$s/;
-  }
-  $w = responsory_gloria($w, $num);
-
-  #add Tu autem before responsory
-  if ($expand =~ /all/) {
-    our %prayers;
-    $tuautem = $prayers{$lang}->{'Tu autem'};
-  } else {
-    $tuautem = '$Tu autem';
-  }
-  $w =~ s/^\_//;
-
-  if ($rule !~ /Limit.*?Benedictio/i) {
-    my $before = '';
-    my $rest = $w;
-    $rest =~ s/[\n\_ ]*$//gs;
-    while ($rest =~ /(.*?)_(.*)/s) { $before .= "$1_"; $rest = $2; }
-    if (!$before) { $before = $w; $rest = ''; }
-    $before =~ s/[\n\_ ~]*$//gs;
-
-    if ($before =~ /(.*?)\&teDeum/s) {
-      $before = $1;
-      $rest = "&teDeum\n";
-    } elsif ($rest =~ /(.*?)\&teDeum/s) {
-      $before .= "\n_\n$1";
-      $rest = "&teDeum\n";
-    }
-    $w = "$before" . "\n$tuautem\n_\n$rest";
-  }
-
-  #handle verse numbers for passages
-  my $item = 'Lectio';
-  if (exists($translate{$lang}{$item})) { $item = $translate{$lang}{$item}; }
-  $item =~ s/\s*$//;
-  $item .= " %s" unless ($item =~ /%s/);
-  $w = "_\n" . setfont($largefont, sprintf($item,$num)) . "\n$w";
-  my @w = split("\n", $w);
-  $w = "";
-
-  foreach $item (@w) {
-    if ($item =~ /^([0-9]+)\s+(.*)/s) {
-      my $rest = $2;
-      my $num = $1;
-      if ($rest =~ /^\s*([a-z])(.*)/is) { $rest = uc($1) . $2; }
-      $item = setfont($smallfont, $num) . " $rest";
-    }
-    $w .= "$item\n";
-  }
-
-  if ($dayname[0] !~ /Pasc/i) {
-    $w =~ s/\(Allel[uú][ij]a.*?\)//isg;
-  } else {
-    $w =~ s/\((Allel[uú][ij]a.*?)\)/$1/isg;
-  }
-  if ($dayname[0] =~ /Quad/i) { $w =~ s/[(]*allel[uú][ij]a[\.\,]*[)]*//ig; }
-
-  #handle parentheses in non Latin
-  if ($lang !~ /Latin/i) {
-    $w =~ s/\((.*?[.,].*?)\)/parenthesised_text($1)/eg;
-  }
-  $w = replaceNdot($w, $lang);
-  return $w;
+	my $num = shift;
+	my $lang = shift;
+	$ltype1960 = gettype1960();
+	if ($winner =~ /C12/i) { $ltype1960 = 0; }  # Officium parvum B.M.V.
+	
+	if ($ltype1960 == 2 && $num == 3) {     # 3rd reading in a Sunday office
+		$num = 7;       # diverge to Gospel / Homily
+	} elsif (
+	($ltype1960 == 3 && $num == 3 && $votive !~ /(C9|Defunctorum)/i) # 3rd reading in sanctoral office of 3 readings
+	|| (
+	$version !~ /1960/
+	&& $rule !~ /1 et 2 lectiones/i
+	&& $num == 3
+	&& $winner =~ /Sancti/i
+	&& $rank < 2
+	&& $winner{Rank} !~ /vigil/i
+	&& ( $version !~ /monastic/i
+	|| $dayname[0] !~ /Nat|Epi1/i)
+	)      # sanctoral simplex feast (unless monastic in Nativitytide and Epiphany => prevent the former Octave days of Stephanus, Joannes, Innocents)
+	)
+	{
+		$num = 4;   # diverge to legend
+	}
+	my %w = (columnsel($lang)) ? %winner : %winner2;
+	
+	#Nat1-0 special rule
+	# TODO: Get rid of this special case by separating the temporal and sanctoral
+	# parts of Christmas, thus allowing occurring Scripture to be defined.
+	if ($num <= 3 && $rule =~ /Lectio1 Sancti/i && $winner =~ /tempora/i && $day >= 29) {
+		my $c;
+		
+		if ($rule =~ /no commemoratio/i) {
+			
+			# XXX: The commemoration has been suppressed, so we hardcode a path to
+			# the sanctoral part.
+			$c = officestring($datafolder, $lang, "Sancti/12-$day.txt");
+			$c->{'Lectio2'} .= $c->{'Lectio3'} if (contract_scripture(2));
+		} else {
+			$c = (columnsel($lang)) ? \%commemoratio : \%commemoratio2;
+		}
+		$w{"Lectio$num"} = $c->{"Lectio$num"};
+		$w{"Responsory$num"} = $c->{"Responsory$num"};
+	}
+	
+	# special rule for not having "Ss. Nominis" and missing readings on 01-13 for Monastic
+	# add first nocturn lessons from the actual tempora // as TempraM/Epi1-….txt is still incomplete it leads to issues on 01-13
+	# TODO: get TemporaM folder updated and completed
+	if ((($winner eq 'TemporaM/Nat2-0.txt') || ($winner eq 'SanctiM/01-13.txt')) && $num <= 4) {
+		$c = officestring($datafolder, $lang,
+		$winner =~ /Tempora/ ? sprintf("SanctiM/01-%02d.txt",$day) : "TemporaM/Epi1-$dayofweek.txt");
+		$w{"Lectio$num"} = $c->{"LectioM$num"} || $c->{"Lectio$num"};
+	}
+	
+	#Lectio1 tempora
+	if ($num <= 3 && $rule =~ /Lectio1 tempora/i && exists($scriptura{"Lectio$num"})) {
+		my %c = (columnsel($lang)) ? %scriptura : %scriptura2;
+		$w{"Lectio$num"} = $c{"Lectio$num"};
+		
+		if ($version =~ /Trident/i && exists($w{"ResponsoryT$num"})) {
+			$w{"Responsory$num"} = $c{"Responsory$num"};
+		} else {
+			$w{"Responsory$num"} = $c{"Responsory$num"};
+		}
+	}
+	
+	# TODO: There seems to be a mismatch between taking care of a conflict of Die VII infra 8vam Immaculata Conceptio. and Q.T. in Adventum
+	# The lessons are repeated from the feast day 12-08 unless it is Feria IV Q.T.?
+	if($version =~ /(1570|1910|Divino|Bavariae)/i && $month == 12 && $day == 14 && $dayofweek !~ 3){ $w{"Lectio$num"} = $c{"Lectio$num"};}
+	
+	#scriptura1960
+	if ( $num < 3
+		&& $version =~ /1960/
+		&& $rule =~ /scriptura1960/i
+		&& exists($scriptura{"Lectio$num"}))
+	{
+		my %c = (columnsel($lang)) ? %scriptura : %scriptura2;
+		$w{"Lectio$num"} = $c{"Lectio$num"};
+		
+		if ($num == 2 && $votive !~ /(C9|Defunctorum)/i && ($dayname[1] !~ /feria/i || $commemoratio)) {
+			if ($w{Lectio2} =~ /(.*?)\_/s) { $w{Lectio2} = $1; }
+			my $w1 = $c{"Lectio3"};
+			$w{Lectio2} .= $w1;
+		}
+	}
+	
+	#** handle initia table (Str$ver$year)
+	my $file = initiarule($month, $day, $year);
+	if ($file) { %w = resolveitable(\%w, $file, $lang); }
+	
+	#StJamesRule
+	if ($num < 4 && $rule =~ /StJamesRule=([a-z,]+)\s/i)    #was also: && $version !~ /1961/
+	{
+		%w = StJamesRule(\%w, $lang, $num, $1);
+	}
+	
+	#Sancta Maria Sabbato special rule
+	if ($winner =~ /C12/i) {
+		if (($version =~ /1960/ || ($winner =~ /Sancti/i && $rank < 2)) && $num == 4) { $num = 3; }
+		$num = $num % 3;
+		if ($num == 0) { $num = 3; }
+	}
+	my $w = $w{"Lectio$num"};
+	if (($num < 4 || ($num == 4 && $rule =~ /12 lectiones/i)) && $rule =~ /Lectio1 Quad/i && $dayname[0] !~ /Quad/i) { $w = ''; } # some saints in April when after easter
+	if (($num < 4 || ($num == 4 && $rule =~ /12 lectiones/i)) && $commemoratio{Rank} =~ /Quattuor/i && $month == 9) { $w = ''; } # Q.T. Septembris...
+	
+	if ($w && $num % 3 == 1) {
+		my @n = split('/', $winner);
+		setbuild2("Lectio$num ex $n[0]");
+	}
+	
+	#prepares for case of homily instead of scripture
+	my $homilyflag = (exists($commemoratio{Lectio1})
+	&& $commemoratio{Lectio1} =~ /\!(Matt|Mark|Marc|Luke|Luc|Joannes|John)\s+[0-9]+\:[0-9]+\-[0-9]+/i) ? 1 : 0;
+	if (!$w         # we don't have a lectio yet
+		&& (($communetype =~ /^ex/i && $commune !~ /Sancti/i && $rank > 3)      # either we have 'ex C.' on Duplex majus or higher
+		|| ( ($num < 4 || ($num == 4 && $rule =~ /12 lectiones/i))              # or we are in the first nocturn
+		&& $homilyflag                                                          # and there is a homily to be commemorated
+		&& exists($commune{"Lectio$num"})                                     # which has not been superseded by the sanctoral
+	)
+	)
+	)   {
+		%w = (columnsel($lang)) ? %commune : %commune2;
+		$w = $w{"Lectio$num"};
+		if ($w && $num == 1) { setbuild2("Lectio1-3 from Tempora/$file replacing homily"); }
+	}
+	
+	# fill with Scriptura for 1st nocturn if possible
+	if (!$w                                                     # we still don't have a lectio yet as there is no homily
+		&& ($num < 4 || ($num == 4 && $rule =~ /12 lectiones/i))  # for the first nocturn
+		&& exists($scriptura{"Lectio$num"})                       # there is scripture available
+	&& ($version !~ /trident/i || $rank < 5)									# but not in Tridentinum Duplex II. vel I. classis
+	&& ($version !~ /Bavariae/i || !($dayname[0] =~ /(Pasc[1-6]|Pent)/i && monthday() !~ /^11[1-5]\-/ && $winner{Rank} !~ /vigil|quattuor/i) || $dayofweek == 0)																		# also not in Bavariae in aestate on a feria (for now)
+	)   {
+		%w = (columnsel($lang)) ? %scriptura : %scriptura2;
+		$w = $w{"Lectio$num"};
+		if ($w && $num == 1) { setbuild2("Lectio1 ex scriptura"); }
+	} elsif (!$w && $num == 4 && exists($commemoratio{"Lectio$num"}) && ($version =~ /1960/i)) { # handle diverged 3rd lesson in 1960
+		%w = (columnsel($lang)) ? %commemoratio : %commemoratio2;
+		$w = $w{"Lectio$num"};
+		if ($w && $num == 4) { setbuild2("Lectio3 ex commemoratio"); }
+	}
+	
+	if (contract_scripture($num)) {
+		if ($w =~ /(.*?)\_/s) { $w = $1; }
+		my $w1 = $w{'Lectio3'};
+		
+		#$w1 =~ s/^\!.*?\n//;
+		$w .= $w1;
+	}
+	
+	if ($version =~ /monastic|Bavariae/i && $num == 3) { $w = monastic_lectio3($w, $lang); } # check for diverge in monastic
+	
+	#look for commune if sancti and 'ex' or 'vide'
+	if (!$w && $winner =~ /sancti/i && $rule =~ /(ex\s*C|vide\s*C)/i) {
+		my %com = (columnsel($lang)) ? %commune : %commune2;
+		
+		if (exists($com{"Lectio$num"})) {
+			$w = $com{"Lectio$num"};
+			if ($w && $num % 3 == 1) { setbuild2("Lectio$num ex $commune{Name}"); }
+		}
+	}
+	
+	if (!$w && exists($commune{"Lectio$num"})) {
+		my %c = (columnsel($lang)) ? %commune : %commune2;
+		$w = $c{"Lectio$num"};
+		
+		if ($num == 2 && $version =~ /1960/) {
+			my $w1 = $c{'Lectio3'};
+			$w .= $w1;
+		}
+	}
+	
+	if ($commune{Rule} =~ /Special Lectio $num/) {
+		%mariae = %{setupstring($datafolder, $lang, "$communename/C10.txt")};
+		my $name = getC10readingname();
+		$w = $mariae{$name};
+		setbuild2("Mariae $name");
+	}
+	
+	# Combine lessons 8 and 9 if there's a commemoration to be read in place of
+	# lesson 9, and if the office of the day requires it. In fact the rubrics
+	# always *permit* such a contraction, but we don't support that yet.
+	if ( $version !~ /1960/
+		&& $num == 8
+		&& $rule =~ /Contract8/i
+		&& (exists($winner{Lectio93}) || exists($commemoratio{Lectio7})))
+	{
+		%w = (columnsel($lang)) ? %winner : %winner2;
+		$w = $w{Lectio8} . $w{Lectio9};
+		$w =~ s/\&teDeum//;
+	}
+	my $wo = $w;
+	
+	#look for commemoratio 9 (or 12)
+	#if ($rule =~ /9 lectio/i && $rank < 2) {$rule =~ s/9 lectio//i;}
+	if ($version !~ /1960|Monastic/i
+		&& $commune !~ /C10/
+		&& $rule !~ /no93/i
+		&& $winner{Rank} !~ /Octav.*(Epi|Corp)/i
+		&& ($dayofweek != 0 || $winner =~ /Sancti/i || $winner =~ /Nat2/i)
+		&& (($rule =~ /9 lectio/i && $num == 9) || ($rule =~ /12 lectio/i && $num == 12)
+			|| ($rule !~ /(9|12) lectio/i && $num == 3 && $winner !~ /Tempora/i))
+		|| ($rank < 2 && $winner =~ /Sancti/i && $num == 4)
+	)   {
+		%w = (columnsel($lang)) ? %winner : %winner2;
+		
+		if (($w{Rank} =~ /Simplex/i || ($version =~ /1955/ && $rank == 1.5)) && exists($w{'Lectio94'})) {
+			$w = $w{'Lectio94'};
+		} elsif (exists($w{'Lectio93'})) {
+			$w = $w{'Lectio93'};
+		}
+		
+		if (($commemoratio =~ /tempora/i || $commemoratio =~ /01\-05/)
+			&& ($homilyflag || exists($commemoratio{Lectio7}))
+		&& $comrank > 1
+		&& ($rank > 4
+		|| ($rank >= 3 && $version =~ /Trident/i)
+		|| $homilyflag
+		|| exists($winner{Lectio1})
+		)
+		)   {
+			%w = (columnsel($lang)) ? %commemoratio : %commemoratio2;
+			$wc = $w{"Lectio7"};
+			$wc ||= $w{"Lectio1"};
+			
+			if ($wc) {
+				setbuild2("Last lectio Commemoratio ex Tempore #1");
+				my %comm = %{setupstring($datafolder, $lang, 'Psalterium/Comment.txt')};
+				my @comm = split("\n", $comm{'Lectio'});
+				$comment = ($commemoratio{Rank} =~ /Feria/) ? $comm[0] : ($commemoratio =~ /01\-05/) ? $comm[3] : $comm[1];
+				$w = setfont($redfont, $comment) . "\n$wc";
+			}
+		}
+		
+		if ($transfervigil) {
+			if (!(-e "$datafolder/$lang/$transfervigil")) { $transfervigil =~ s/v\.txt/\.txt/; }
+			my %tro = %{setupstring($datafolder, $lang, $transfervigil)};
+			if (exists($tro{'Lectio Vigilia'})) { $w = $tro{'Lectio Vigilia'}; }
+		}
+		my $cflag = 1;    #*************  03-30-10
+		if ($winner{Rule} =~ /9 lectiones/i && exists($winner{Responsory9})) { $cflag = 0; }
+		if ($winner{Rule} !~ /(9|12) lectiones/i && exists($winner{Responsory3})) { $cflag = 0; }
+		
+		if ( $commemoratio =~ /sancti/i
+			&& $commemoratio{Rank} =~ /S\. /i
+		&& ($winner !~ /tempora/i || $winner{Rank} < 5)
+		&& ($version !~ /1955/ || $comrank > 4)
+		&& $cflag)
+		{
+			%w = (columnsel($lang)) ? %commemoratio : %commemoratio2;
+			my $ji = 94;
+			$wc = $w{"Lectio$ji"};
+			
+			if (!$wc && $w{Rank} !~ /infra octav/i) {
+				$wc = '';
+				
+				for ($ji = 4; $ji < 7; $ji++) {
+					my $w1 = $w{"Lectio$ji"};
+					if (!$w1 || ($ji > 4 && $w1 =~ /\!/)) { last; }
+					if ($wc =~ /(.*?)\_/s) { $wc = $1; }
+					$wc .= $w1;
+				}
+			}
+			$wc ||= $w{"Lectio93"};
+			
+			if ($wc) {
+				setbuild2("Last lectio: Commemoratio from Sancti #$ji");
+				my %comm = %{setupstring($datafolder, $lang, 'Psalterium/Comment.txt')};
+				my @comm = split("\n", $comm{'Lectio'});
+				$comment = $comm[2];
+				$w = setfont($redfont, $comment) . "\n$wc";
+			}
+		}
+		if ($winner{Rank} =~ /Octav.*(Epi|Corp)/i && $w !~ /!.*Vigil/i) { $w = $wo; }
+		;    #*** if removed from top
+		if (exists($w{'Lectio Vigilia'})) { $w = $w{'Lectio Vigilia'}; }
+		if ($w =~ /!.*?Octav/i || $w{Rank} =~ /Octav/i) { $w = $wo; }
+		$w = addtedeum($w);
+	}
+	
+	if ($ltype1960 == 3 && $num == 4) {
+		if (exists($w{'Lectio94'})) {
+			$w = $w{'Lectio94'};
+		}    #contracted legend for commemoratio
+		else {
+			my $w1 = %w;
+			if ($version =~ /newcal/i && !exists($w{Lectio5})) { %w = (columnsel($lang)) ? %commune : %commune2; }
+			my $i = 5;
+			
+			while ($i < 7) {
+				my $w1 = $w{"Lectio$i"};
+				if (!$w1 || $w1 =~ /\!/) { last; }
+				if ($w =~ /(.*?)\_/s) { $w = $1; }
+				$w .= $w1;
+				$i++;
+			}
+			%w = %w1;
+		}
+	}
+	if (($ltype1960 || ($winner =~ /Sancti/i && $rank < 2)) && $num > 2) { $num = 3; $w = addtedeum($w); }
+	if ($num == 3 && $winner =~ /Tempora/ && $rule !~ /9 lectiones/i && $rule =~ /Feria Te Deum/i) { $w = addtedeum($w); }
+	if ($version =~ /monastic|Bavariae/i) { $w =~ s/\&teDeum//g; } # remove te deum from ninth/twelve lesson as it comes only after the last response
+	
+	#get item from [Responsory$num] if no responsory
+	if ($w && $w !~ /\nR\./ && $w !~ /\&teDeum/i) {
+		my $s = '';
+		$na = $num;
+		
+		if ($version =~ /1960/ && $winner =~ /tempora/i && $dayofweek == 0 && $dayname[0] =~ /(Adv|Quad)/i && $na == 3) {
+			$na = 9;
+		}
+		if (contract_scripture($num) && $version !~ /Monastic|Bavariae/i) { $na = 3; }
+		
+		if ($version =~ /1955|1960/ && exists($w{"Responsory$na 1960"})) {
+			$s = $w{"Responsory$na 1960"};
+		} elsif ($rule =~ /Responsory Feria/i) {
+			if (exists($scriptura{"Responsory$na"})) {
+				$s = (columnsel($lang)) ? $scriptura{"Responsory$na"} : $scriptura2{"Responsory$na"};
+			} else {
+				$s = (columnsel($lang)) ? $scriptura{"Lectio$na"} : $scriptura2{"Lectio$na"};
+				
+				if ($s =~ /\n\_(.*?)/s) {
+					$s = "_$1";
+				} else {
+					$s = '';
+				}
+			}
+			
+			if (!$s && $version =~ /1960/ && exists($scriptura{"Responsory$na 1960"})) {
+				$s = (columnsel($lang)) ? $scriptura{"Responsory$na 1960"} : $scriptura2{"Responsory$na 1960"};
+			}
+		} else {
+			if ($version eq "Monastic" && $dayofweek != 0 && $month == 1 && $day > 6 && $day < 13) {
+				$na += 4 if ($dayofweek == 2 || $dayofweek == 5) ;
+				if ($dayofweek == 3) { # Saturday dont work due C10 || $dayofweek == 6 ) {
+					$na += 1 if ($na > 1);
+					$na += 8;
+				}
+			}
+			if (exists($w{"Responsory$na"})) {
+				$s = $w{"Responsory$na"};
+			} elsif ($version =~ /1960/ && exists($commune{"Responsory$na"})) {
+				my %c = (columnsel($lang)) ? %commune : %commune2;
+				$s = $c{"Responsory$na"};
+			}
+			if (exists($winner{"Responsory$na"})) { $s = ''; }
+			
+			#$$$ watch initia rule
+		}
+		
+		if (!$s) {
+			my %w = (columnsel($lang)) ? %winner : %winner2;
+			if ($winner =~ /C9/ && $na == 9) { $na = 91; }
+			if (exists($w{"Responsory$na"})) { $s = $w{"Responsory$na"}; }
+			
+			if (!$s) {
+				%w = (columnsel($lang)) ? %commune : %commune2;
+				if (exists($w{"Responsory$na"})) { $s = $w{"Responsory$na"}; }
+			}
+		}
+		matins_lectio_responsory_alleluia($s, $lang);
+		$w =~ s/\s*$/\n\_\n$s/;
+	}
+	$w = responsory_gloria($w, $num);
+	
+	#add Tu autem before responsory
+	if ($expand =~ /all/) {
+		our %prayers;
+		$tuautem = $prayers{$lang}->{'Tu autem'};
+	} else {
+		$tuautem = '$Tu autem';
+	}
+	$w =~ s/^\_//;
+	
+	if ($rule !~ /Limit.*?Benedictio/i) {
+		my $before = '';
+		my $rest = $w;
+		$rest =~ s/[\n\_ ]*$//gs;
+		while ($rest =~ /(.*?)_(.*)/s) { $before .= "$1_"; $rest = $2; }
+		if (!$before) { $before = $w; $rest = ''; }
+		$before =~ s/[\n\_ ~]*$//gs;
+		
+		if ($before =~ /(.*?)\&teDeum/s) {
+			$before = $1;
+			$rest = "&teDeum\n";
+		} elsif ($rest =~ /(.*?)\&teDeum/s) {
+			$before .= "\n_\n$1";
+			$rest = "&teDeum\n";
+		}
+		$w = "$before" . "\n$tuautem\n_\n$rest";
+	}
+	
+	#handle verse numbers for passages
+	my $item = 'Lectio';
+	if (exists($translate{$lang}{$item})) { $item = $translate{$lang}{$item}; }
+	$item =~ s/\s*$//;
+	$item .= " %s" unless ($item =~ /%s/);
+	$w = "_\n" . setfont($largefont, sprintf($item,$num)) . "\n$w";
+	my @w = split("\n", $w);
+	$w = "";
+	
+	foreach $item (@w) {
+		if ($item =~ /^([0-9]+)\s+(.*)/s) {
+			my $rest = $2;
+			my $num = $1;
+			if ($rest =~ /^\s*([a-z])(.*)/is) { $rest = uc($1) . $2; }
+			$item = setfont($smallfont, $num) . " $rest";
+		}
+		$w .= "$item\n";
+	}
+	
+	if ($dayname[0] !~ /Pasc/i) {
+		$w =~ s/\(Allel[uú][ij]a.*?\)//isg;
+	} else {
+		$w =~ s/\((Allel[uú][ij]a.*?)\)/$1/isg;
+	}
+	if ($dayname[0] =~ /Quad/i) { $w =~ s/[(]*allel[uú][ij]a[\.\,]*[)]*//ig; }
+	
+	#handle parentheses in non Latin
+	if ($lang !~ /Latin/i) {
+		$w =~ s/\((.*?[.,].*?)\)/parenthesised_text($1)/eg;
+	}
+	$w = replaceNdot($w, $lang);
+	return $w;
 }
 
 sub parenthesised_text {
