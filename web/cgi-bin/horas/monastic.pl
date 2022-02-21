@@ -124,6 +124,12 @@ sub psalmi_matutinum_monastic {
 			$comment = $c;
 			$prefix .= ' ' . translate('et Psalmi', $lang);
 		}
+	} elsif (($rank > 1.9 && $version =~ /Bavariae/i) && !(($dayname[0] =~ /Pasc0/) && ($dayofweek > 2))) {
+		my ($wB, $cB) = getproprium('Ant Matutinum', $lang, 0, 1);
+		if ($wB) {
+			my @psalmiB = split("\n", $wB);
+			for (16..18) {$psalmi[$_] = $psalmiB[$_];}
+		}
 	}
 	setcomment($label, 'Source', $comment, $lang, $prefix);
 	my $i = 0;
@@ -149,9 +155,10 @@ sub psalmi_matutinum_monastic {
 			legend_monastic($lang);   # on a III. class feast in "Summer", we have the contracted Saint's legend
 		}
 	} else {
-		lectiones($winner{Rank} !~ /vigil/i, $lang);
+		lectiones($winner{Rank} !~ /vigil/i && $version !~ /Bavariae/i, $lang);
 		# unless it's a vigil, the standard Nocturn 1 Absolutio is going to be combined with the Benedictions depending on the day of the week;
 		# for a vigil, even the Absolutio is changed as above (Is this really what the BM1963 rubrics say?)
+		# for Bavariae, we always choose the Absolutio according to the day of the week
 	}
 	push(@s, "\n", '!Nocturn II.', '_');
 	for (8..13) { antetpsalm_mm($psalmi[$_], $_); }
@@ -202,7 +209,7 @@ sub psalmi_matutinum_monastic {
 			my $dt = $datafolder; $dt =~ s/horas/missa/g;
 			my $w = ($e[0] =~ /(.*):LectioE/) ? "${1}.txt" : $winner;
 			$w =~ s/M//g;         # there is no corresponding folder missa/latin/SanctiM
-			$w =~ s/B//g; # auch von SanctiB nach Sancti verweisen
+			$w =~ s/B//g;					# auch von SanctiB nach Sancti verweisen
 			my %missa = %{setupstring($dt, $lang, $w)};
 			@e = split("\n", $missa{Evangelium});
 		}
@@ -267,7 +274,7 @@ sub antetpsalm_mm {
 	
 	if ( $dayname[0] =~ /Pasc/i
 		&& (!exists($winner{"Ant $hora"}) || $commune =~ /C10/)
-	&& ($rule !~ /ex /i || $commune =~ /C10/))
+		&& ($rule !~ /ex /i || $commune =~ /C10/))
 	{
 		if ($hora =~ /Vespera/i)
 		{
@@ -283,7 +290,13 @@ sub antetpsalm_mm {
 			if ($ind == 4) { $line[0] = Alleluia_ant($lang, 1, 0); } #test
 		}
 	}
-	if ($version =~/Bavariae/i) {
+	
+	if ($hora =~ /Matutinum/i && $dayname[0] =~ /Pasc[1-6]/i && $commune =~ /C[4-7]/) {
+		if (!($ind == 0 || $ind == 8 || $ind == 16)) { $line[0] = ''; }
+		#else { ensure_single_alleluia($line[0], $lang); }
+	}
+	
+	if ($version =~ /Bavariae/i) {						# ensure Antiphones are only doubled on Duplex feasts
 		my @ant = split('\*', $line[0]);
 		my $ant = $line[0];
 		postprocess_ant($ant, $lang);
@@ -292,7 +305,7 @@ sub antetpsalm_mm {
 		if ($line[0] && $lastantiphon) { push(@s, "Ant. $lastantiphon"); push(@s, "\n"); }
 		if ($ant1) { push(@s, "Ant. $ant1"); $lastantiphon = $ant; }
 	}
-	else {
+	else {																	# in Monastic 1963, Antiphones are always doubled
 		if ($line[0] && $lastantiphon) { push(@s, "Ant. $lastantiphon"); push(@s, "\n"); }
 		if ($line[0]) { push(@s, "Ant. $line[0]"); $lastantiphon = $line[0]; }
 	}
