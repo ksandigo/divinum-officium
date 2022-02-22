@@ -129,17 +129,16 @@ _
 v. Sequéntia ++ sancti Evangélii secúndum Matthǽum
 !Matt 25:14-23
 In illo témpore: Dixit Jesus discípulis suis parábolam hanc:
-25:14 Homo péregre proficíscens, vocávit servos suos, et trádidit illis bona sua.
-25:15 Et uni dedit quinque talénta, álii autem duo, álii vero unum, unicuíque secúndum própriam virtútem: et proféctus est statim.
-25:16 Abiit autem qui quinque talénta accéperat, et operátus est in eis, et lucrátus est ália quinque.
-25:17 Simíliter et qui duo accéperat, lucrátus est ália duo.
-25:18 Qui autem unum accéperat, ábiens fodit in terram, et abscóndit pecúniam dómini sui.
-25:19 Post multum vero témporis venit dóminus servórum illórum, et pósuit ratiónem cum eis.
-25:20 Et accédens qui quinque talénta accéperat, óbtulit ália quinque talénta, dicens: Dómine, quinque talénta tradidísti mihi, ecce ália quinque superlucrátus sum.
+Homo péregre proficíscens, vocávit servos suos, et trádidit illis bona sua.
+Et uni dedit quinque talénta, álii autem duo, álii vero unum, unicuíque secúndum própriam virtútem: et proféctus est statim.
+Abiit autem qui quinque talénta accéperat, et operátus est in eis, et lucrátus est ália quinque.
+Simíliter et qui duo accéperat, lucrátus est ália duo.
+Qui autem unum accéperat, ábiens fodit in terram, et abscóndit pecúniam dómini sui.
+Post multum vero témporis venit dóminus servórum illórum, et pósuit ratiónem cum eis.
+Et accédens qui quinque talénta accéperat, óbtulit ália quinque talénta, dicens: Dómine, quinque talénta tradidísti mihi, ecce ália quinque superlucrátus sum.
 25:21 Ait illi dóminus ejus: Euge serve bone, et fidélis: quia super pauca fuísti fidélis, super multa te constítuam: intra in gáudium dómini tui.
 25:22 Accéssit autem et qui duo talénta accéperat, et ait: Dómine, duo talénta tradidísti mihi, ecce ália duo lucrátus sum.
 25:23 Ait illi dóminus ejus: Euge serve bone, et fidélis: quia super pauca fuísti fidélis, super multa te constítuam: intra in gáudium dómini tui.
-$Te decet
 
 [Lectio1 in 2 loco]
 @Commune/C4:Lectio11:s/-5/-4/ s/5 .*//s
