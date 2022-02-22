@@ -1704,7 +1704,7 @@ sub major_getname {
 #*** getproprium($name, $lang, $flag, $buidflag)
 # returns $name item from tempora or sancti file
 # if $flag and no item in the proprium checks commune
-# if buildflag is set adds a composing libe to building scrip
+# if buildflag is set adds a composing line to building scrip
 sub getproprium {
 
   my $name = shift;

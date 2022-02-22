@@ -118,14 +118,14 @@ sub psalmi_matutinum_monastic {
 	
 	if ((($rank > 4.9 || $votive =~ /C8/) || ($rank > 3.9 && $version =~ /Bavariae/i)) && !(($dayname[0] =~ /Pasc0/) && ($dayofweek > 2))) {
 		#** get proper Ant Matutinum for II. and I. class feasts unless it's Wednesday thru Saturday of the Easter Octave
-		my ($w, $c) = getproprium('Ant Matutinum', $lang, 0, 1);
+		my ($w, $c) = getproprium('Ant Matutinum', $lang, $version =~ /Bavariae/i, 1); # for Bavariae also look in Commune!
 		if ($w) {
 			@psalmi = split("\n", $w);
 			$comment = $c;
 			$prefix .= ' ' . translate('et Psalmi', $lang);
 		}
 	} elsif (($rank > 1.9 && $version =~ /Bavariae/i) && !(($dayname[0] =~ /Pasc0/) && ($dayofweek > 2))) {
-		my ($wB, $cB) = getproprium('Ant Matutinum', $lang, 0, 1);
+		my ($wB, $cB) = getproprium('Ant Matutinum', $lang, 1, 1);
 		if ($wB) {
 			my @psalmiB = split("\n", $wB);
 			for (16..18) {$psalmi[$_] = $psalmiB[$_];}
@@ -203,6 +203,12 @@ sub psalmi_matutinum_monastic {
 		my @e;
 		if (exists($w{LectioE})) {    #** set evangelium
 			@e = split("\n", $w{LectioE}); }
+		elsif ($version =~ /Bavariae/i && $commune) {
+			my ($wB, $cB) = getproprium('LectioE', $lang, 1, 1);
+			if($wB) {
+				@e = split("\n", $wB);
+			}
+		}
 		
 		if (!$e[0] || $e[0] =~ /LectioE/) {
 			# if the Evangelium is missing in the Sanctoral or is just a cross-reference
