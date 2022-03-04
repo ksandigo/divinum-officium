@@ -166,6 +166,7 @@ sub specials {
         && $version !~ /1960/
         && $version !~ /monastic/i
         && $winner{Rank} =~ /Feria|Vigilia/i 
+        && $winner{Rank} !~ /Vigilia Epi/i
         && $commune !~ /C10/
         && ($rank < 3 || $dayname[0] =~ /Quad6/)
         && $dayname[0] !~ /Pasc/i)
@@ -786,7 +787,7 @@ sub psalmi_minor {
   if ($ant) { $ant = "Ant. $ant"; }
   my @ant = split('\*', $ant);
   postprocess_ant($ant, $lang);
-  $ant1 = showFullAntiphon($version, $ant);
+  $ant1 = ($version !~ /1960|monastic/i) ? $ant[0] : $ant;    #difference between 1955 and 1960
   setcomment($label, 'Source', $comment, $lang, $prefix);
   $psalms =~ s/\s//g;
   @psalm = split(',', $psalms);
@@ -1017,17 +1018,6 @@ sub psalmi_major {
     }
   }
   return;
-}
-
-#*** showFullAntiphon(string $version, @ant): string
-sub showFullAntiphon {
-  my ($version, $ant) = @_;
-
-  if ($version !~ /1960|monastic|Praedicatorum/i) {
-      return $ant[0];
-  } else {
-      return $ant;
-  }
 }
 
 #*** antetpsalm($line, $i, $last, $lang)
