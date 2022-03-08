@@ -76,7 +76,7 @@ sub psalmi_matutinum_monastic {
 		}
 		setbuild2("Antiphonas Psalmi weekday special no Quad");
 	}
-	
+
 	#** change of versicle for Adv, Quad, Quad5, Pasc
 	if ( ($winner =~ /tempora/i && $dayname[0] =~ /(Adv|Quad|Pasc)([0-9])/i)
 		|| $dayname[0] =~ /(Nat)((?:0?[2-9])|(?:1[0-2]))$/
@@ -108,14 +108,14 @@ sub psalmi_matutinum_monastic {
 			}
 			setbuild2("Subst Matutinum Versus $name $dayofweek");
   }
-	
+
 	#** special cantica for quad time
 	if (exists($winner{'Cantica'})) {
 		my $c = split("\n", $winner{Cantica});
 		my $i;
 		for ($i = 0; $i < 3; $i++) { $psalmi[$i + 16] = $c[$i]; }
 	}
-	
+
 	if ((($rank > 4.9 || $votive =~ /C8/) || ($rank > 3.9 && $version =~ /Bavariae/i)) && !(($dayname[0] =~ /Pasc0/) && ($dayofweek > 2))) {
 		#** get proper Ant Matutinum for II. and I. class feasts unless it's Wednesday thru Saturday of the Easter Octave
 		my ($w, $c) = getproprium('Ant Matutinum', $lang, $version =~ /Bavariae/i, 1); # for Bavariae also look in Commune!
@@ -123,6 +123,14 @@ sub psalmi_matutinum_monastic {
 			@psalmi = split("\n", $w);
 			$comment = $c;
 			$prefix .= ' ' . translate('et Psalmi', $lang);
+		}
+		if ($rule =~ /Ant Matutinum ([0-9]+) special/i) {
+			my $ind = $1;
+			my %wa = (columnsel($lang)) ? %winner : %winner2;
+			my $wa = $wa{"Ant Matutinum $ind"};
+			if ($wa) {
+				$psalmi[$ind-1] =~ s/^.*?;;/$wa;;/;
+			}
 		}
 	} elsif (($rank > 1.9 && $version =~ /Bavariae/i) && !(($dayname[0] =~ /Pasc0/) && ($dayofweek > 2))) {
 		my ($wB, $cB) = getproprium('Ant Matutinum', $lang, 1, 1);
