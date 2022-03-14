@@ -107,16 +107,16 @@ sub psalmi_matutinum_monastic {
 				}
 			}
 			setbuild2("Subst Matutinum Versus $name $dayofweek");
-	}
-
-
+		}
+	
+	
 	#** special cantica for quad time
 	if (exists($winner{'Cantica'})) {
 		my $c = split("\n", $winner{Cantica});
 		my $i;
 		for ($i = 0; $i < 3; $i++) { $psalmi[$i + 16] = $c[$i]; }
 	}
-
+	
 	if ((($rank > 4.9 || $votive =~ /C8/) || ($rank > 3.9 && $version =~ /Bavariae/i)) && !(($dayname[0] =~ /Pasc0/) && ($dayofweek > 2))) {
 		#** get proper Ant Matutinum for II. and I. class feasts unless it's Wednesday thru Saturday of the Easter Octave
 		my ($w, $c) = getproprium('Ant Matutinum', $lang, $version =~ /Bavariae/i, 1); # for Bavariae also look in Commune!
@@ -151,10 +151,10 @@ sub psalmi_matutinum_monastic {
 	
 	if ($rule =~ /12 lectiones/) {
 		lectiones(1, $lang);    # first Nocturn of 4 lessons (
-	#} elsif ($dayname[0] =~ /(Pasc[1-6]|Pent)/i && $month < 11 && $winner{Rank} !~ /vigil|quattuor/i) {
-	# at least before 1960 (Breviarum Monasticum 1930), the change from "summer" to "winter" matins was tied to the 1st Sunday of November
-	# not All Saints' Day. Unless this has been changed with moving the 1st Sunday of November occuring after 10-29 to after 11-01
-	# the elsif above makes a mistake and refers to non-existing scriptura of the last week of October and should be replaced by the following:
+		#} elsif ($dayname[0] =~ /(Pasc[1-6]|Pent)/i && $month < 11 && $winner{Rank} !~ /vigil|quattuor/i) {
+		# at least before 1960 (Breviarum Monasticum 1930), the change from "summer" to "winter" matins was tied to the 1st Sunday of November
+		# not All Saints' Day. Unless this has been changed with moving the 1st Sunday of November occuring after 10-29 to after 11-01
+		# the elsif above makes a mistake and refers to non-existing scriptura of the last week of October and should be replaced by the following:
 	} elsif ($dayname[0] =~ /(Pasc[1-6]|Pent)/i && monthday() !~ /^11[1-5]\-/ && $winner{Rank} !~ /vigil|quattuor/i) {
 		if ($winner =~ /Tempora/i
 			|| !(exists($winner{Lectio94}) || exists($winner{Lectio4})))
@@ -255,7 +255,8 @@ sub psalmi_matutinum_monastic {
 			my %c = (columnsel($lang)) ? %commune : %commune2;
 			$w = $c{"MM Capitulum"};
 		}
-
+	}
+	
 	if (!$w) {
 		my $name = "";
 		if ($dayname[0] =~ /(Adv|Nat|Epi1|Quad|Pasc)/i) {
