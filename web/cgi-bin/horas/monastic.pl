@@ -76,7 +76,7 @@ sub psalmi_matutinum_monastic {
 		}
 		setbuild2("Antiphonas Psalmi weekday special no Quad");
 	}
-
+	
 	#** change of versicle for Adv, Quad, Quad5, Pasc
 	if ( ($winner =~ /tempora/i && $dayname[0] =~ /(Adv|Quad|Pasc)([0-9])/i)
 		|| $dayname[0] =~ /(Nat)((?:0?[2-9])|(?:1[0-2]))$/
@@ -107,7 +107,8 @@ sub psalmi_matutinum_monastic {
 				}
 			}
 			setbuild2("Subst Matutinum Versus $name $dayofweek");
-  }
+	}
+
 
 	#** special cantica for quad time
 	if (exists($winner{'Cantica'})) {
@@ -218,14 +219,16 @@ sub psalmi_matutinum_monastic {
 			}
 		}
 		
-		if (!$e[0] || $e[0] =~ /LectioE/) {
+		if (!$e[0] || ($e[0] =~ s/^@//)) {
 			# if the Evangelium is missing in the Sanctoral or is just a cross-reference
-			my $dt = $datafolder; $dt =~ s/horas/missa/g;
-			my $w = ($e[0] =~ /(.*):LectioE/) ? "${1}.txt" : $winner;
+			my ($w, $s) = split(/:/, $e[0]);
+			if ($w) { $w .= '.txt'; } else { $w = $winner; }
 			$w =~ s/M//g;         # there is no corresponding folder missa/latin/SanctiM
 			$w =~ s/B//g;					# auch von SanctiB nach Sancti verweisen
+			$s =~ s/(?:LectioE)?/Evangelium/;
+			my $dt = $datafolder; $dt =~ s/horas/missa/g;
 			my %missa = %{setupstring($dt, $lang, $w)};
-			@e = split("\n", $missa{Evangelium});
+			@e = split("\n", $missa{$s});
 		}
 		
 		my $firstline = shift @e;
@@ -252,8 +255,7 @@ sub psalmi_matutinum_monastic {
 			my %c = (columnsel($lang)) ? %commune : %commune2;
 			$w = $c{"MM Capitulum"};
 		}
-	}
-	
+
 	if (!$w) {
 		my $name = "";
 		if ($dayname[0] =~ /(Adv|Nat|Epi1|Quad|Pasc)/i) {
