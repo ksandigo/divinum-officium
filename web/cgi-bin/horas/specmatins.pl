@@ -758,8 +758,8 @@ sub lectio : ScriptFunc {
 	if (!$w                                                     # we still don't have a lectio yet as there is no homily
 		&& ($num < 4 || ($num == 4 && $rule =~ /12 lectiones/i))  # for the first nocturn
 		&& exists($scriptura{"Lectio$num"})                       # there is scripture available
-	&& ($version !~ /trident/i || $rank < 5)									# but not in Tridentinum Duplex II. vel I. classis
-	&& ($version !~ /Bavariae/i || !($dayname[0] =~ /(Pasc[1-6]|Pent)/i && monthday() !~ /^11[1-5]\-/ && $winner{Rank} !~ /vigil|quattuor/i) || $dayofweek == 0)																		# also not in Bavariae in aestate on a feria (for now)
+	&& ($version !~ /trident/i || $rank < 5)# but not in Tridentinum Duplex II. vel I. classis
+	&& ($version !~ /Bavariae/i || !($dayname[0] =~ /(Pasc[1-6]|Pent)/i && monthday() !~ /^11[1-5]\-/ && $winner{Rank} !~ /vigil|quattuor/i) || $dayofweek == 0)# also not in Bavariae in aestate on a feria (for now)
 	)   {
 		%w = (columnsel($lang)) ? %scriptura : %scriptura2;
 		$w = $w{"Lectio$num"};
@@ -827,10 +827,10 @@ sub lectio : ScriptFunc {
 		&& $commune !~ /C10/
 		&& $rule !~ /no93/i
 		&& $winner{Rank} !~ /Octav.*(Epi|Corp)/i
-		&& ($dayofweek != 0 || $winner =~ /Sancti/i || $winner =~ /Nat2/i)
-		&& (($rule =~ /9 lectio/i && $num == 9) || ($rule =~ /12 lectio/i && $num == 12)
-			|| ($rule !~ /(9|12) lectio/i && $num == 3 && $winner !~ /Tempora/i))
-		|| ($rank < 2 && $winner =~ /Sancti/i && $num == 4)
+	&& ($dayofweek != 0 || $winner =~ /Sancti/i || $winner =~ /Nat2/i)
+	&& (($rule =~ /9 lectio/i && $num == 9) || ($rule =~ /12 lectio/i && $num == 12)
+	|| ($rule !~ /(9|12) lectio/i && $num == 3 && $winner !~ /Tempora/i))
+	|| ($rank < 2 && $winner =~ /Sancti/i && $num == 4)
 	)   {
 		%w = (columnsel($lang)) ? %winner : %winner2;
 		
@@ -1020,6 +1020,13 @@ sub lectio : ScriptFunc {
 		$w = "$before" . "\n$tuautem\n_\n$rest";
 	}
 	
+	# add initial to text
+	if ($w !~ /^!/m) {
+		$w =~ s/^(?=\p{Letter})/v. /;
+	} elsif ($w !~ /^\d/m) {
+		$w =~ s/^!.*?\n(?=\p{Letter})/$&v. /gm;
+	}
+	
 	#handle verse numbers for passages
 	my $item = 'Lectio';
 	if (exists($translate{$lang}{$item})) { $item = $translate{$lang}{$item}; }
@@ -1029,14 +1036,24 @@ sub lectio : ScriptFunc {
 	my @w = split("\n", $w);
 	$w = "";
 	
-	foreach $item (@w) {
-		if ($item =~ /^([0-9]+)\s+(.*)/s) {
+	my $initial = $nonumbers;
+	foreach (@w) {
+		if (/^([0-9]+)\s+(.*)/s) {
 			my $rest = $2;
-			my $num = $1;
-			if ($rest =~ /^\s*([a-z])(.*)/is) { $rest = uc($1) . $2; }
-			$item = setfont($smallfont, $num) . " $rest";
+			my $num = "\n" . setfont($smallfont, $1);
+			$rest =~ s/^./\u$&/ unless ($nonumbers);
+			if ($initial) {
+				$num = "\nv. ";
+				$initial = 0;
+			} elsif ($nonumbers) {
+				$num = '';
+			}
+			$_ = "$num $rest";
+		} else {
+			$initial = 1 if (/^!/ && $nonumbers);
+			$_ = "\n$_";
 		}
-		$w .= "$item\n";
+		$w .= "$_";
 	}
 	
 	if ($dayname[0] !~ /Pasc/i) {

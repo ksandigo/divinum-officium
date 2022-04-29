@@ -521,6 +521,7 @@ sub psalm : ScriptFunc {
 
   if (@lines) {
     my $first = ($antline) ? 1 : 0;
+    my $initial = $nonumbers;
 
     foreach $line (@lines) {
 
@@ -538,10 +539,10 @@ sub psalm : ScriptFunc {
       }
       if ($v < $v1 && $v > 0) { next; }
       if ($v > $v2) { last; }
-      $lnum = '';
+      my $lnum = '';
 
       if ($line =~ /^([0-9]*[\:]*[0-9]+)(.*)/) {
-        $lnum = setfont($smallfont, $1);
+        $lnum = setfont($smallfont, $1) unless ($nonumbers);
         $line = $2;
       }
       my $rest;
@@ -553,9 +554,14 @@ sub psalm : ScriptFunc {
         $this =~ s/:\d+-\d+\)/:$v1-$v2)/ if ($v2 != 1000);
         $before =~ s/^\s*([a-z])/uc($1)/ei;
         $line = $before . setfont($smallfont, ($this));
+        $initial = 0 if ($rest);
       } else {
         $rest = $line;
         $line = '';
+        if ($initial) {
+          $lnum = "v. ";
+          $initial = 0;
+        }
       }
       $rest =~ s/[ ]*//;
 
