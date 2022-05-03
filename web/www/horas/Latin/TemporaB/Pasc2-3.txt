@@ -1,0 +1,7 @@
+@Tempora/Pasc2-3
+
+[Rule]
+proper
+Psalmi Dominica
+12 lectiones
+Antiphonas horas

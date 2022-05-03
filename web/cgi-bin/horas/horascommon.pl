@@ -1642,7 +1642,7 @@ sub setmdir {
     $communename = 'CommuneM';
   } elsif ($version =~ /Bavariae/i) {
       $sanctiname = 'SanctiB';
-      $temporaname = 'TemporaM';
+      $temporaname = 'TemporaB';
       $communename = 'CommuneM';
   } else {
     $sanctiname = 'Sancti';
