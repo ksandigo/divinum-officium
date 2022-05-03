@@ -759,7 +759,7 @@ sub lectio : ScriptFunc {
 		&& ($num < 4 || ($num == 4 && $rule =~ /12 lectiones/i))  # for the first nocturn
 		&& exists($scriptura{"Lectio$num"})                       # there is scripture available
 	&& ($version !~ /trident/i || $rank < 5)# but not in Tridentinum Duplex II. vel I. classis
-	&& ($version !~ /Bavariae/i || !($dayname[0] =~ /(Pasc[1-6]|Pent)/i && monthday() !~ /^11[1-5]\-/ && $winner{Rank} !~ /vigil|quattuor/i) || $dayofweek == 0)# also not in Bavariae in aestate on a feria (for now)
+	&& ($version !~ /Bavariae/i || !($dayname[0] =~ /(Pasc[1-6]|Pent)/i && monthday() !~ /^11[1-5]\-/ && $winner{Rank} !~ /vigil|quattuor|octavam/i) || $dayofweek == 0)					# also not in Bavariae in aestate on a feria (for now)
 	)   {
 		%w = (columnsel($lang)) ? %scriptura : %scriptura2;
 		$w = $w{"Lectio$num"};
