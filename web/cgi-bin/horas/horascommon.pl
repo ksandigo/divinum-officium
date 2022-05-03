@@ -188,7 +188,7 @@ sub getrank {
   our $hymncontract = 0;
   my $kalendarname =
       ($version =~ /Monastic/i) ? 'M'
-    : ($version =~ /Bavariae/) ? '1954'  # to be redirected later on
+    : ($version =~ /Bavariae/) ? 'B'  # to be redirected later on
     : ($version =~ /1570/) ? 1570
     : ($version =~ /Trident/i) ? 1888
     : ($version =~ /Divino/i) ? '1954'
