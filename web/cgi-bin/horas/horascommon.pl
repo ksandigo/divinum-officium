@@ -762,15 +762,14 @@ sub getrank {
       $scriptura = $tname;
     }
   } else {    #winner is de tempora
-    if (
-         $version !~ /Monastic/i
-      && $dayname[0] !~ /(Adv|Quad[0-6])/i
-      && $srank[2] < 2
-      && $trank[2] < 2
-      && $testmode !~ /^season$/i
-      && (
-        ($dayofweek == 6 && $srank !~ /Vigil/i && $trank[2] < 2 && !$transfervigil)
-        || ( $hora =~ /Vespera|Completorium/i
+    if ($version !~ /Monastic/i
+				&& $dayname[0] !~ /(Adv|Quad[0-6])/i
+				&& $srank[2] < 2
+				&& $trank[2] < 2
+				&& $testmode !~ /^season$/i
+				&& (
+					($dayofweek == 6 && $srank !~ /Vigil/i && $trank[2] < 2 && !$transfervigil)
+						|| ( $hora =~ /Vespera|Completorium/i
           && $dayofweek == 5
           && $trank[2] < 2
           && $srank[0] !~ /Vigil/i
