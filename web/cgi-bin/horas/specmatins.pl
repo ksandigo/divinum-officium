@@ -46,7 +46,7 @@ sub invitatorium {
 	my @invit = split("\n", $invit{$name});
 	setbuild('Psalterium/Matutinum Special', $name, 'Invitatorium ord');
 	my $ant = chompd($invit[$i]);
-	if ($version =~ /Monastic|Bavariae/i && $dayofweek && $winner =~ /Pasc/ && $winner !~ /Pasc[07]/ && $winner !~ /Pasc5-4/) {
+	if ($version =~ /Monastic/i && $dayofweek && $winner =~ /Pasc/ && $winner !~ /Pasc[07]/ && $winner !~ /Pasc5-4/) {
 		$ant = chompd($prayers{$lang}{"Alleluia Duplex"}) . $prayers{$lang}{"Alleluia Simplex"};
 		$ant =~ s/\., (.*)/, * \u\1/;
 	} else {
