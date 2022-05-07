@@ -1,9 +1,5 @@
 @Tempora/Pasc2-5
 
-[Rule]
-proper
-Antiphonas horas
-ex TemporaB/Pasc2-3
 
 [Lectio1]
 @Tempora/Pasc2-5:Lectio4

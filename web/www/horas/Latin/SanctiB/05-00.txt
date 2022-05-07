@@ -1,0 +1,187 @@
+[Rank]
+In Sollemnitate Beatae Mariae Virginis Patronæ Bavariæ;;Duplex I classis;;6.5;;ex C11
+
+[Rule]
+ex C11;
+12 lectiones
+Antiphonas horas
+Doxology=Nat
+
+
+[Ant Vespera]
+Stella maris * attendámus, qui transíre decertámus Babylónis flúmina, allelúja.;;109
+Hæc ut nostram * indefésse cymbam regat, est necésse, per fluctus et fúlmina, allelúja.;;112 
+Ad Mariam *  dirigámus cursum, ad hanc erigámus mentes, manus, lúmina, allelúja.;;121
+Hæc de lacu * Babylónis ad tranquíllæ visiónis nos edúcat cúlmina, allelúja.;;126
+Hinc celéuma * præcinámus, quo Patrónam salutámus: Ave, magna Dómina, allelúja!;;147
+
+[Capitulum Vespera]
+@Commune/C10:Capitulum Vespera
+_
+R.br. Adjuvábit eam Deus vultu suo, * Allelúja, allelúja.
+R. Adjuvábit eam Deus vultu suo, allelúja, allelúja.
+V. Deus in médio ejus, non commovébitur. 
+R. Allelúja, allelúja. 
+&Gloria
+R. Adjuvábit eam Deus vultu suo, allelúja, allelúja.
+
+[Versum 1]
+V. Ora pro nobis, magna Patróna Baváriæ, allelúja.
+R. Ut digni efficiámur promissiónibus Christi, allelúja.
+
+[Ant 1]
+Descénde cælo, * fília Príncipis, pulchrósque gressus fígere Bóicis gináre terris, qua vocáris, ínclita magna Patróna regni, allelúja.
+
+[Oratio]
+Deus, qui dilécti Fílii tui Genetrícem nobis Matrem ac Regni Patrónam dare dignátus es: concéde propítius; ut sub hujus Matris tutéla ab omni hóstium defendámur incúrsu, et sine timóre in sanctitáte et justítia tibi serviámus.
+$Per eumdem
+
+[Invit]
+Christum Regem adorémus * Et Maríam collaudémus, piam nostram Dóminam, allelúja.
+
+[Hymnus Matutinum]
+Supérni Sponsa Príncipis,
+_
+*
+
+[Ant Matutinum]
+Terram nostram cælitus * ros inebriávit, florem cum divínitus Christum germinávit, allelúja.;;8
+;;18
+;;23
+;;44
+;;45
+;;47
+V. Elégit eam Deus, et præelégit eam, allelúja.
+R. In tabernáculo suo habitáre facit eam, allelúja.
+Virga florem, * stella solem, coætérnam Patri Prolem Virgo Mater génuit, allelúja.;;84
+;;86
+;;95
+;;96
+;;97
+;;98
+V. Venérunt mihi ómnia bona páriter cum illa, allelúja.
+R. Et innumerábilis honéstas per manus illíus, allelúja.
+Signum magnum * fémina est amícta sole hæc refúlgens Dómina gloriósa Prole, allelúja.;;249;250;251
+V. Sub tuum præsídium confúgimus, allelúja.
+R. Sub quo secúri lætique dégimus, allelúja.
+
+[Lectio1]
+
+[Lectio2]
+
+[Lectio3]
+
+[Lectio4]
+
+[Responsory4]
+
+[Lectio5]
+
+[Responsory5]
+
+[Lectio6]
+
+[Responsory6]
+
+[Lectio7]
+
+[Responsory7]
+
+[Lectio8]
+
+[Responsory8]
+
+[Lectio9]
+
+[Responsory9]
+
+[Lectio10]
+
+[Responsory10]
+
+[Lectio11]
+
+[Responsory11]
+
+[Lectio12]
+
+[Responsory12]
+
+[Ant Laudes]
+Laudet rosam caritátis, * víolam humilitátis, lílium integritátis júbilans Ecclésia, allelúja.
+Laudent templum Trinitátis, * laudent matrem pietátis, laudent stellam claritátis regna et impéria, allelúja.
+Laudet rubum visiónis, * laudet vellus Gedeónis mánnaque refectiónis vígilans família, allelúja.
+Altum thronum Salomónis, * fulgens vas devotiónis, claram vallem visiónis benedicant ómnia, allelúja.
+Laudent Matrem veri Dei * cuncta, quæ subsístunt ei, cælum, terra, lux déi et supérna cúria, allelúja.
+
+[Capitulum Laudes]
+@Commune/C10:Capitulum Vespera
+_
+R.br. Spécie tua et pulchritúdine tua, * Allelúja, allelúja.
+R. Spécie tua et pulchritúdine tua, allelúja, allelúja.
+V. Inténde, próspere procéde, et regna. 
+R. Allelúja, allelúja. 
+&Gloria
+R. Spécie tua et pulchritúdine tua, allelúja, allelúja.
+
+[Hymnus Laudes]
+In supréma jerarchía
+
+[Versum 2]
+@:Versum 1
+
+[Ant 2]
+Judítha nostræ * pulchra Bethúliæ, tu spes senátus, tu pópuli salus, regísque natorúmque et urbis glória lætitiǽque causa, allelúja.
+
+[Responsory Tertia]
+V. Spécie tua et pulchritdudine tua, allelúja.
+R. Inténde, próspere procéde, et regna, allelúja.
+
+[Responsory Sexta]
+V. Adjuvábit eam Deus vultu suo, allelúja.
+R. Deus in médio ejus, non commovébitur.
+
+[Responsory Nona]
+V. Elégit eam Deus, et præelégit eam, allelúja.
+R. In tabernáculo suo habitáre facit eam, allelúja.
+
+[Versum 3]
+V. Rem, regem, régimen, regiónem, religiónem, allelúja.
+R. Consérva Bávaris, Virgo Patróna, tuis, allelúja.
+
+[Ant 3]
+Occúrre votis * et Bávaros reges adfla benígni Núminis hálitu, tu, robur afflictǽque scutum et dulce decus Patriǽque Mater, María, allelúja.
+
+[Octava 1]
+!Commemoratio Octavæ B.M.V. Patronæ Bavariæ
+Ant. Descénde cælo, * fília Príncipis, pulchrósque gressus fígere Bóicis gináre terris, qua vocáris, ínclita magna Patróna regni, allelúja.
+_
+V. Ora pro nobis, magna Patróna Baváriæ, allelúja.
+R. Ut digni efficiámur promissiónibus Christi, allelúja.
+_
+$Oremus
+v. Deus, qui dilécti Fílii tui Genetrícem nobis Matrem ac Regni Patrónam dare dignátus es: concéde propítius; ut sub hujus Matris tutéla ab omni hóstium defendámur incúrsu, et sine timóre in sanctitáte et justítia tibi serviámus.
+$Per eumdem
+
+[Octava 2]
+!Commemoratio Octavæ B.M.V. Patronæ Bavariæ
+Ant. Judítha nostræ * pulchra Bethúliæ, tu spes senátus, tu pópuli salus, regísque natorúmque et urbis glória lætitiǽque causa, allelúja.
+_
+V. Ora pro nobis, magna Patróna Baváriæ, allelúja.
+R. Ut digni efficiámur promissiónibus Christi, allelúja.
+_
+$Oremus
+v. Deus, qui dilécti Fílii tui Genetrícem nobis Matrem ac Regni Patrónam dare dignátus es: concéde propítius; ut sub hujus Matris tutéla ab omni hóstium defendámur incúrsu, et sine timóre in sanctitáte et justítia tibi serviámus.
+$Per eumdem
+
+[Octava 3]
+!Commemoratio Octavæ B.M.V. Patronæ Bavariæ
+Ant. Occúrre votis * et Bávaros reges adfla benígni Núminis hálitu, tu, robur afflictǽque scutum et dulce decus Patriǽque Mater, María, allelúja.
+_
+V. Rem, regem, régimen, regiónem, religiónem, allelúja.
+R. Consérva Bávaris, Virgo Patróna, tuis, allelúja.
+_
+$Oremus
+v. Deus, qui dilécti Fílii tui Genetrícem nobis Matrem ac Regni Patrónam dare dignátus es: concéde propítius; ut sub hujus Matris tutéla ab omni hóstium defendámur incúrsu, et sine timóre in sanctitáte et justítia tibi serviámus.
+$Per eumdem
+

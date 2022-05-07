@@ -216,7 +216,7 @@ sub getrank {
     : ($version =~ /Divino/i) ? 'DA'
     : ($version =~ /(1955|1960)/) ? '1960'
     : ($version =~ /monastic/i) ? 'M'
-    : ($version =~ /Bavariae/i) ? 'DA' # to be redirected later on
+    : ($version =~ /Bavariae/i) ? 'B' # to be redirected later on
     : ($version =~ /1570/) ? '1570'
     : ($version =~ /1910/) ? 1910
     : '1960';
