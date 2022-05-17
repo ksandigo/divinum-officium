@@ -1520,7 +1520,7 @@ sub getcommemoratio {
   my %w = %{officestring($datafolder, $lang, $wday, ($ind == 1) ? 1 : 0)};
   my %c = undef;
 
-  if ($version =~ /Trident|Divino/i && $wday =~ /12-30/) { return ''; }
+  if ($version =~ /Trident|Divino|Bavariae/i && $wday =~ /12-30/) { return ''; }
 
   if ($hora =~ /Vespera/i && $rank >= 5 && $w{Rank} =~ /;;1/ && $winner !~ /Tempora/i) {
     return '';

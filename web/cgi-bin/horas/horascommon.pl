@@ -577,7 +577,8 @@ sub getrank {
 #  $commemoratio = $commemoratio1 = $communetype = $commune = $commemorated = $dayname[2] = $scriptura = '';
 #  $comrank = 0;
   if ($version =~ /Trid/i && $trank[2] < 5.1 && $trank[0] =~ /Dominica/i) { $trank[2] = 2.9; }
-
+	if ($version =~ /Bavariae/i && $trank[2] < 5.1 && $trank[0] =~ /Dominica/i) { $trank[2] = 3.9; } # for Bav: Duplex major > Domenica semiduplex
+	
   if ($version =~ /1960/ && $dayofweek == 0) {
     if (($trank[2] >= 6 && $srank[2] < 6) || ($trank[2] >= 5 && $srank[2] < 5)) { $srank = ''; @srank = undef; }
   }
