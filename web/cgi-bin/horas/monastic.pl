@@ -440,52 +440,50 @@ sub brevis_monastic {
 #*** regula($lang)
 #returns the text of the Regula for the day
 sub regula : ScriptFunc {
-	
-	my $lang = shift;
-	my @a;
-	my $t = setfont($largefont, translate("Regula", $lang)) . "\n_\n";
-	my $d = $day;
-	my $l = leapyear($year);
-	
-	if ($month == 2 && $day >= 24 && !$l) { $d++; }
-	$fname = sprintf("%02i-%02i", $month, $d);
-	
-	if (!-e "$datafolder/Latin/Regula/$fname.txt") {
-		if (@a = do_read("$datafolder/Latin/Regula/Regulatable.txt")) {
-			my $a;
-			my %a = undef;
-			
-			foreach $a (@a) {
-				my @a1 = split(';', $a);
-				$a{$a1[1]} = $a1[0];
-				$a{$a1[2]} = $a1[0];
-			}
-			$fname = $a{$fname};
-		} else {
-			return $t;
-		}
-	}
-	$fname = checkfile($lang, "Regula/$fname.txt");
-	
-	if (@a = do_read($fname)) {
-		foreach $line (@a) {
-			$line =~ s/^.*?\#//;
-			$line =~ s/^(\s*)$/_$1/;
-			$t .= "$line\n";
-		}
-	}
-	
-	if (!$l && $fname =~ /02\-23/) {
-		$fname = checkfile($lang, "Regula/02-24.txt");
-		
-		if (@a = do_read($fname)) {
-			foreach $line (@a) {
-				$line =~ s/^.*?\#//;
-				$line =~ s/^(\s*)$/_$1/;
-				$t .= "$line\n";
-			}
-		}
-	}
-	$t .= '$Tu autem';
-	return $t;
+  my $lang = shift;
+  my @a;
+  my $t = setfont($largefont, translate("Regula", $lang)) . "\n";
+  my $d = $day;
+  my $l = leapyear($year);
+
+  if ($month == 2 && $day >= 24 && !$l) { $d++; }
+  $fname = sprintf("%02i-%02i", $month, $d);
+
+  if (!-e "$datafolder/Latin/Regula/$fname.txt") {
+    if (@a = do_read("$datafolder/Latin/Regula/Regulatable.txt")) {
+      my $a;
+      my %a = undef;
+
+      foreach $a (@a) {
+        my @a1 = split(';', $a);
+        $a{$a1[1]} = $a1[0];
+        $a{$a1[2]} = $a1[0];
+      }
+      $fname = $a{$fname};
+    } else {
+      return $t;
+    }
+  }
+  $fname = checkfile($lang, "Regula/$fname.txt");
+
+  if (@a = do_read($fname)) {
+    foreach $line (@a) {
+      $line =~ s/^.*?\#//;
+      $line =~ s/^(\s*)$/_$1/;
+      $t .= "$line\n";
+    }
+  }
+
+  if (!$l && $fname =~ /02\-23/) {
+    $fname = checkfile($lang, "Regula/02-24.txt");
+
+    if (@a = do_read($fname)) {
+      foreach $line (@a) {
+        $line =~ s/^.*?\#//;
+        $line =~ s/^(\s*)$/_$1/;
+        $t .= "$line\n";
+      }
+    }
+  }
+  return $t;
 }
