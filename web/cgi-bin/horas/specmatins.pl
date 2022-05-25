@@ -758,8 +758,8 @@ sub lectio : ScriptFunc {
 	if (!$w                                                     # we still don't have a lectio yet as there is no homily
 		&& ($num < 4 || ($num == 4 && $rule =~ /12 lectiones/i))  # for the first nocturn
 		&& exists($scriptura{"Lectio$num"})                       # there is scripture available
-	&& ($version !~ /trident/i || $rank < 5)# but not in Tridentinum Duplex II. vel I. classis
-	&& ($version !~ /Bavariae/i || !($dayname[0] =~ /(Pasc[1-4]|Pasc5\-[2-3]|Pent)/i && monthday() !~ /^11[1-5]\-/ && $winner{Rank} !~ /vigil|quattuor|infra\ octavam/i) || $dayofweek == 0)					# also not in Bavariae in aestate on a feria (for now)
+		&& ($version !~ /trident/i || $rank < 5)# but not in Tridentinum Duplex II. vel I. classis
+	#&& ($version !~ /Bavariae/i || !(($dayname[0] =~ /(Pasc[1-4]|Pent)/i || ($dayname[0] =~ /Pasc5/i && $dayofweek != 1)) && monthday() !~ /^11[1-5]\-/ && $winner{Rank} !~ /vigil|quattuor|infra octavam/i) || $dayofweek == 0)					# also not in Bavariae in aestate on a feria (for now)
 	)   {
 		%w = (columnsel($lang)) ? %scriptura : %scriptura2;
 		$w = $w{"Lectio$num"};

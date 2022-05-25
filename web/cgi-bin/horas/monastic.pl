@@ -155,7 +155,7 @@ sub psalmi_matutinum_monastic {
 		# at least before 1960 (Breviarum Monasticum 1930), the change from "summer" to "winter" matins was tied to the 1st Sunday of November
 		# not All Saints' Day. Unless this has been changed with moving the 1st Sunday of November occuring after 10-29 to after 11-01
 		# the elsif above makes a mistake and refers to non-existing scriptura of the last week of October and should be replaced by the following:
-	} elsif ($dayname[0] =~ /(Pasc[1-6]|Pent)/i && monthday() !~ /^11[1-5]\-/ && $winner{Rank} !~ /vigil|quattuor|octavam/i) {
+	} elsif (($dayname[0] =~ /(Pasc[1-4]|Pent)/i || ($dayname[0] =~ /Pasc5/i && $dayofweek != 1))  && monthday() !~ /^11[1-5]\-/ && $winner{Rank} !~ /vigil|quattuor|infra octavam/i) {
 		if ($winner =~ /Tempora/i
 			|| !(exists($winner{Lectio94}) || exists($winner{Lectio4})))
 		{
