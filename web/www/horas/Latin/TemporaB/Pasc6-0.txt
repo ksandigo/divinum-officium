@@ -1,8 +1,5 @@
 @Tempora/Pasc6-0
 
-[Rank]
-Dominica post Ascensionem;;Semiduplex;;5;;vide TemporaM/Pasc5-4
-
 [Rule]
 12 lectiones
 Doxology=Asc

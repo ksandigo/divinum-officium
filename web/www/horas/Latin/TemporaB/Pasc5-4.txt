@@ -1,8 +1,5 @@
 @Tempora/Pasc5-4
 
-[Rank]
-In Ascensione Domini;;Duplex I classis;;7
-
 [Rule]
 Psalmi Dominica
 Antiphonas horas

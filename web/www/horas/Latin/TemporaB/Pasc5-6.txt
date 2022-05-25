@@ -1,5 +1,2 @@
 @Tempora/Pasc5-6
 
-[Rank]
-Sabbato post Ascensionem;;Feria;;1;;vide TemporaM/Pasc5-5
-

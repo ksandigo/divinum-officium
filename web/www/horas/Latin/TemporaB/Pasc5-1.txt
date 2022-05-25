@@ -1,2 +1,4 @@
-@Tempora/Pasc5-1r
+@Tempora/Pasc5-1
 
+[Rank]
+Feria Secunda in Rogationibus;;Feria major;;2.9
