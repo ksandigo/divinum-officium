@@ -82,7 +82,7 @@
 04-25=04-25=S. Marci Evangelistae=5=
 04-26=04-26=S. Cleti et Marcellini Pontif Martyrum=2=
 04-27=04-27=S. Petri Canisii Confessoris et Ecclesiae Doctoris=3=
-04-28=04-28=S. Pauli a Cruce Confessoris=3=S. Vitalis Mart =1=
+04-28=04-28=S. Pauli a Cruce Confessoris=3=S. Vitalis Mart=1=
 04-29=04-29=S. Petri Martyris=3=
 04-30=04-30=S. Catharinae Senensis Virginis=3=
 *May*
