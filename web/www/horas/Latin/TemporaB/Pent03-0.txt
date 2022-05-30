@@ -1,4 +1,4 @@
-@Tempora/Pent03-0r
+@Tempora/Pent03-0
 
 [Rule]
 12 lectiones

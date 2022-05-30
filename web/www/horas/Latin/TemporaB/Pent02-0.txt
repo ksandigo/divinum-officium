@@ -1,7 +1,4 @@
-@Tempora/Pent02-0r
-
-[Rank]
-Dominica II Post Pentecosten;;Semiduplex II classis;;5
+@Tempora/Pent02-0
 
 [Rule]
 12 lectiones
