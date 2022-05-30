@@ -109,7 +109,6 @@ sub psalmi_matutinum_monastic {
 			setbuild2("Subst Matutinum Versus $name $dayofweek");
 		}
 	
-	
 	#** special cantica for quad time
 	if (exists($winner{'Cantica'})) {
 		my $c = split("\n", $winner{Cantica});

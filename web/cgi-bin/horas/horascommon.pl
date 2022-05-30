@@ -188,7 +188,7 @@ sub getrank {
   our $hymncontract = 0;
   my $kalendarname =
       ($version =~ /Monastic/i) ? 'M'
-    : ($version =~ /Bavariae/) ? 'B'  # to be redirected later on
+    : ($version =~ /Bavariae/) ? 'B'
     : ($version =~ /1570/) ? 1570
     : ($version =~ /Trident/i) ? 1888
     : ($version =~ /Divino/i) ? '1954'
@@ -208,7 +208,7 @@ sub getrank {
   } else {
     error("$datafolder/../horas/Latin/Tabulae/K$kalendarname.txt cannot open");
   }
-  my $sday = get_sday($month, $day, $year);
+	my $sday = get_sday($month, $day, $year);			# handles leap years and returns string "mm-dd"
 
   # Handle transfers
   my $vtrans =
@@ -216,7 +216,7 @@ sub getrank {
     : ($version =~ /Divino/i) ? 'DA'
     : ($version =~ /(1955|1960)/) ? '1960'
     : ($version =~ /monastic/i) ? 'M'
-    : ($version =~ /Bavariae/i) ? 'B' # to be redirected later on
+    : ($version =~ /Bavariae/i) ? 'B'
     : ($version =~ /1570/) ? '1570'
     : ($version =~ /1910/) ? 1910
     : '1960';
@@ -1414,20 +1414,20 @@ sub officestring($$$;$) {
   my ($basedir, $lang, $fname, $flag) = @_;
   my %s;
 
-  if ($fname !~ /tempora[M]*\/(Pent|Epi)/i) {
+  if ($fname !~ /tempora[MB]*\/(Pent|Epi)/i) {
     %s = updaterank(setupstring($basedir, $lang, $fname));
     if ($version =~ /1960/ && $s{Rank} =~ /Feria.*?(III|IV) Adv/i && $day > 16) { $s{Rank} =~ s/;;2/;;3/; }
     return \%s;
   }
 
-  if ($fname =~ /tempora[M]*\/Pent([0-9]+)/i && $1 < 5) {
+  if ($fname =~ /tempora[MB]*\/Pent([0-9]+)/i && $1 < 5) {
     %s = updaterank(setupstring($basedir, $lang, $fname));
     return \%s;
   }
   $monthday = monthday($flag);    #*** was $flag
 
   if (!$monthday) {
-    %s = updaterank(setupstring($basedir, $lang, $fname));
+		%s = updaterank(setupstring($basedir, $lang, $fname));
     return \%s;
   }
   %s = %{setupstring($basedir, $lang, $fname)};
@@ -1569,9 +1569,9 @@ sub setheadline {
       }
     } elsif ($version =~ /1960|Newcal|Monastic/i && $dayname[0] =~ /Pasc[07]/i && $dayofweek > 0 && $winner !~ /Pasc7-0/) {
       $rankname = 'Dies Octavæ I. classis';
-    } elsif ($version =~ /(1570|1910|Divino|1955|Bavariae)/ && $winner =~ /C10/) {
+		} elsif ($version =~ /(1570|1910|Divino|1955|Bavariae)/ && $winner =~ /C10/) {			# B.M.V. Sabbato
       $rankname = 'Simplex';
-    } elsif ($version =~ /(1570|1910|Divino|1955|Bavariae)/ && $winner =~ /Quadp3-3/) {
+		} elsif ($version =~ /(1570|1910|Divino|1955|Bavariae)/ && $winner =~ /Quadp3-3/) {		# Cinerum
       $rankname = 'Feria privilegiata';
     } elsif ($version =~ /1960|Newcal|Monastic/i && $winner =~ /Pasc6-6/) {
       $rankname = 'I. classis';
@@ -1579,14 +1579,20 @@ sub setheadline {
       $rankname = 'II. classis';
     } elsif ($version =~ /1960|Newcal/ && $month == 12 && $day > 16 && $day < 25 && $dayofweek > 0) {
       $rankname = 'II. classis';
-    } elsif ($version =~ /(1570|1910|Divino|1955|Bavariae)/ && $dayname[0] =~ /Pasc[07]/i && $dayofweek > 0) {
+		} elsif ($version =~ /(1570|1910|Divino|1955|Bavariae)/ && $dayname[0] =~ /Pasc[07]/i && $dayofweek > 0) {	# 8va Pasc & Pent
       $rankname = ($rank =~ 7) ? 'Duplex I. classis' : 'Semiduplex';
 		} elsif ($version =~ /(1570|1910|Divino|1955)/ && $dayname[0] =~ /Quad/i && $dayname[0] !~ /Quad6|Quadp/i && $dayofweek > 0) { #braucht noch!!!!
       $rankname = 'Simplex';
     } elsif ($version =~ /(1570|1910|Divino|1955|Bavariae)/ && $dayname[0] =~ /07-04/i && $dayofweek > 0) {
       $rankname = ($rank =~ 7) ? 'Duplex I. classis' : 'Semiduplex';
     } else {
-      if ($version !~ /1960|Monastic/i) {
+			if ($version =~ /Bavariae/i) {
+				if ($name =~ /infra octav/i) {
+					$rankname = 'Semiduplex';
+				} else {
+					$rankname = ($rank < 2) ? 'Feria' : ($rank < 3) ? 'Feria major' : 'Feria privilegiata';
+				}
+			} elsif ($version !~ /1960|Monastic/i) {
         $rankname = ($rank <= 2) ? 'Ferial' : ($rank < 3) ? 'Feria major' : 'Feria privilegiata';
       } else {
         my @ranktable = (
