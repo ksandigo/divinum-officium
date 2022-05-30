@@ -1569,9 +1569,9 @@ sub setheadline {
       }
     } elsif ($version =~ /1960|Newcal|Monastic/i && $dayname[0] =~ /Pasc[07]/i && $dayofweek > 0 && $winner !~ /Pasc7-0/) {
       $rankname = 'Dies Octavæ I. classis';
-    } elsif ($version =~ /(1570|1910|Divino|1955)/ && $winner =~ /C10/) {
+    } elsif ($version =~ /(1570|1910|Divino|1955|Bavariae)/ && $winner =~ /C10/) {
       $rankname = 'Simplex';
-    } elsif ($version =~ /(1570|1910|Divino|1955)/ && $winner =~ /Quadp3-3/) {
+    } elsif ($version =~ /(1570|1910|Divino|1955|Bavariae)/ && $winner =~ /Quadp3-3/) {
       $rankname = 'Feria privilegiata';
     } elsif ($version =~ /1960|Newcal|Monastic/i && $winner =~ /Pasc6-6/) {
       $rankname = 'I. classis';
@@ -1579,11 +1579,11 @@ sub setheadline {
       $rankname = 'II. classis';
     } elsif ($version =~ /1960|Newcal/ && $month == 12 && $day > 16 && $day < 25 && $dayofweek > 0) {
       $rankname = 'II. classis';
-    } elsif ($version =~ /(1570|1910|Divino|1955)/ && $dayname[0] =~ /Pasc[07]/i && $dayofweek > 0) {
+    } elsif ($version =~ /(1570|1910|Divino|1955|Bavariae)/ && $dayname[0] =~ /Pasc[07]/i && $dayofweek > 0) {
       $rankname = ($rank =~ 7) ? 'Duplex I. classis' : 'Semiduplex';
-    } elsif ($version =~ /(1570|1910|Divino|1955)/ && $dayname[0] =~ /Quad/i && $dayname[0] !~ /Quad6-4|5|6/i && $dayofweek > 0) {
+		} elsif ($version =~ /(1570|1910|Divino|1955)/ && $dayname[0] =~ /Quad/i && $dayname[0] !~ /Quad6|Quadp/i && $dayofweek > 0) { #braucht noch!!!!
       $rankname = 'Simplex';
-    } elsif ($version =~ /(1570|1910|Divino|1955)/ && $dayname[0] =~ /07-04/i && $dayofweek > 0) {
+    } elsif ($version =~ /(1570|1910|Divino|1955|Bavariae)/ && $dayname[0] =~ /07-04/i && $dayofweek > 0) {
       $rankname = ($rank =~ 7) ? 'Duplex I. classis' : 'Semiduplex';
     } else {
       if ($version !~ /1960|Monastic/i) {
