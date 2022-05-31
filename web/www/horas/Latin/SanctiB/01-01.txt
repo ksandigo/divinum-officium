@@ -1,9 +1,9 @@
 @Sancti/01-01
 
-[Rank]
-Die Octavæ Nativitatis Domini;;Duplex I classis;;7;;ex Sancti/12-25
-
 [Rule]
+ex SanctiM/12-25;
+Psalmi Dominica
+Antiphonas Horas
 12 lectiones
 no Commemoratio
 
@@ -129,3 +129,6 @@ _
 
 [Capitulum Nona]
 @Sancti/12-25
+
+[Commemoratio 3]
+@Sancti/12-26:Octava

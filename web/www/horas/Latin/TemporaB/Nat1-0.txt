@@ -1,10 +1,11 @@
 @Tempora/Nat1-0
 
 [Rank]
-Dominica Infra Octavam Nativitatis;;Semiduplex;;5.9;;ex SanctiM/12-25
+Dominica Infra Octavam Nativitatis;;Semiduplex;;5;;ex SanctiM/12-25
 
 [Rule]
 12 lectiones
+ex SanctiM/12-25
 Psalmi Dominica
 Antiphonas horas
 
@@ -110,3 +111,9 @@ R. Salutáre Dei nostri, allelúja.
 
 [Versum 3]
 @:Versum 1
+
+[Commemoratio] 
+@Sancti/12-25:Octava
+@Sancti/12-26:Octava
+@Sancti/12-27:Octava
+@Sancti/12-28:Octava

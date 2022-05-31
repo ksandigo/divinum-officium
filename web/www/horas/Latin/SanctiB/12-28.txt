@@ -1,6 +1,11 @@
 @Sancti/12-28
 
 [Rule]
+ex C3;
+Psalmi dominica
+no Te Deum
+no Psalm5
+Antiphonas horas
 12 lectiones
 
 [AntMatutinumM]
@@ -109,3 +114,12 @@ _
 [Ant Vespera 3]
 @Sancti/12-25::s/129/131/
 
+[Commemoratio 2]
+@Sancti/12-25:Octava
+@Sancti/12-26:Octava
+@Sancti/12-27:Octava
+
+[Commemoratio 3]
+@Sancti/12-25:Octava
+@Sancti/12-26:Octava
+@Sancti/12-27:Octava

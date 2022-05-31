@@ -17,3 +17,6 @@ Comkey=70
 
 [Capitulum Vespera]
 @SanctiM/01-01
+
+[Commemoratio]
+@Sancti/12-28:Octava
