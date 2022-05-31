@@ -9,10 +9,10 @@ $Deus in adjutorium
 #Psalmi
 
 #Capitulum Versus
-_
-$MLitany2
 
 #Preces Feriales
+$MLitany2
+_
 V. Dómine, Deus virtútum, convérte nos.
 R. Et osténde fáciem tuam, et salvi érimus.
 V. Exsúrge, Christe, ádjuva nos.

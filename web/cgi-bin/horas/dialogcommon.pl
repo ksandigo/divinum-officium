@@ -118,6 +118,7 @@ our %subjects = (
 our %predicates = (
   tridentina => sub { shift =~ /Trident/ },
   monastica => sub { shift =~ /Monastic/ },
+	bavariae => sub { shift =~ /Bavariae/i },
   innovata => sub { shift =~ /NewCal/i },
   innovatis => sub { shift =~ /NewCal/i },
   paschali => sub { shift =~ /Paschæ|Ascensionis|Octava Pentecostes/i },
