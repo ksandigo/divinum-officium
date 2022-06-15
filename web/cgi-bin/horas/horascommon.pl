@@ -1573,6 +1573,8 @@ sub setheadline {
       $rankname = 'Simplex';
 		} elsif ($version =~ /(1570|1910|Divino|1955|Bavariae)/ && $winner =~ /Quadp3-3/) {		# Cinerum
       $rankname = 'Feria privilegiata';
+    } elsif ($version =~ /(1570|1910|Divino|1955)/ && $winner =~ /Pasc6-5/) {
+      $rankname = 'Semiduplex';
     } elsif ($version =~ /1960|Newcal|Monastic/i && $winner =~ /Pasc6-6/) {
       $rankname = 'I. classis';
     } elsif ($version =~ /1960|Newcal/i && $winner =~ /Pasc5-3/) {
