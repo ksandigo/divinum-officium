@@ -51,7 +51,7 @@ sub psalmi_matutinum_monastic {
 	if (
 		($dayofweek > 0 && $dayname[0] !~ /Quad/i)
 		|| $winner =~ /Pasc6-0/
-  ) {
+	) {
 		my $start = ($dayname[0] =~ /Pasc|Nat[23]\d/i) ? 0 : 8;
 		my @p;
 		if ($dayname[0] =~ /Pasc/) { @p = split("\n", $psalmi{'Daym Pasc'}); }
@@ -142,25 +142,25 @@ sub psalmi_matutinum_monastic {
 	setcomment($label, 'Source', $comment, $lang, $prefix);
 	my $i = 0;
 	my %w = (columnsel($lang)) ? %winner : %winner2;
-	antetpsalm_mm('', -1);    #initialization for multiple psalms under one antiphon
+	antetpsalm_mm('', -1);		#initialization for multiple psalms under one antiphon
 	push(@s, '!Nocturn I.', '_');
 	for (0..5) { antetpsalm_mm($psalmi[$_], $_); }
-	antetpsalm_mm('', -2);    # set antiphon for multiple psalms under one antiphon situation
+	antetpsalm_mm('', -2);		# set antiphon for multiple psalms under one antiphon situation
 	push(@s, $psalmi[6], $psalmi[7], "\n");
 	
 	if ($rule =~ /12 lectiones/) {
-		lectiones(1, $lang);    # first Nocturn of 4 lessons (
+		lectiones(1, $lang);		# first Nocturn of 4 lessons (
 		#} elsif ($dayname[0] =~ /(Pasc[1-6]|Pent)/i && $month < 11 && $winner{Rank} !~ /vigil|quattuor/i) {
 		# at least before 1960 (Breviarum Monasticum 1930), the change from "summer" to "winter" matins was tied to the 1st Sunday of November
 		# not All Saints' Day. Unless this has been changed with moving the 1st Sunday of November occuring after 10-29 to after 11-01
 		# the elsif above makes a mistake and refers to non-existing scriptura of the last week of October and should be replaced by the following:
-	} elsif (($dayname[0] =~ /(Pasc[1-4]|Pent)/i || ($dayname[0] =~ /Pasc5/i && $dayofweek != 1))  && monthday() !~ /^11[1-5]\-/ && $winner{Rank} !~ /vigil|quattuor|infra octavam/i) {
+	} elsif (($dayname[0] =~ /(Pasc[1-4]|Pent)/i || ($dayname[0] =~ /Pasc5/i && $dayofweek != 1))	&& monthday() !~ /^11[1-5]\-/ && $winner{Rank} !~ /vigil|quattuor|infra octavam/i) {
 		if ($winner =~ /Tempora/i
 			|| !(exists($winner{Lectio94}) || exists($winner{Lectio4})))
 		{
-			brevis_monastic($lang);   # on a ferial day in "Summer", we have just a Lectio brevis
+			brevis_monastic($lang);	 # on a ferial day in "Summer", we have just a Lectio brevis
 		} elsif (exists($winner{Lectio94}) || exists($winner{Lectio4})) {
-			legend_monastic($lang);   # on a III. class feast in "Summer", we have the contracted Saint's legend
+			legend_monastic($lang);	 # on a III. class feast in "Summer", we have the contracted Saint's legend
 		}
 	} else {
 		lectiones($winner{Rank} !~ /vigil/i && $version !~ /Bavariae/i, $lang);
@@ -170,16 +170,16 @@ sub psalmi_matutinum_monastic {
 	}
 	push(@s, "\n", '!Nocturn II.', '_');
 	for (8..13) { antetpsalm_mm($psalmi[$_], $_); }
-	antetpsalm_mm('', -2);    #draw out antiphon if any
+	antetpsalm_mm('', -2);		#draw out antiphon if any
 	
 	# In case of Matins of 3 nocturns with 12 lessons:
 	if ($winner{Rule} =~ /12 lectiones/) {
-		push(@s, $psalmi[14], $psalmi[15], "\n");           #  V.R. directly after the Pss. #7-#12
-		lectiones(2, $lang);                                # lessons 5 – 8
+		push(@s, $psalmi[14], $psalmi[15], "\n");					 #	V.R. directly after the Pss. #7-#12
+		lectiones(2, $lang);																# lessons 5 – 8
 		push(@s, "\n", '!Nocturn III.', '_');
 		
 		# Tenebrae office:
-		if (($dayname[0] eq "Quad6") && ($dayofweek > 3))  {
+		if (($dayname[0] eq "Quad6") && ($dayofweek > 3))	{
 			for (16..18) { antetpsalm_mm($psalmi[$_], $_); }
 			antetpsalm_mm('', -2);
 			push(@s, $psalmi[19], $psalmi[20], "\n");
@@ -205,11 +205,11 @@ sub psalmi_matutinum_monastic {
 		$ant =~ s/\* //;
 		push(@s, "Ant. $ant");
 		push(@s, "\n", $psalmi[17], $psalmi[18], "\n"); # Versicle directly after the Ant.
-		lectiones(3, $lang);            # Homily with responsories #9-#12
-		push(@s, '&teDeum', "\n");      # Te Deum comes after the 12th responsory only
+		lectiones(3, $lang);						# Homily with responsories #9-#12
+		push(@s, '&teDeum', "\n");			# Te Deum comes after the 12th responsory only
 		
 		my @e;
-		if (exists($w{LectioE})) {    #** set evangelium
+		if (exists($w{LectioE})) {		#** set evangelium
 			@e = split("\n", $w{LectioE}); }
 		elsif ($version =~ /Bavariae/i && $commune) {
 			my ($wB, $cB) = getproprium('LectioE', $lang, 1, 1);
@@ -222,7 +222,7 @@ sub psalmi_matutinum_monastic {
 			# if the Evangelium is missing in the Sanctoral or is just a cross-reference
 			my ($w, $s) = split(/:/, $e[0]);
 			if ($w) { $w .= '.txt'; } else { $w = $winner; }
-			$w =~ s/M//g;         # there is no corresponding folder missa/latin/SanctiM
+			$w =~ s/M//g;				 # there is no corresponding folder missa/latin/SanctiM
 			$w =~ s/B//g;					# auch von SanctiB nach Sancti verweisen
 			$s =~ s/(?:LectioE)?/Evangelium/;
 			my $dt = $datafolder; $dt =~ s/horas/missa/g;
@@ -267,7 +267,8 @@ sub psalmi_matutinum_monastic {
 		$w = $s{"MM Capitulum$name"};
 	}
 	postprocess_vr($w,$lang) if ($dayname[0] =~ /Pasc/);
-	push(@s, "!!Capitulum", $w, "\n", '$MLitany', "\n");  # print Capitulum, V.R., Kyrie, Pater...
+	#push(@s, "!!Capitulum", $w, "\n", '$MLitany', "\n");	# print Capitulum, V.R., Kyrie, Pater...
+	push(@s, "!!Capitulum", $w, "\n");	# print Capitulum, V.R.
 }
 
 #*** antetpsal_mmm($line, $i)
@@ -295,7 +296,7 @@ sub antetpsalm_mm {
 		if ($hora =~ /Vespera/i)
 		{
 			if ($ind == 0) { $line[0] = Alleluia_ant($lang, 0, 0); $lastantiphon = ''; }
-			else { $line[0] = ''; $lastantiphon = Alleluia_ant($lang, 1, 0); }  # test von 0 auf 1
+			else { $line[0] = ''; $lastantiphon = Alleluia_ant($lang, 1, 0); }	# test von 0 auf 1
 		}
 		elsif ($hora =~ /Laudes/i && $winner{Rank} !~ /Dominica/i )
 		{
@@ -435,7 +436,7 @@ sub brevis_monastic {
 		$lectio = $c{"MM LB"};
 	} else {
 		my %b = %{setupstring($datafolder, $lang, 'Psalterium/Matutinum Special.txt')};
-		$lectio  = $b{"MM LB" . (($dayname[0] =~ /Pasc/) ? " Pasc" : $dayofweek)};
+		$lectio	= $b{"MM LB" . (($dayname[0] =~ /Pasc/) ? " Pasc" : $dayofweek)};
 	}
 	$lectio =~ s/&Gloria1?/&Gloria1/;
 	push(@s, $lectio);
@@ -444,50 +445,50 @@ sub brevis_monastic {
 #*** regula($lang)
 #returns the text of the Regula for the day
 sub regula : ScriptFunc {
-  my $lang = shift;
-  my @a;
-  my $t = setfont($largefont, translate("Regula", $lang)) . "\n";
-  my $d = $day;
-  my $l = leapyear($year);
+	my $lang = shift;
+	my @a;
+	my $t = setfont($largefont, translate("Regula", $lang)) . "\n";
+	my $d = $day;
+	my $l = leapyear($year);
 
-  if ($month == 2 && $day >= 24 && !$l) { $d++; }
-  $fname = sprintf("%02i-%02i", $month, $d);
+	if ($month == 2 && $day >= 24 && !$l) { $d++; }
+	$fname = sprintf("%02i-%02i", $month, $d);
 
-  if (!-e "$datafolder/Latin/Regula/$fname.txt") {
-    if (@a = do_read("$datafolder/Latin/Regula/Regulatable.txt")) {
-      my $a;
-      my %a = undef;
+	if (!-e "$datafolder/Latin/Regula/$fname.txt") {
+		if (@a = do_read("$datafolder/Latin/Regula/Regulatable.txt")) {
+			my $a;
+			my %a = undef;
 
-      foreach $a (@a) {
-        my @a1 = split(';', $a);
-        $a{$a1[1]} = $a1[0];
-        $a{$a1[2]} = $a1[0];
-      }
-      $fname = $a{$fname};
-    } else {
-      return $t;
-    }
-  }
-  $fname = checkfile($lang, "Regula/$fname.txt");
+			foreach $a (@a) {
+				my @a1 = split(';', $a);
+				$a{$a1[1]} = $a1[0];
+				$a{$a1[2]} = $a1[0];
+			}
+			$fname = $a{$fname};
+		} else {
+			return $t;
+		}
+	}
+	$fname = checkfile($lang, "Regula/$fname.txt");
 
-  if (@a = do_read($fname)) {
-    foreach $line (@a) {
-      $line =~ s/^.*?\#//;
-      $line =~ s/^(\s*)$/_$1/;
-      $t .= "$line\n";
-    }
-  }
+	if (@a = do_read($fname)) {
+		foreach $line (@a) {
+			$line =~ s/^.*?\#//;
+			$line =~ s/^(\s*)$/_$1/;
+			$t .= "$line\n";
+		}
+	}
 
-  if (!$l && $fname =~ /02\-23/) {
-    $fname = checkfile($lang, "Regula/02-24.txt");
+	if (!$l && $fname =~ /02\-23/) {
+		$fname = checkfile($lang, "Regula/02-24.txt");
 
-    if (@a = do_read($fname)) {
-      foreach $line (@a) {
-        $line =~ s/^.*?\#//;
-        $line =~ s/^(\s*)$/_$1/;
-        $t .= "$line\n";
-      }
-    }
-  }
-  return $t;
+		if (@a = do_read($fname)) {
+			foreach $line (@a) {
+				$line =~ s/^.*?\#//;
+				$line =~ s/^(\s*)$/_$1/;
+				$t .= "$line\n";
+			}
+		}
+	}
+	return $t;
 }

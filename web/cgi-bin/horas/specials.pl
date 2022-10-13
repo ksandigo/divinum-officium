@@ -1189,6 +1189,10 @@ sub oratio {
   if ($rule !~ /Limit.*?Oratio/i) {
     # no dominus vobiscum after Te decet
     if ($version !~ /Monastic|Bavariae/ || $hora ne 'Matutinum' || $rule !~ /12 lectiones/ ) {
+      if ($version =~ /Monastic/) {
+        if ($hora =~ /Laudes|Vespera/) { push(@s, $prayers{$lang}->{'MLitany'}); }
+        else { push(@s, $prayers{$lang}->{'MLitany2'}); }
+      }
       if ($priest) {
         push(@s, "&Dominus_vobiscum");
       } elsif (!$precesferiales) {
@@ -1627,7 +1631,7 @@ sub getcommemoratio {
   my $w = "!" . &translate("Commemoratio", $lang);
     $a =~ s/\s*\*\s*/ / unless ($version =~ /Monastic/i); ### ???
   $o =~ s/^(?:v. )?/v. /;
-  $w .= " $rank[0]\nAnt. $a\n_\n$v\n_\n" . $prayers{$lang}{"Oremus"}. "\n$o\n";
+  $w .= " $rank[0]\nAnt. $a\n_\n$v\n_\n\$Oremus\n$o\n";
   return $w;
 }
 

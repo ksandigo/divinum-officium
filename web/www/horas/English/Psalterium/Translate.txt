@@ -80,10 +80,10 @@ Glory be
 Eternal rest
 
 [Alleluia]
-Alleluia
+Alleluia.
 
 [Laus tibi]
-Praise be to Thee
+Praise be to thee, O Lord, King of eternal glory.
 
 [Dominus vobiscum]
 The Lord be with you
@@ -167,7 +167,7 @@ To the most holy
 We praise thee
 
 [Deo gratias]
-Thanks be to God. 
+R. Thanks be to God.
 
 [Lectio]
 Reading
