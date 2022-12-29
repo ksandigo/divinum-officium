@@ -909,14 +909,14 @@ sub psalmi_major {
   my @antiphones;
   if (($hora =~ /Laudes/ || ($hora =~ /Vespera/ && $version =~ /Monastic|Bavariae/)) && $month == 12 && $day > 16 && $day < 24 && $dayofweek > 0) {
     my @p1 = split("\n", $psalmi{"Day$dayofweek Laudes3"});
-    if ($dayofweek == 6 && $version =~ /trident/i) { # take ants from feria occuring Dec 21st
+    if ($dayofweek == 6 && $version =~ /trident|Bavariae/i) { # on Saturday
       my $expectetur = $p1[3]; # save Expectetur
-      @p1 = split("\n", $psalmi{"Day" . get_stThomas_feria($year) . " Laudes3"});
-      if ($day == 23) { # use Sundays ants
+			@p1 = split("\n", $psalmi{"Day" . get_stThomas_feria($year) . " Laudes3"});  # take ants from feria occuring Dec 21st
+      if ($day == 23) { # unless Saturday is Dec 23, then use Sundays (Adv 4) ants
         my %w = %{setupstring($datafolder, $lang, "$temporaname/Adv4-0.txt")};
         @p1 = split("\n", $w{"Ant Laudes"});
       }
-      $p1[3] = $expectetur;
+			$p1[3] = $expectetur;	# but the canticle gets antiphon Expectetur
     }
     for (my $i = 0; $i < @p1; $i++) {
       my @p2 = split(';;', $psalmi[$i]);
