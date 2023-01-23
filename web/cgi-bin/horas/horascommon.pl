@@ -219,6 +219,7 @@ sub getrank {
     : ($version =~ /1910/) ? 1910
     : '1960';
 
+	# Permanent Tranfers
   if ($vtrans && (@lines = do_read("$datafolder/../horas/Latin/Tabulae/Tr$vtrans.txt"))) {
     my $tr = join('', @lines);
     $tr =~ s/\=/\;\;/g;
@@ -228,26 +229,28 @@ sub getrank {
     %transfertemp = undef;
     $transfertemp = '';
   }
-  if ($transfertemp && $transfertemp !~ /tempora/i) { $transfertemp = "$sanctiname/$transfertemp"; }
+	if ($transfertemp && $transfertemp !~ /tempora/i) { $transfertemp = "$sanctiname/$transfertemp"; }	# unless Tempora, it's a sancti transfer
   $dirgeline = '';
   $dirge = 0;
 
+	# Yearly specific transfers
   if (@lines = do_read("$datafolder/../horas/Latin/Tabulae/Tr$vtrans$year.txt")) {
     my $tr = join('', @lines);
     $tr =~ s/\=/\;\;/g;
     %transfer = split(';;', $tr);
-    if (exists($transfer{dirge})) { $dirgeline = $transfer{dirge}; }    #&& !$caller
+    if (exists($transfer{dirge})) { $dirgeline = $transfer{dirge}; }    # if a day is marked for "Dirge=Trauer"
   }
   $transfer = $transfer{$sday};
 
-  if ($transfer =~ /v$/ && !(-e "$datafolder/Latin/$sanctiname/$transfer.txt")) {
+	if ($transfer =~ /v$/ && !(-e "$datafolder/Latin/$sanctiname/$transfer.txt")) { #if a transferd vigil file does not exist
     $transfervigil = $transfer;
     $transfervigil =~ s/v$//;
     $transfer = '';
   }
   if (exists($transfer{"Hy$sday"})) { $hymncontract = 1; }
-  if ($transfer && $transfer !~ /tempora/i) { $transfer = "$sanctiname/$transfer"; }
-  $vespera = 3;
+	if ($transfer && $transfer !~ /tempora/i) { $transfer = "$sanctiname/$transfer"; }	#unless tempora, it's a sancti transfer
+	
+	$vespera = 3;
   $svesp = 3;
   $tvesp = 3;
   $cvespera = 0;
@@ -255,10 +258,10 @@ sub getrank {
 
   if ($dayname[0]) {
     $tn = "$temporaname/$dayname[0]-$dayofweek";
-    if (exists($transfertemp{$tn})) { $tn = $transfertemp{$tn}; }
+		if (exists($transfertemp{$tn})) { $tn = $transfertemp{$tn}; }	# if there is a permanent tempora transfer, change it
   }
-  if (exists($transfertemp{$sday}) && $transfertemp{$sday} =~ /tempora/i) { $tn = $transfertemp{$sday}; }
-  if (exists($transfer{$sday}) && $transfer{$sday} =~ /tempora/i) { $tn = $transfer{$sday}; }
+	if (exists($transfertemp{$sday}) && $transfertemp{$sday} =~ /tempora/i) { $tn = $transfertemp{$sday}; }	# dito
+	if (exists($transfer{$sday}) && $transfer{$sday} =~ /tempora/i) { $tn = $transfer{$sday}; }	# also for yearly
   $tn1 = '';
   $tn1rank = '';
   my $nday = nextday($month, $day, $year);
@@ -329,10 +332,10 @@ sub getrank {
 
   #if (transfered($tn1)) {$tn1 = '';}     #???????????
   if ($hora =~ /Vespera/i && $dayname[0] =~ /Quadp3/ && $dayofweek == 3 && $version !~ /1960|1955/) {
-    $trank =~ s/;;6/;;2/;
+		$trank =~ s/;;6/;;2/;			# before 1955, lower rank of 2nd vespers of Ash Wednesday to be beaten by any duplex in concurrence
   }
    elsif ($hora =~ /Vespera/i && $dayname[0] =~ /(Quad[0-5]|Quadp)/ && $dayofweek == 0 && $version =~ /1570|1910/) {
-    $trank =~ s/;;5.6/;;2/;
+		 $trank =~ s/;;5.6/;;2/;		# before DA, lower rank of Septuag and Lent Sundays to be beaten in concurrence by any duplex
   }
   @trank = split(";;", $trank);
   @tn1 = split(';;', $tn1rank);
@@ -396,11 +399,11 @@ sub getrank {
   }    #else {if ($srank =~ /Simplex/i) {$srank = '';}}
   @srank = split(";;", $srank);
 
-  if ($srank[2] < 2 && $hora =~ /(vespera|completorium)/i && $trank && !($month == 1 && $day > 6 && $day < 13)) {
+	if ($srank[2] < 2 && $hora =~ /(vespera|completorium)/i && $trank && !($month == 1 && $day > 6 && $day < 13)) { # no simplex during Epi Octave
     $srank = '';
     @srank = undef;
   }
-  if ($trank[2] == 7 && $srank[2] < 6) { $srank = ''; @srank = undef; }
+	if ($trank[2] == 7 && $srank[2] < 6) { $srank = ''; @srank = undef; }		# if tempora is highest rank then no sanctoral at all
   if ($version =~ /(1955|1960|Monastic)/i && $trank[2] >= 6 && $srank[2] < 6) { $srank = ''; @srank = undef; }
 
   if ($version =~ /1955/ && $srank[2] == 2 && $srank[1] =~ /Semiduplex/i) {
@@ -574,8 +577,8 @@ sub getrank {
 #  }
 #  $commemoratio = $commemoratio1 = $communetype = $commune = $commemorated = $dayname[2] = $scriptura = '';
 #  $comrank = 0;
-  if ($version =~ /Trid/i && $trank[2] < 5.1 && $trank[0] =~ /Dominica/i) { $trank[2] = 2.9; }
-	if ($version =~ /Bavariae/i && $trank[2] < 5.1 && $trank[0] =~ /Dominica/i) { $trank[2] = 3.9; } # for Bav: Duplex major > Domenica semiduplex
+	if ($version =~ /Trid/i && $trank[2] < 5.1 && $trank[0] =~ /Dominica/i) { $trank[2] = 2.9; }	# for Trid: Duplex minor > Dominica semiduplex
+	if ($version =~ /Bavariae/i && $trank[2] < 5.1 && $trank[0] =~ /Dominica/i) { $trank[2] = 3.9; } # for Bav: Duplex major > Dominica semiduplex
 	
   if ($version =~ /1960/ && $dayofweek == 0) {
     if (($trank[2] >= 6 && $srank[2] < 6) || ($trank[2] >= 5 && $srank[2] < 5)) { $srank = ''; @srank = undef; }
@@ -612,7 +615,7 @@ sub getrank {
       @trank = split(";;", $trank);
     }
   }
-  if ($trank[2] == 2 && $trank[0] =~ /infra octav/i) { $srank[2] += .1; }
+	if ($trank[2] == 2 && $trank[0] =~ /infra octav/i) { $srank[2] += .1; }			#temporal semiduplex infra octave give way to semiduplex
   if ($testmode =~ /seasonal/i && $version =~ /1960|Newcal/ && $srank[2] < 5 && $dayname[0] =~ /Adv/i) { $srank[2] = 1; }
 
   # Flag to indicate whether office is sanctoral or temporal. Assume the
@@ -863,7 +866,7 @@ sub getrank {
       if ($s{Rank} =~ /Vigil/i && exists($s{"Commemoratio 2"})) { $commemorated = $sname; }
     }
   }
-  if ($version =~ /trident/i && $communetype =~ /ex/i && $rank < 1.5) { $communetype = 'vide'; }
+	if ($version =~ /trident|Bavariae/i && $communetype =~ /ex/i && $rank < 1.5) { $communetype = 'vide'; }	# for simplex it's vide instead of ex
   if ($winner =~ /tempora/i) { $antecapitulum = ''; }
 
   #Newcal commemoratio handling
