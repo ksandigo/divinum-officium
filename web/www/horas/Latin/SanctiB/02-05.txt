@@ -1,7 +1,11 @@
 @Sancti/02-05
 
 [Rank]
-S. Agathae Virginis et Martyris;;Duplex majus;;4;;ex Commune/C6
+S. Agathae Virginis et Martyris;;Duplex majus;;4;;ex C6b
+
+[Rule]
+ex C6b;
+12 lectiones
 
 [Ant Vespera 3]
 @Sancti/02-05:Ant Vespera:s/\./_/gs s/_/.;;109/ s/_/.;;111/ s/_/.;;112/ s/_/.;;126/ s/_//
