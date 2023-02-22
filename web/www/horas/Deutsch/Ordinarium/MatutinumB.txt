@@ -19,7 +19,7 @@ _
 
 #Oratio
 
-!Reliqua omittuntur, nisi %Laudes% separandae sint.
+!Das Folgende betet man nur, wenn sich die %Laudes% nicht unmittelbar anschließen.
 
 #Conclusio
 &Dominus_vobiscum

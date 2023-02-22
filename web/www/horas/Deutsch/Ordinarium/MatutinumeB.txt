@@ -3,10 +3,6 @@ $Pater noster
 $Ave Maria
 $Credo
 _
-$Deus in adjutorium
-&Alleluia
-$Domine labia
-$Domine labia
 $Domine labia
 _
 &psalm(3)
@@ -19,7 +15,7 @@ _
 
 #Oratio
 
-!Reliqua omittuntur, nisi %Laudes% separandae sint.
+!Das Folgende betet man nur, wenn sich die %Laudes% nicht unmittelbar anschließen.
 
 #Conclusio
 &Dominus_vobiscum
