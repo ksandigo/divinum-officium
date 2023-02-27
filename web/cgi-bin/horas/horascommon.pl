@@ -528,7 +528,7 @@ sub getrank {
       %saint = %csaint;
       %csaint = %tempsaint;
       @srank = split(";;", $srank);
-      $srank[2] = 1 if ($version =~ /trident|divino/i && $tname =~ /Quadp3\-2/i);
+			$srank[2] = 1 if ($version =~ /trident|divino|Bavariae/i && $tname =~ /Quadp3\-2/i);			# On the Eve of Ash Wednesday, only commemorate a Duplex/Semiduplex
       @crank = split(";;", $crank);
       $vflag = 1;
 
