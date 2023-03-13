@@ -1,138 +1,141 @@
 #*** Javascript functions
 # the sub is called from htmlhead
 sub horasjs {
-
-  print "\n<SCRIPT TYPE='text/JavaScript' LANGUAGE='JavaScript1.2'>\n";
-  # $caller in principle might not be defined.
-  my $caller_flag = $caller || 0;
-
-  if ($officium ne 'Pofficium.pl') {
-    print << "PrintTag";
-
-//position
-function startup() {
-  if (!"$browsertime") {
+	
+	print "\n<SCRIPT TYPE='text/JavaScript' SRC='js/util.js'></SCRIPT>\n";
+	print "\n<SCRIPT TYPE='text/JavaScript' SRC='js/jquery.min.js'></SCRIPT>\n";
+	print "\n<SCRIPT TYPE='text/JavaScript' SRC='js/exsurge.js'></SCRIPT>\n";
+	print "\n<SCRIPT TYPE='text/JavaScript' LANGUAGE='JavaScript'>\n";
+	# $caller in principle might not be defined.
+	my $caller_flag = $caller || 0;
+	
+	if ($officium ne 'Pofficium.pl') {
+		print << "PrintTag";
+		
+		//position
+		function startup() {
+			if (!"$browsertime") {
     var d = new Date();
     var day = d.getDate();
     document.forms[0].browsertime.value = (d.getMonth() + 1) + "-" + day + "-" + d.getFullYear();
     if (!"$date1") {
-      var a = (day > $day) ? "-+" : (day < $day) ? "--" : "";
-      document.forms[0].date.value = document.forms[0].browsertime.value + a;
-      if (a) document.forms[0].submit();
-    }
-  }
-  var i = 1;
-  while (i <= $searchvalue) {
+			var a = (day > $day) ? "-+" : (day < $day) ? "--" : "";
+			document.forms[0].date.value = document.forms[0].browsertime.value + a;
+			if (a) document.forms[0].submit();
+		}
+			}
+			var i = 1;
+			while (i <= $searchvalue) {
     a = document.getElementById('L' + i);
     i++;
     if (a) a.scrollIntoView();
-  }
-}
-
-//call a setup table
-function pset(p) {
-  var pc = document.createElement("input");
-  pc.setAttribute("type", "hidden");
-  pc.setAttribute("name", "pcommand");
-  pc.setAttribute("value", "pray" + document.forms[0].command.value);
-  document.forms[0].appendChild(pc);
-  document.forms[0].command.value = "setup" + p;
-  document.forms[0].submit();
-}
-
-//call an individual hora
-function hset(p, d) {
-  clearradio();
-
-  if (p != 'Laudes' && d) {
+			}
+		}
+		
+		//call a setup table
+		function pset(p) {
+			var pc = document.createElement("input");
+			pc.setAttribute("type", "hidden");
+			pc.setAttribute("name", "pcommand");
+			pc.setAttribute("value", "pray" + document.forms[0].command.value);
+			document.forms[0].appendChild(pc);
+			document.forms[0].command.value = "setup" + p;
+			document.forms[0].submit();
+		}
+		
+		//call an individual hora
+		function hset(p, d) {
+			clearradio();
+			
+			if (p != 'Laudes' && d) {
     document.forms[0].date.value = d;
     document.forms[0].caller.value = 1;
-  }
-  if ($caller_flag) {document.forms[0].caller.value = 1;}
-  document.forms[0].command.value = "pray" + p;
-  document.forms[0].action = "$officium";
-  document.forms[0].target = "_self"
-  document.forms[0].submit();
-}
-
-// Jump straight to an hour of the Office for the Dead.
-function defunctorum(hour) {
-  clearradio();
-
-  document.forms[0].caller.value = 1;
-  document.forms[0].votive.value = "C9";
-  document.forms[0].command.value = "pray" + hour;
-  document.forms[0].action = "$officium";
-  document.forms[0].target = "_self"
-  document.forms[0].submit();
-}
-
-//calls compare
-function callcompare() {
-  document.forms[0].action = "Cofficium.pl";
-  document.forms[0].target = "_self"
-  document.forms[0].submit();
-}
+			}
+			if ($caller_flag) {document.forms[0].caller.value = 1;}
+			document.forms[0].command.value = "pray" + p;
+			document.forms[0].action = "$officium";
+			document.forms[0].target = "_self"
+			document.forms[0].submit();
+		}
+		
+		// Jump straight to an hour of the Office for the Dead.
+			function defunctorum(hour) {
+				clearradio();
+				
+				document.forms[0].caller.value = 1;
+				document.forms[0].votive.value = "C9";
+				document.forms[0].command.value = "pray" + hour;
+				document.forms[0].action = "$officium";
+				document.forms[0].target = "_self"
+				document.forms[0].submit();
+			}
+		
+		//calls compare
+		function callcompare() {
+			document.forms[0].action = "Cofficium.pl";
+			document.forms[0].target = "_self"
+			document.forms[0].submit();
+		}
 PrintTag
-  }
-  print << "PrintTag";
-//to prevent inhearitance of popup
-function clearradio() {
+	}
+	print << "PrintTag";
+	//to prevent inhearitance of popup
+	function clearradio() {
   var a= document.forms[0].popup;
   if (a) a.value = 0;
   document.forms[0].action = "$officium";
   document.forms[0].target = "_self"
   return;
-}
-
-// set a popup tab
-function linkit(name,ind,lang) {
+	}
+	
+	// set a popup tab
+	function linkit(name,ind,lang) {
   document.forms[0].popup.value = name;
   document.forms[0].popuplang.value=lang;
   document.forms[0].expandnum.value=ind;
   if (ind == 0) {
-     document.forms[0].action = 'popup.pl';
-     document.forms[0].target = '_BLANK';
-  } else {
-     var c = document.forms[0].command.value;
-     if (!c.match('pray')) document.forms[0].command.value = "pray" + c;
-  }
+		document.forms[0].action = 'popup.pl';
+		document.forms[0].target = '_BLANK';
+	} else {
+		var c = document.forms[0].command.value;
+		if (!c.match('pray')) document.forms[0].command.value = "pray" + c;
+	}
   document.forms[0].submit();
-}
-
-//finishing horas back to main page
-function okbutton() {
+	}
+	
+	//finishing horas back to main page
+	function okbutton() {
   document.forms[0].action = "$officium";
   document.forms[0].target = "_self"
   document.forms[0].command.value = '';
   document.forms[0].submit();
-}
-
-//restart the programlet if parameter change
-function parchange() {
-  var c = document.forms[0].command.value;
-  if (c && !c.match("change")) {
-     clearradio();
-  }
-  if (c && !c.match("pray")) document.forms[0].command.value = "pray" + c;
-  document.forms[0].submit();
-}
-
-//calls kalendar
-function callkalendar() {
+	}
+	
+	//restart the programlet if parameter change
+		function parchange() {
+			var c = document.forms[0].command.value;
+			if (c && !c.match("change")) {
+				clearradio();
+			}
+			if (c && !c.match("pray")) document.forms[0].command.value = "pray" + c;
+			document.forms[0].submit();
+		}
+	
+	//calls kalendar
+	function callkalendar() {
   document.forms[0].action = 'kalendar.pl';
   document.forms[0].target = "_self"
   document.forms[0].submit();
-}
-
-//calls missa
-function callmissa() {
+	}
+	
+	//calls missa
+	function callmissa() {
   document.forms[0].action = "../missa/missa.pl";
   document.forms[0].target = "_self"
   document.forms[0].submit();
-}
-
-function prevnext(ch) {
+	}
+	
+	function prevnext(ch) {
   var dat = document.forms[0].date.value;
   var adat = dat.split('-');
   var mtab = new Array(31,28,31,30,31,30,31,31,30,31,30,31);
@@ -140,7 +143,7 @@ function prevnext(ch) {
   var d = eval(adat[1]);
   var y = eval(adat[2]);
   var c = eval(ch);
-
+		
   var leapyear = 0;
   if ((y % 4) == 0) leapyear = 1;
   if ((y % 100) == 0) leapyear = 0;
@@ -148,20 +151,61 @@ function prevnext(ch) {
   if (leapyear) mtab[1] = 29;
   d = d + c;
   if (d < 1) {
-    m--;
-	if (m < 1) {y--; m = 12;}
-	d = mtab[m-1];
-  }
+		m--;
+		if (m < 1) {y--; m = 12;}
+		d = mtab[m-1];
+	}
   if (d > mtab[m-1]) {
-    m++;
-	  d = 1;
-	  if (m > 12) {y++; m = 1;}
-  }
+		m++;
+		d = 1;
+		if (m > 12) {y++; m = 1;}
+	}
   document.forms[0].date.value = m + "-" + d + "-" + y;
-}
-
-</SCRIPT>
+	}
+	</SCRIPT>
 PrintTag
 }
 
+sub horasjsend {
+	
+	print "\n<SCRIPT TYPE='text/JavaScript'>\n";
+	# $caller in principle might not be defined.
+	my $caller_flag = $caller || 0;
+	
+	print << "PrintTag";
+		
+		
+		\$(function() {
+			ctxt = new exsurge.ChantContext();
+			//ctxt.lyricTextFont = "'Crimson Text', serif";
+			ctxt.lyricTextSize *= 1.2;
+			ctxt.dropCapTextFont = ctxt.lyricTextFont;
+			ctxt.annotationTextFont = ctxt.lyricTextFont;
+			var score = [];
+			var lastScore;
+			
+			\$('.GABC').each(function(gabcidx, gabcSource) {
+				
+				header = getHeader(gabcSource);
+				mappings = exsurge.Gabc.createMappingsFromSource(ctxt, gabcSource.innerHTML);
+				lastScore = new exsurge.ChantScore(ctxt, mappings, header['initial-style']!=='0');
+				score.push(lastScore);
+				if(header['initial-style']!=='0' && header.annotation) {
+					lastScore.annotation = new exsurge.Annotation(ctxt, header.annotation);
+				}
+				chantContainer = document.getElementById(gabcSource.id.replace("GABC", "GCHANT"));
+				lastScore.performLayoutAsync(ctxt, function() {
+					lastScore.layoutChantLines(ctxt, chantContainer.clientWidth, function() {
+						// render the score to svg code
+						chantContainer.innerHTML = lastScore.createSvg(ctxt);
+					});
+				});
+				gabcSource.style.display = 'none';
+			});
+		});
+		
+		</SCRIPT>
+PrintTag
+}
+	
 1;

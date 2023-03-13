@@ -31,7 +31,7 @@ Language~>$langc~>Optionmenu~>languages;;
 Votive~>$votive~>Optionmenu~>votives;;
 
 [languages]
-Latin,Dansk,Deutsch,English,Español/Espanol,Français/Francais,Italiano,Magyar,Polski,Português/Portugues,Latin-Bea,Polski-Newer
+Latin,Dansk,Deutsch,English,Español/Espanol,Français/Francais,Italiano,Magyar,Polski,Português/Portugues,Latin-Bea,Polski-Newer,Latin-gabc
 
 [versions]
 Tridentine 1570,Tridentine 1910,Divino Afflatu,Reduced 1955,Rubrics 1960,1960 Newcalendar,Monastic,Ordo Praedicatorum

@@ -197,7 +197,7 @@ sub cleanse($) {
     @parts = split(/;/, $str);
 
     foreach my $part (@parts) {
-      unless ($part =~ /^([^'`"\\={}()]*|'[^'`"\\]*'|\$\w+='[^'`"\\]*')$/i) {
+			unless ($part =~ /^([^'`"\\={}()]*|'[^'`"\\]*'|\$\w+='[^'`"\\]*')$/i) {  #`
 
         #print STDERR "erasing $part\n";
         $part = '';
@@ -438,37 +438,47 @@ sub setcell {
     print "<TD $background VALIGN=TOP WIDTH=$width%" . ($lang1 ne $lang || $text =~ /{omittitur}/ ? "" : " ID=$hora$searchind") . ">";
     topnext_cell($lang);
 
-    if ($text =~ /%(.*?)%/) {
-      my $q = $1;
+		if ($lang =~ /gabc/i) {
+			my $dId = 0;
+			while($text =~ /\{(.*?)\(\:\:\)\}/is) {
+				$dId++;
+				$text =~ s/\{/<DIV ID="GABC$searchind$dId" class="GABC">/s;
+				$text =~ s/\(\:\:\)\}/\(\:\:\)<\/DIV><DIV ID="GCHANT$searchind$dId" class="GCHANT"><\/DIV>/s;
+			}
+		} else {
+			if ($text =~ /%(.*?)%/) {
+				my $q = $1;
 
-      if ($officium =~ /Pofficium/i) {
-        if ($hora =~ /Matutinum/i) {
-          $text =~
-            s{%(.*?)%}{<A HREF="Pofficium.pl?date1=$date1&caller=$caller&command=prayLaudes&version=$version&testmode=$testmode&lang2=$lang2&votive=$votive">$q</A>}i;
-        } elsif ($hora =~ /Vespera/i) {
-          $text =~
-            s{%(.*?)%}{<A HREF="Pofficium.pl?date1=$date1&caller=1&command=prayVespera&version=$version&testmode=$testmode&lang2=$lang2&votive=C9">$q</A>}i;
-        } elsif ($hora =~ /Laudes/i) {
-          $text =~
-            s{%(.*?)%}{<A HREF="Pofficium.pl?date1=$date1&caller=1&command=prayMatutinum&version=$version&testmode=$testmode&lang2=$lang2&votive=C9">$q</A>}i;
-        }
-      } else {
-        if ($hora =~ /Matutinum/i) {
-          $text =~ s{%(.*?)%}{<A HREF=# onclick="hset('Laudes');">$q</A>}i;
-        } elsif ($hora =~ /Vespera/i) {
-          $text =~ s{%(.*?)%}{<A HREF=# onclick="defunctorum('Vespera');">$q</A>}i;
-        } elsif ($hora =~ /Laudes/i) {
-          $text =~ s{%(.*?)%}{<A HREF=# onclick="defunctorum('Matutinum');">$q</A>}i;
-        }
-      }
-    }
-  }
-  $text =~ s/wait[0-9]+//ig;
-  $text =~ s/\_/ /g;
-  $text =~ s/\{\:.*?\:\}(<BR>)*\s*//g;
-  $text =~ s/\{\:.*?\:\}//sg;
-  $text =~ s/\`//g;
+				if ($officium =~ /Pofficium/i) {
+					if ($hora =~ /Matutinum/i) {
+						$text =~
+							s{%(.*?)%}{<A HREF="Pofficium.pl?date1=$date1&caller=$caller&command=prayLaudes&version=$version&testmode=$testmode&lang2=$lang2&votive=$votive">$q</A>}i;
+					} elsif ($hora =~ /Vespera/i) {
+						$text =~
+							s{%(.*?)%}{<A HREF="Pofficium.pl?date1=$date1&caller=1&command=prayVespera&version=$version&testmode=$testmode&lang2=$lang2&votive=C9">$q</A>}i;
+					} elsif ($hora =~ /Laudes/i) {
+						$text =~
+							s{%(.*?)%}{<A HREF="Pofficium.pl?date1=$date1&caller=1&command=prayMatutinum&version=$version&testmode=$testmode&lang2=$lang2&votive=C9">$q</A>}i;
+					}
+				} else {
+					if ($hora =~ /Matutinum/i) {
+						$text =~ s{%(.*?)%}{<A HREF=# onclick="hset('Laudes');">$q</A>}i;
+					} elsif ($hora =~ /Vespera/i) {
+						$text =~ s{%(.*?)%}{<A HREF=# onclick="defunctorum('Vespera');">$q</A>}i;
+					} elsif ($hora =~ /Laudes/i) {
+						$text =~ s{%(.*?)%}{<A HREF=# onclick="defunctorum('Matutinum');">$q</A>}i;
+					}
+				}
+			}
+		}
+		$text =~ s/wait[0-9]+//ig;
+		$text =~ s/\_/ /g;
+		$text =~ s/\{\:.*?\:\}(<BR>)*\s*//g;
+		$text =~ s/\{\:.*?\:\}//sg;
+		$text =~ s/\`//g;			#`
 
+	}
+				
   if ($Ck) {
     if ($column == 1) {
       push(@ctext1, $text);
