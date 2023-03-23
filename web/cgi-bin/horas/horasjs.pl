@@ -174,36 +174,63 @@ sub horasjsend {
 	
 	print << "PrintTag";
 		
-		
-		\$(function() {
-			ctxt = new exsurge.ChantContext();
-			//ctxt.lyricTextFont = "'Crimson Text', serif";
-			ctxt.lyricTextSize *= 1.2;
-			ctxt.dropCapTextFont = ctxt.lyricTextFont;
-			ctxt.annotationTextFont = ctxt.lyricTextFont;
-			var score = [];
-			var lastScore;
-			
-			\$('.GABC').each(function(gabcidx, gabcSource) {
-				
-				header = getHeader(gabcSource);
-				mappings = exsurge.Gabc.createMappingsFromSource(ctxt, gabcSource.innerHTML);
-				lastScore = new exsurge.ChantScore(ctxt, mappings, header['initial-style']!=='0');
-				score.push(lastScore);
+	
+	
+		var ctxt = new exsurge.ChantContext();
+		ctxt.lyricTextFont = "'Crimson Text', serif";
+		ctxt.lyricTextSize *= 1.2;
+		ctxt.dropCapTextFont = ctxt.lyricTextFont;
+		ctxt.annotationTextFont = ctxt.lyricTextFont;
+	
+		const scores = [];
+		var gabcSources = [];
+		var chantContainers = [];
+	
+		\$('.GABC').each(function(gabcidx, gabcSource) {
+			gabcSources.push(gabcSource);
+			chantContainer = document.getElementById(gabcSource.id.replace("GABC", "GCHANT"));
+			chantContainers.push(chantContainer);
+		});
+	
+	var updateChant = function() {
+		if (scores.length) {
+			for (let i = 0; i < scores.length; i++) {
+				exsurge.Gabc.updateMappingsFromSource(ctxt, scores[i].mappings, gabcSources[i].innerHTML);
+				scores[i].updateNotations(ctxt);
+			}
+		} else {
+			for (let i = 0; i < gabcSources.length; i++) {
+				header = getHeader(gabcSources[i].innerHTML);
+				mappings = exsurge.Gabc.createMappingsFromSource(ctxt, gabcSources[i].innerHTML);
+				let score = new exsurge.ChantScore(ctxt, mappings, header['initial-style']!=='0');
 				if(header['initial-style']!=='0' && header.annotation) {
-					lastScore.annotation = new exsurge.Annotation(ctxt, header.annotation);
+					score.annotation = new exsurge.Annotation(ctxt, header.annotation);
 				}
-				chantContainer = document.getElementById(gabcSource.id.replace("GABC", "GCHANT"));
-				lastScore.performLayoutAsync(ctxt, function() {
-					lastScore.layoutChantLines(ctxt, chantContainer.clientWidth, function() {
+				scores.push(score);
+			};
+		}
+		layoutChant();
+	};
+
+	var layoutChant = function() {
+		for (let i = 0; i < chantContainers.length; i++) {
+			// perform layout on the chant
+			if(scores.length) {
+				scores[i].performLayoutAsync(ctxt, function() {
+					scores[i].layoutChantLines(ctxt, chantContainers[i].clientWidth, function() {
 						// render the score to svg code
-						chantContainer.innerHTML = lastScore.createSvg(ctxt);
+						chantContainers[i].innerHTML = scores[i].createSvg(ctxt);
 					});
 				});
-				gabcSource.style.display = 'none';
-			});
-		});
-		
+				gabcSources[i].style.display = 'none';
+			}
+		}
+	};
+	
+	updateChant();
+	
+	
+	\$("body").on("resize", layoutChant());
 		</SCRIPT>
 PrintTag
 }

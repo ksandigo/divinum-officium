@@ -443,7 +443,7 @@ sub setcell {
 			while($text =~ /\{(.*?)\(\:\:\)\}/is) {
 				$dId++;
 				$text =~ s/\{/<DIV ID="GABC$searchind$dId" class="GABC">/s;
-				$text =~ s/\(\:\:\)\}/\(\:\:\)<\/DIV><DIV ID="GCHANT$searchind$dId" class="GCHANT"><\/DIV>/s;
+				$text =~ s/\(\:\:\)\}/\(\:\:\)<\/DIV><DIV ID="GCHANT$searchind$dId" class="GCHANT" width="100\%"><\/DIV>/s;
 			}
 		} else {
 			if ($text =~ /%(.*?)%/) {
