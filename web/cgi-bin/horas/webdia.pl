@@ -444,6 +444,7 @@ sub setcell {
 				$dId++;
 				$text =~ s/\{/<DIV ID="GABC$searchind$dId" class="GABC">/s;
 				$text =~ s/\(\:\:\)\}/\(\:\:\)<\/DIV><DIV ID="GCHANT$searchind$dId" class="GCHANT" width="100\%"><\/DIV>/s;
+				$text =~s/\_/\|\|/g;
 			}
 		} else {
 			if ($text =~ /%(.*?)%/) {
@@ -476,7 +477,10 @@ sub setcell {
 		$text =~ s/\{\:.*?\:\}(<BR>)*\s*//g;
 		$text =~ s/\{\:.*?\:\}//sg;
 		$text =~ s/\`//g;			#`
-
+		if($lang =~ /gabc/i) {
+			$text =~ s/\|\|(<BR>)/<BR>/g;
+			$text =~ s/\|\|/\_/g;
+		}
 	}
 				
   if ($Ck) {
