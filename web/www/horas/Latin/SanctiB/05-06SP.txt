@@ -4,6 +4,7 @@
 In Sollemnitate Beatae Mariae Virginis Patronæ Bavariæ;;Duplex I classis;;6.5;;ex C11
 
 [Lectio12]
+!Commemoratio S. Joannis Apostoli ante Portam Latinam
 @Sancti/05-06:Lectio94
 
 [Commemoratio 1]

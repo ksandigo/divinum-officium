@@ -153,7 +153,7 @@ R. Consérva Bávaris, Virgo Patróna, tuis, allelúja.
 Occúrre votis * et Bávaros reges adfla benígni Núminis hálitu, tu, robur afflictǽque scutum et dulce decus Patriǽque Mater, María, allelúja.
 
 [Octava 1]
-!Commemoratio Octavæ B.M.V. Patronæ Bavariæ
+!Commemoratio die infra Octavam B.M.V. Patronæ Bavariæ
 Ant. Descénde cælo, * fília Príncipis, pulchrósque gressus fígere Bóicis gináre terris, qua vocáris, ínclita magna Patróna regni, allelúja.
 _
 V. Ora pro nobis, magna Patróna Baváriæ, allelúja.
@@ -164,7 +164,7 @@ v. Deus, qui dilécti Fílii tui Genetrícem nobis Matrem ac Regni Patrónam dar
 $Per eumdem
 
 [Octava 2]
-!Commemoratio Octavæ B.M.V. Patronæ Bavariæ
+!Commemoratio die infra Octavam B.M.V. Patronæ Bavariæ
 Ant. Judítha nostræ * pulchra Bethúliæ, tu spes senátus, tu pópuli salus, regísque natorúmque et urbis glória lætitiǽque causa, allelúja.
 _
 V. Ora pro nobis, magna Patróna Baváriæ, allelúja.
@@ -175,7 +175,7 @@ v. Deus, qui dilécti Fílii tui Genetrícem nobis Matrem ac Regni Patrónam dar
 $Per eumdem
 
 [Octava 3]
-!Commemoratio Octavæ B.M.V. Patronæ Bavariæ
+!Commemoratio die infra Octavam B.M.V. Patronæ Bavariæ
 Ant. Occúrre votis * et Bávaros reges adfla benígni Núminis hálitu, tu, robur afflictǽque scutum et dulce decus Patriǽque Mater, María, allelúja.
 _
 V. Rem, regem, régimen, regiónem, religiónem, allelúja.
