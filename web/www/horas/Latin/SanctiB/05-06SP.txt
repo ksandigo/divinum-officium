@@ -3,9 +3,16 @@
 [Rank]
 In Sollemnitate Beatae Mariae Virginis Patronæ Bavariæ;;Duplex I classis;;6.5;;ex C11
 
+[Lectio11]
+@SanctiB/05-SP:Lectio11:s/$/~/s
+@SanctiB/05-SP:Lectio12
+
 [Lectio12]
 !Commemoratio S. Joannis Apostoli ante Portam Latinam
 @Sancti/05-06:Lectio94
+
+[Responsory12]
+@Commune/C1:Responsory1
 
 [Commemoratio 1]
 !Commemoratio S. Joannis Apostoli ante Portam Latinam
