@@ -7,7 +7,6 @@ ex C11;
 Antiphonas horas
 Doxology=Nat
 
-
 [Ant Vespera]
 Stella maris * attendámus, qui transíre decertámus Babylónis flúmina, allelúja.;;109
 Hæc ut nostram * indefésse cymbam regat, est necésse, per fluctus et fúlmina, allelúja.;;112 
@@ -41,8 +40,29 @@ Christum Regem adorémus * Et Maríam collaudémus, piam nostram Dóminam, allel
 
 [Hymnus Matutinum]
 Supérni Sponsa Príncipis,
+Propitiátrix hóminis,
+María, Virgo régia,
+Plena laudáris grátia.
 _
-*
+Compésce carnis fómitem
+Hostísque sævi rábiem;
+Terréna da despícere,
+Supérna concupíscere.
+_
+Baváriæ præsidium!
+Da robur, fer auxílium;
+Da cælis rora grátiam
+In tuam hanc famíliam.
+_
+Constrínge nos suávibus
+Tuis, Mater, ampléxibus;
+Nos redde gratos Fílio
+Sanctóque reple gáudio.
+_
+* Jesu, tibi sit glória,
+Qui natus es de Vírgine,
+Cum Patr(e), et almo Spíritu,
+In sempitérna, sǽcula. Amen.
 
 [Ant Matutinum]
 Terram nostram cælitus * ros inebriávit, florem cum divínitus Christum germinávit, allelúja.;;8
@@ -66,46 +86,106 @@ V. Sub tuum præsídium confúgimus, allelúja.
 R. Sub quo secúri lætique dégimus, allelúja.
 
 [Lectio1]
+De Parábolis Salomónis
+!Prov. 2:10-15
+10 Si intráverit sapiéntia cor tuum, et sciéntia ánimæ tuæ placúerit,
+11 consílium custódiet te, et prudéntia servábit te:
+12 ut eruáris a via mala, et ab hómine qui pervérsa lóquitur:
+13 qui relínquunt iter rectum, et ámbulant per vias tenebrósas:
+14 qui lætántur cum malefécerint, et exsúltant in rebus péssimis:
+15 quorum viæ pervérsæ sunt, et infámes gressus eórum.
+
+[Responsory1]
+R. Sicut ros in grámine, descéndit in Vírgine
+* Verbum summi Patris, allelúja.
+V. Patrem non deséruit et mortálem índuit formam alvo Matris.
+R. Verbum summi Patris, allelúja. 
 
 [Lectio2]
+!Prov. 3:21-26
+21 Fili mi, ne éffluant hæc ab óculis tuis. Custódi legem atque consílium,
+22 et erit vita ánimæ tuæ, et grátia fáucibus tuis.
+23 Tunc ambulábis fiduciáliter in via tua, et pes tuus non impínget.
+24 Si dormíeris, non timébis: quiésces, et suávis erit somnus tuus.
+25 Ne páveas repentíno terróre, et irruéntes tibi poténtias impiórum.
+26 Dóminus enim erit in látere tuo, et custódiet pedem tuum ne capiáris.
+
+[Responsory2]
+R. Arens virga jam floréscit, Virgo parit et nitéscit:
+* Stupenda natívitas, allelúja!
+V. Novus Infans, novus Frater, nova Virgo, nova Mater: admirána nóvitas!
+R. Stupenda natívitas, allelúja!
 
 [Lectio3]
+@Commune/C11:Lectio1:s/De Parábolis Salomónis//s
+
+[Responsory3]
+Salve, decus firmaménti, tu caliginósæ menti
+* Désuper irrádia, allelúja.
+V. Placa mare, maris stella, ne invólvat nos procélla nec tempéstas obvia.
+R. Désuper irrádia, allelúja.
 
 [Lectio4]
-
-[Responsory4]
+@CommuneB/C11:Lectio2
 
 [Lectio5]
+Maximiliánus, dux Baváriæ et princeps eléctor primus, cum anno millésimo sexcentésimo vigésimo e prœ́lio ad Montem Album commísso, milítibus sanctam Maríam invocántibus, victor cum suis Monáchium rediísset, statim in ecclésiam Cathedrálem secéssit. Ubi, jánuis clausis, segregátus ab ómnibus, coram státua illa celebérrima Mariána, quam paulo post inde in forum principále supra altam colúmnam transférri jussit, multas de victória reportáta grátias egit atque ad singuláre Matris cæléstis præsídium univérso regno suo implorándum eníxe eam rogávit, ut Patróna Baváriæ et esse et appellári dignarétur. Cujus pii voti áliud signum est áltera illa státua ejúsdem Patróna Baváriæ, qua idem dux frontem principálem residéntiæ régiæ insigníri vóluit.
 
 [Responsory5]
+O Mária, stella maris, pietáte singuláris,
+* Pietátis óculo, allelúja.
+V. Nos dignéris intuéri; ne cunctéris miseréri naufragánti sǽculo.
+R. Pietátis óculo, allelúja. 
 
 [Lectio6]
+Maríæ patrocínio Bavária jam dudum addícta vidétur. Antiquíssimæ enim ecclésiæ a sǽculo octávo et nono imprímis Matri Dei dedicabántur, ut Laurissána, Spirénsis, Frisingénsis, prima ecclésia Augustána, Vetus Capélla Ratisbonénsis aliǽque. Speciáli mentióne dignum est illud sacéllum, quod Carolingórum ætáte in Vétere prǽdio Hodingáno, Altœ́tting nunc vocáto, juxta Régiam constrúctum et póstea splendidíssime exornatum est. Ibídem a médio sǽculo séptimo décimo corda príncipum Wittelsbacénsium recóndita asservántur. Innúmeri vero fidéles, cum ad ália Mariána Baváriæ sanctuária, ut ad Ettalénse illus præclárum, quod a Ludovíco Bávaro imperatóre státua marmórea ex Itália addúcta insignítum est, ad Bambergénse, Herbipolénse, Birkensteinénse, Wemdingánum aliáque, tum imprímis ad Hodingánum contínuo fere peregrinántur. Venerántur quoque singulárem thesáurum in ecclésia Hospítii ducális Monacénsis. Illic ante státuam Matris dolorósæ Maximiliánus, princeps eléctor tértius, saltem quovis die Sábbato Missæ sacrifício assístere solébat et moribúndus státuam ipsam ad se deférri jussit.
 
 [Responsory6]
+R. Virgo, virga salutáris, singuláris portus maris,
+* Porta vitæ, prǽvia, allelúja.
+V. Nos immérsos in profúndo duc in portum, et a mundo tua mundet grátia. 
+R. Porta vitæ, prǽvia, allelúja. 
 
 [Lectio7]
+Mariánus iste cultus apud pósteros inváluit. Testes sund permúltæ Congregationes Mariáles, quibus complúres étiam e régia família nomen dedérunt ac dare solent. Huc pértinet mos avítus exornándi frontes domórum státua vel saltem imágine Matris Dei. Exstat autem Ordo équitum sancti Geórgii, qui juxta statúa cum fidem cathólicam tum speciátim doctrínam de immaculáta Vírginis Maríæ Conceptióne, étiam ante definitiónem dógmatis, constánter propagávit. 
 
 [Responsory7]
+R. Tolle malum, tende velum, tu Patróna, duc phasélum
+* Ad cæli palátia, allelúja.
+V. Tu sis nobis mediátrix, dux et cymbæ gubernátrix maris per naufrágia.
+R. Ad cæli palátia, allelúja.
 
 [Lectio8]
+His multis et æquálium et majórum exémplis Baváriæ pópulus ad ita agéndum addúcitur, ut ómnibus opéribus suis præsint "Deus et María". Gratíssimo autem ánimo Ludovíco tértio, regi suo, plausit idem pópulus, cum ille apud ædes Mariánus Hodíngæ públice testátus est, quantópere sibi cordi sit, ut Mater María a se suísque honóre et cultu celebrétur. Benedíctus Papa décimus quintus votis præfáti Ludovíci regis tértii ejúsque uxóris Maríæ Therésiæ benígne ánnuens concéssit, ut ex inhumáni belli tempóribus speciále festum Patrónæ Baváriæ a regni istíus íncolis quotánnis recolerétur.
 
-[Responsory8]
 
 [Lectio9]
+Léctio sancti Evangélii secúndum Joánnem
+!Joannes 2:1-11
+In illo témpore: Núptiæ factæ sunt in Cana Galilǽæ, et erat mater Jesu ibi. Vocátus est autem et Jesus, et discípuli ejus ad núptias. Et réliqua.
+_
+Homilía sancti Bernárdi Abbátis
+!Dominica I post Octavam Epiphaniæ
+!Sermo 1, De miraculo facto in nuptiis, sub inti.
+Vinum non habent. Compássa est María eórum 
 
 [Responsory9]
 
 [Lectio10]
+!Sermo2, dE spiritualibus nuptiis, in medio
+Quid mihi et tibi est, múlier?
 
 [Responsory10]
 
 [Lectio11]
-
-[Responsory11]
+!Sermo de duodecim prærogativis, sub init.
+Quid ad Maríam 
 
 [Lectio12]
 
-[Responsory12]
+
+[LectioE]
+@Tempora/Epi2-0
 
 [Ant Laudes]
 Laudet rosam caritátis, * víolam humilitátis, lílium integritátis júbilans Ecclésia, allelúja.
