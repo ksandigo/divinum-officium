@@ -1,6 +1,34 @@
+
+[Ant Vespera]
+Den Stern des Meeres * beachten wir, die wir kämpfen und die Flüsse Babylons überqueren, allelúja.;;109
+Auf daß diese unser * Boot unermüdlich beherrsche; für Wellen und Blitze ist es notwendig, allelúja.;;112 
+Auf Maria *  richten wir unseren Lauf, zu ihr erheben wir unsere Gedanken, Hönde und Augenlichter, allelúja.;;121
+Diese führt uns aus dem See * Babylons heraus auf die ruhigen Höhen der Anschauung, allelúja.;;126
+Hierin singen wir * im Takt, wodurch wir die Patronin grüßen: Ave, große Herrin, allelúja!;;147
+
+[Capitulum Vespera]
+@Commune/C10:Capitulum Vespera
+_
+R.br. Gott will ihr helfen vor seinem Angesicht, * Allelúja, allelúja.
+R. Gott will ihr helfen vor seinem Angesicht, allelúja, allelúja.
+V. Gott ist in ihrer Mitte, nicht wird er wanken. 
+R. Allelúja, allelúja. 
+&Gloria
+R. Gott will ihr helfen vor seinem Angesicht, allelúja, allelúja.
+
 [Versum 1]
 V. Bitte für uns, große Patróna Baváriæ, allelúja.
 R. Auf daß wir würdig werden den Verheisungen Christi, allelúja.
+
+[Ant 1]
+Steige herab vom Himmel, * fürstliche und vornehmste Tochter, und schreite voran das Land der Bajuwaren einzunehmen, wo du gerufen wirst, berühmte und große Patronin des Königreiches, alleluja.
+
+[Oratio]
+Gott, der Du entschlossen hast, uns die Mutter Deines geliebten Sohnes zur Schutzfrau unseres Reiches zu geben: gewähre uns gnädig; daß wir unter dem Schutz dieser Mutter vor jedem Ansturm von Feinden verteidigt werden und Dir ohne Furcht in Heiligkeit und Gerechtigkeit dienen können.
+$Per eumdem
+
+[Ant 2]
+Unsere Judith * schöne von Bethulia, du bist die Hoffnung des Senates, du bist die Rettung des Volkes und der Ruhm der Nation und der Stadt, alleluja.
 
 [Lectio5]
 Als Maximilian I., Herzog und Kurfürst von Baiern, im Jahre 1620 von der Schlacht am Weißen Berg, mit seinen Soldaten die heilige Maria anrufend, siegreich nach München zurückgekehrt war, zog er sich umgehend in die Domkirche zurück. Sobald er bei verschlossenen Türen von allen abgeschieden war, dankte er in Gegenwart jener weltberühmten Marienstatue, die er wenig später auf eine hohe Säule auf dem Hauptplatz versetzen ließ, vielmals für den errungenen Sieg, und flehte die himmlische Mutter eifrig an um den einzigartigen Schutz seines ganzen Reiches und bat Sie, Schutzfrau Baierns zu sein und genannt werden zu wollen. Ein weiteres Zeichen seines frommen Gelübdes ist jene andere Statute ebendieser Schutzfrau Baierns, mit der dieser Herzog die Hauptfront seiner fürstlichen Residenz auszeichnen wollte.
@@ -19,3 +47,43 @@ Diese Marienverehrung setzte sich bei seiner Nachwelt durch. Die vielen Marianis
 
 [Lectio8]
 Durch diese vielen Beispiele gleicher und größerer Art wird das bayerische Volk dazu gebracht, daß all ihren Werken voransteht "für Gott und Maria". Mit dem Geist größter Dankbarkeit beklatschte eben dieses Volke seinen König Ludwig III., als er zu Altötting in der Gnadenkapelle öffentlich bezeugte, wie sehr es ihm am Herzen lag, daß die Gottesmutter Maria von ihm und seinem Volke mit Ehre und Anbetung gefeiert werden sollte. Papst Benedikt XV. erfüllte den Wunsch des vorgenannten Königs Ludwig III. und seiner Frau Maria Theresia mit wohlwollender Zustimmung, daß seit den Zeiten des unmenschlichen Krieges jedes Jahr ein besonderes Fest der Schutzpatronin Bayerns von den Bewohnern dieses Königreiches gefeiert würde.  
+
+[Versum 3]
+V. Die Sach' und den Herrn, die Ordnung, das Land und die Religion, allelúja.
+R. Erhalte deinen Bayern, Jungfrau und Schutzfrau, allelúja.
+
+[Ant 3]
+Begnegne dem Gelöbnis * und lenke gütig die Bayern mit dem Atem des Göttlichen Geistes, du, die Stärke und der Schild der Bedrängten und die süße Zierde und Mutter der Heimat, Maria, alleluja. 
+
+[Octava 1]
+!Gedächtnis des Tages werden der Oktav Mariens, der Schutzfrau Bayerns
+Ant. Steige herab vom Himmel, * fürstliche und vornehmste Tochter, und schreite voran das Land der Bajuwaren einzunehmen, wo du gerufen wirst, berühmte und große Patronin des Königreiches, alleluja.
+_
+V. Bitte für uns, große Patróna Baváriæ, allelúja.
+R. Auf daß wir würdig werden den Verheisungen Christi, allelúja.
+_
+$Oremus
+Gott, der Du entschlossen hast, uns die Mutter Deines geliebten Sohnes zur Schutzfrau unseres Reiches zu geben: gewähre uns gnädig; daß wir unter dem Schutz dieser Mutter vor jedem Ansturm von Feinden verteidigt werden und Dir ohne Furcht in Heiligkeit und Gerechtigkeit dienen können.
+$Per eumdem
+
+[Octava 2]
+!Gedächtnis des Tages werden der Oktav Mariens, der Schutzfrau Bayerns
+Ant. Unsere Judith * schöne von Bethulia, du bist die Hoffnung des Senates, du bist die Rettung des Volkes und der Ruhm der Nation und der Stadt, alleluja.
+_
+V. Bitte für uns, große Patróna Baváriæ, allelúja.
+R. Auf daß wir würdig werden den Verheisungen Christi, allelúja.
+_
+$Oremus
+Gott, der Du entschlossen hast, uns die Mutter Deines geliebten Sohnes zur Schutzfrau unseres Reiches zu geben: gewähre uns gnädig; daß wir unter dem Schutz dieser Mutter vor jedem Ansturm von Feinden verteidigt werden und Dir ohne Furcht in Heiligkeit und Gerechtigkeit dienen können.
+$Per eumdem
+
+[Octava 3]
+!Gedächtnis des Tages werden der Oktav Mariens, der Schutzfrau Bayerns
+Ant. Begnegne dem Gelöbnis * und lenke gütig die Bayern mit dem Atem des Göttlichen Geistes, du, die Stärke und der Schild der Bedrängten und die süße Zierde und Mutter der Heimat, Maria, alleluja. 
+_
+V. Die Sach' und den Herrn, die Ordnung, das Land und die Religion, allelúja.
+R. Erhalte deinen Bayern, Jungfrau und Schutzfrau, allelúja.
+_
+Gott, der Du entschlossen hast, uns die Mutter Deines geliebten Sohnes zur Schutzfrau unseres Reiches zu geben: gewähre uns gnädig; daß wir unter dem Schutz dieser Mutter vor jedem Ansturm von Feinden verteidigt werden und Dir ohne Furcht in Heiligkeit und Gerechtigkeit dienen können.
+$Per eumdem
+
