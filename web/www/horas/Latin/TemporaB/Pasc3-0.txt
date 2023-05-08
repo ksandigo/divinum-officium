@@ -1,5 +1,8 @@
 @Tempora/Pasc3-0
 
+[Rank]
+Dominica III Post Pascha infra Octavam S. Joseph;;Semiduplex;;5;;
+
 [Rule]
 12 lectiones
 

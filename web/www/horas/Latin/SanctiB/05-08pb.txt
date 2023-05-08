@@ -1,7 +1,0 @@
-@Sancti/05-08
-
-[Rank]
-In Apparitione S. Michaëlis Archangeli;;Duplex majus;;4;;
-
-[Commemoratio]
-@SanctiB/05-SP:Octava

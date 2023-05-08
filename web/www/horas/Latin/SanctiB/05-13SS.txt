@@ -1,0 +1,14 @@
+@SanctiB/05-SS
+
+[Rank]
+In Octava Beatae Mariae Virginis Patronæ Bavariæ;;Duplex majus;;4.1;;ex SanctiB/05-SP
+
+
+[Rule]
+ex SanctiB/05-SP;
+12 lectiones
+Antiphonas horas
+Doxology=Nat
+
+[Commemoratio]
+@Sancti/05-13:Oratio

@@ -15,14 +15,7 @@ Hæc de lacu * Babylónis ad tranquíllæ visiónis nos edúcat cúlmina, allel�
 Hinc celéuma * præcinámus, quo Patrónam salutámus: Ave, magna Dómina, allelúja!;;147
 
 [Capitulum Vespera]
-@Commune/C10:Capitulum Vespera
-_
-R.br. Adjuvábit eam Deus vultu suo, * Allelúja, allelúja.
-R. Adjuvábit eam Deus vultu suo, allelúja, allelúja.
-V. Deus in médio ejus, non commovébitur. 
-R. Allelúja, allelúja. 
-&Gloria
-R. Adjuvábit eam Deus vultu suo, allelúja, allelúja.
+@CommuneM/C10
 
 [Versum 1]
 V. Ora pro nobis, magna Patróna Baváriæ, allelúja.
@@ -166,23 +159,31 @@ In illo témpore: Núptiæ factæ sunt in Cana Galilǽæ, et erat mater Jesu ibi
 _
 Homilía sancti Bernárdi Abbátis
 !Dominica I post Octavam Epiphaniæ
-!Sermo 1, De miraculo facto in nuptiis, sub inti.
-Vinum non habent. Compássa est María eórum 
+!Sermo 1, De miraculo facto in nuptiis, sub init.
+Vinum non habent. Compássa est María eórum verecúndiæ, sicut miséricors, sicut benigníssima. Quid, inquam, mirum, si pietátem éxhibent víscera pietátis? Nonne, qui pomum in manu sua tenúerit dimídia die, réliqua diéi parte pomi servábit odórem? Qantum ígitur víscera illa virtus pietátis affécit, in quibus novem ménsibus requiévit? Nam et ante mentem replévit quam ventrem, et, cum procéssit ex útero, ab ánimo non recéssit. Dúrior forásse et austérior vidéri posset respónsio Dómini; sed nóverat ille, cui loquerétur; et quis loquerétur, illa non ignorábat. Dénique ut scias, quómodo respónsum ipsum accéperit aut quantum de Fílii benignitáte præsúmpserit, ait minístris: Quæcúmque præcéperit vobis, serváte et fácite.
 
 [Responsory9]
+R. Salvatóris Mater pia, mundi hujus spes, María,
+* Ave, plena grátia, allelúja.
+V. Porta cæli, templum Dei, maris portus, ad quem rei currunt cum fidúcia.
+R. Ave, plena grátia, allelúja. 
 
 [Lectio10]
 !Sermo2, de spiritualibus nuptiis, in medio
-Quid mihi et tibi est, múlier?
+Quid mihi et tibi est, múlier? Quid tibi et illi est, Dómine? Nonne, quod fílio et matri? Quid ad illam pértines, quæris, cum tu sis benedíctus fructus ventris eius immaculáti? Nonne ipsa est, quæ, salvo pudóre, concépit et sine corruptióne te péperit? Nonne ipsa est, in cuius útero novem ménsibus morátus es, cuius Vírgineis ubéribus lactátus es, cum qua iam duódecim annórum factus, de Jerúsalem descendísti et eras súbditus illi? Nunc ergo, Dómine, quid moléstus es illi, dicens: Quid mihi et tibi? Multum per omnem modum. Sed maniféste iam Vídeo, quod non velut indígnans aut confúndere volens Vírginis Matris téneram verecúndiam díceris: Quid mihi et tibi: cum, veniéntibus ad te iuxta Matris præcéptum minístris, nihil cunctátus, fácias, quod illa suggéssit.
 
 [Responsory10]
+R. Intendéntes tuæ laudi, nos atténde, no exáudi,
+* Nos a morte líbera, allelúja.
+V. Quæ post Christum prima sedes, inter Christi coherédes Christo nos adnúmera.
+R. Nos a morte líbera, allelúja. 
 
 [Lectio11]
 !Sermo de duodecim prærogativis, sub init.
-Quid ad Maríam 
+Quid ad Maríam accédere trépidet humána fragílitas? Nihil austérum in ea, nihil terríbile; tota suávis est lanam. Revólve diligéntius evangélicæ históriæ sériem univérsam, et si quid forte increpatórium, si quid durum, si quod dénique signum vel ténuis indignatiónis occúrrerit in María, de cétero suspéctam hábeas, et accédere vereáris. 
 
 [Lectio12]
-
+Quod si (ut vere sunt) plena magis ómnia pietátis et grátiæ, plena mansuetúdinis et misericórdiæ, quæ ad eam pértinent, invéneris: age grátias ei, qui talem tibi mediatrícem benigníssima miseratióne provídit, in qua nihil posset esse suspéctum; quæ ómnibus misericórdiæ sinum áperit, ut de plenitúdine ejus accípiant univérsi: captívus redemptiónem, æger curatiónem, tristis consolatiónem, peccátor véniam, justus grátiam, ut non sit, qui se abscóndat a calóre ejus.
 
 [LectioE]
 @Tempora/Epi2-0
@@ -195,17 +196,34 @@ Altum thronum Salomónis, * fulgens vas devotiónis, claram vallem visiónis ben
 Laudent Matrem veri Dei * cuncta, quæ subsístunt ei, cælum, terra, lux déi et supérna cúria, allelúja.
 
 [Capitulum Laudes]
-@Commune/C10:Capitulum Vespera
-_
-R.br. Spécie tua et pulchritúdine tua, * Allelúja, allelúja.
-R. Spécie tua et pulchritúdine tua, allelúja, allelúja.
-V. Inténde, próspere procéde, et regna. 
-R. Allelúja, allelúja. 
-&Gloria
-R. Spécie tua et pulchritúdine tua, allelúja, allelúja.
+@CommuneM/C10:Capitulum Vespera
 
 [Hymnus Laudes]
 In supréma jerarchía
+Residénti Dóminæ
+Personémus voce pia,
+Servitútis nómine.
+_
+Decet alte sublimátam. 
+Altis coli vócibus, 
+Huic offérre laudem gratam
+Corde et opéribus.
+_ 
+Lunam ista benedícta
+Pede premens Dómina
+Atque, sole præamícta,
+Luce claret gémina:
+_
+Velut gemmis coronáta
+Bis senis sidéribus;
+Cunctis dispar et præláta
+Sola muliéribus.
+_
+Genitóri Genitóque
+Nostra sit laudátio,
+Procedénti ab utróque
+Compar jubilátio.
+Amen.
 
 [Versum 2]
 @:Versum 1
