@@ -155,10 +155,9 @@ sub psalmi_matutinum_monastic {
 		# not All Saints' Day. Unless this has been changed with moving the 1st Sunday of November occuring after 10-29 to after 11-01
 		# the elsif above makes a mistake and refers to non-existing scriptura of the last week of October and should be replaced by the following:
 	} elsif (($dayname[0] =~ /(Pasc[1-4]|Pent)/i || ($dayname[0] =~ /Pasc5/i && $dayofweek != 1))	&& monthday() !~ /^11[1-5]\-/ && $winner{Rank} !~ /vigil|quattuor|infra octavam/i) {
-		if ($winner =~ /Tempora/i
-			|| !(exists($winner{Lectio94}) || exists($winner{Lectio4})))
-		{
-			brevis_monastic($lang);	 # on a ferial day in "Summer", we have just a Lectio brevis
+		# from Low Sunday till the first Sunday of November, outside Ascensiontide, Pentecost, Vigils, Ember days and Octaves:
+		if ($winner =~ /Tempora/i	|| !(exists($winner{Lectio94}) || exists($winner{Lectio4}))) {
+			brevis_monastic($lang);	 # on a ferial day in "Summer", or if we do not have a Saint's legend we have just a Lectio brevis
 		} elsif (exists($winner{Lectio94}) || exists($winner{Lectio4})) {
 			legend_monastic($lang);	 # on a III. class feast in "Summer", we have the contracted Saint's legend
 		}
