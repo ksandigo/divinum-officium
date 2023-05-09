@@ -1,11 +1,32 @@
 [Rank]
-In Octava Beatae Mariae Virginis Patronæ Bavariæ;;Duplex majus;;4.1;;ex SanctiB/05-SP
+In Octava Beatae Mariae Virginis Patronæ Bavariæ;;Duplex majus;;4.1;;vide C11
 
 [Rule]
-ex SanctiB/05-SP;
+vide C11;
 12 lectiones
 Antiphonas horas
 Doxology=Nat
+
+[Hymnus Vespera]
+@CommuneM/C11
+
+[Capitulum Vespera]
+@CommuneM/C10
+
+[Versum 1]
+@SanctiB/05-SP
+
+[Ant 1]
+@SanctiB/05-SP
+
+[Oratio]
+@SanctiB/05-SP
+
+[Invit]
+@SanctiB/05-SP
+
+[Hymnus Matutinum]
+@SanctiB/05-SP
 
 [Lectio5]
 Sermo sancti Augustíni Epíscopi
@@ -42,16 +63,14 @@ Homilía sancti Bernárdi Abbátis
 Deficiénte vino, dixit Mater Jesu ad eum: Vinum non habent. Compássa est María eórum verecúndiæ, sicut miséricors, sicut benigníssima. Quid, inquam, mirum, si pietátem éxhibent víscera pietátis? Nonne, qui pomum in manu sua tenúerit dimídia die, réliqua diéi parte pomi servábit odórem? Qantum ígitur víscera illa virtus pietátis affécit, in quibus novem ménsibus requiévit? Nam et ante mentem replévit quam ventrem, et, cum procéssit ex útero, ab ánimo non recéssit. Dúrior forásse et austérior vidéri posset respónsio Dómini; sed nóverat ille, cui loquerétur; et quis loquerétur, illa non ignorábat. Dénique ut scias, quómodo respónsum ipsum accéperit aut quantum de Fílii benignitáte præsúmpserit, ait minístris: Quæcúmque præcéperit vobis, serváte et fácite.
 
 [Responsory9]
-R. Salvatóris Mater pia, mundi hujus spes, María,
-* Ave, plena grátia, allelúja.
-V. Porta cæli, templum Dei, maris portus, ad quem rei currunt cum fidúcia.
-R. Ave, plena grátia, allelúja. 
+@SanctiB/05-SP
 
 [Lectio10]
 !Sermo2, de spiritualibus nuptiis, in medio
 ... Quid mihi et tibi est, múlier? Quid tibi et illi est, Dómine? Nonne, quod fílio et matri? 
 
 [Responsory10]
+@SanctiB/05-SP
 
 [Lectio11]
 Quid ad illam pértines, quæris, cum tu sis benedíctus fructus ventris eius immaculáti? Nonne ipsa est, quæ, salvo pudóre, concépit et sine corruptióne te péperit? Nonne ipsa est, in cuius útero novem ménsibus morátus es, cuius Vírgineis ubéribus lactátus es, cum qua iam duódecim annórum factus, de Jerúsalem descendísti et eras súbditus illi? Nunc ergo, Dómine, quid moléstus es illi, dicens: Quid mihi et tibi? Multum per omnem modum. Sed maniféste iam Vídeo, quod non velut indígnans aut confúndere volens Vírginis Matris téneram verecúndiam díceris: Quid mihi et tibi: cum, veniéntibus ad te iuxta Matris præcéptum minístris, nihil cunctátus, fácias, quod illa suggéssit.
@@ -61,4 +80,31 @@ Ut quid ergo, ...
 
 [LectioE]
 @Tempora/Epi2-0
+
+[Capitulum Laudes]
+@CommuneM/C10:Capitulum Vespera
+
+[Hymnus Laudes]
+@SanctiB/05-SP
+
+[Versum 2]
+@:Versum 1
+
+[Ant 2]
+@SanctiB/05-SP
+
+[Responsory Tertia]
+@SanctiB/05-SP
+
+[Responsory Sexta]
+@SanctiB/05-SP
+
+[Responsory Nona]
+@SanctiB/05-SP
+
+[Versum 3]
+@SanctiB/05-SP
+
+[Ant 3]
+@SanctiB/05-SP
 
