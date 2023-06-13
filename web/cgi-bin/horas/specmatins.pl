@@ -109,12 +109,12 @@ sub hymnusmatutinum {
   my ($h, $c) = getproprium("$name Matutinum", $lang, $seasonalflag, 1);
 
   if ($h) {
-    if ($hymncontract) {
-      my $w = (columnsel($lang)) ? $winner : $winner2;
-      my $h1 = $w{'Hymnus Vespera'};
-      $h =~ s/^(v. )//;
-      $h1 =~ s/\*.*/$h/s;
-      $h = $h1;
+		if ($hymncontract) {			# if proper Vesper hymn has been omitted due to concurrent II. Vespers
+			my ($h1, $c1) = getproprium("$name Vespera", $lang, $seasonalflag, 1);
+			$h =~ s/^(v. )//;
+			$h1 =~ s/\_(?!.*\_).*/\_\n$h/s;	# find the Doxology as last verse since e.g. Venantius(05-18) has a proper one
+			$h = $h1;
+			setbuild2("Hymnus contracted");
     }
     $hymn = $h;
     $comment = $c;
@@ -551,7 +551,7 @@ sub lectiones {
   my $ltype1960 = gettype1960();
   if ($ltype1960) { return lect1960($lang, $evan_regexp); }
   
-  if ($winner =~ /sancti/i && $rule !~ /Special Evangelii Benedictio/i) { # if winner is sanctoral
+  if ($winner =~ /sancti/i && $rule !~ /ex C1[02]/ && $rule !~ /Special Evangelii Benedictio/i) { # if winner is sanctoral
     $i = ($num > 0) ? $num : 3;
     @a = split("\n", $benedictio{"Nocturn $i"});
   }
@@ -1067,7 +1067,7 @@ sub lectio : ScriptFunc {
 
   #handle parentheses in non Latin
   if ($lang !~ /Latin/i) {
-    $w =~ s/\((.*?[.,].*?)\)/parenthesised_text($1)/eg;
+    $w =~ s/\((.*?[.,\d].*?)\)/parenthesised_text($1)/eg;
   }
   $w = replaceNdot($w, $lang);
   return $w;

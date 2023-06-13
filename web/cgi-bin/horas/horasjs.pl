@@ -1,20 +1,16 @@
 #*** Javascript functions
 # the sub is called from htmlhead
 sub horasjs {
-	
-	print "\n<SCRIPT TYPE='text/JavaScript' SRC='js/util.js'></SCRIPT>\n";
-	print "\n<SCRIPT TYPE='text/JavaScript' SRC='js/jquery.min.js'></SCRIPT>\n";
-	print "\n<SCRIPT TYPE='text/JavaScript' SRC='js/exsurge.js'></SCRIPT>\n";
-	print "\n<SCRIPT TYPE='text/JavaScript' LANGUAGE='JavaScript'>\n";
-	# $caller in principle might not be defined.
-	my $caller_flag = $caller || 0;
-	
-	if ($officium ne 'Pofficium.pl') {
-		print << "PrintTag";
-		
-		//position
-		function startup() {
-			if (!"$browsertime") {
+  my($output);
+  # $caller in principle might not be defined.
+  my $caller_flag = $caller || 0;
+
+  if ($officium ne 'Pofficium.pl') {
+    $output .= << "PrintTag";
+
+//position
+function startup() {
+  if (!"$browsertime") {
     var d = new Date();
     var day = d.getDate();
     document.forms[0].browsertime.value = (d.getMonth() + 1) + "-" + day + "-" + d.getFullYear();
@@ -77,10 +73,10 @@ sub horasjs {
 			document.forms[0].submit();
 		}
 PrintTag
-	}
-	print << "PrintTag";
-	//to prevent inhearitance of popup
-	function clearradio() {
+  }
+  $output .= << "PrintTag";
+//to prevent inhearitance of popup
+function clearradio() {
   var a= document.forms[0].popup;
   if (a) a.value = 0;
   document.forms[0].action = "$officium";
@@ -169,9 +165,10 @@ PrintTag
 		if (m > 12) {y++; m = 1;}
 	}
   document.forms[0].date.value = m + "-" + d + "-" + y;
-	}
-	</SCRIPT>
+}
 PrintTag
+
+  $output
 }
 
 sub horasjsend {
