@@ -63,6 +63,9 @@ Content-type: text/html; charset=utf-8
     }
   </STYLE>
   <TITLE>$title</TITLE>
+	<SCRIPT TYPE='text/JavaScript' SRC='js/util.js'></SCRIPT>
+	<SCRIPT TYPE='text/JavaScript' SRC='js/jquery.min.js'></SCRIPT>
+	<SCRIPT TYPE='text/JavaScript' SRC='js/exsurge.js'></SCRIPT>
 $horasjs
 </HEAD>
 <BODY VLINK=$visitedlink LINK=$link BGCOLOR="#eeeeee"$onload>
