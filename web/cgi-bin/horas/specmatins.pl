@@ -552,7 +552,7 @@ sub lectiones {
 	
 	if ($winner =~ /sancti/i && $rule !~ /ex C1[02]/ && $rule !~ /Special Evangelii Benedictio/i) { # if winner is sanctoral
 		$i = ($num > 0) ? $num : 3;
-		@a = split("\n", $benedictio{"Nocturn $i"});
+		@a = split("\n", $benedictio{"Nocturn $i"});		# should be no change to line 523 ???
 	}
 	my $divaux = ($rule =~ /Divinum auxilium/i || $commune{Rule} =~ /Divinum auxilium/i) ? 1 : 0;
 	if ($i == 3 && $winner{Rank} =~ /Mari.* Virgin/i && !$divaux) { $a[3] = $a[10]; }	 # Special B.M.V. benedictio '… ipsa Virgo'
