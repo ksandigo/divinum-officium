@@ -382,38 +382,39 @@ sub absolutio_benedictio {
 
 #*** legend_monastic($lang)
 sub legend_monastic {
-	my $lang = shift;
-	#1 lesson
-	absolutio_benedictio($lang);
-	my %w = (columnsel($lang)) ? %winner : %winner2;
-	my $str;
-	
-	if (exists($w{Lectio94})) {
-		$str = $w{Lectio94};
-	} else {
-		$str = $w{Lectio4};
-		if (exists($w{Lectio5}) && $w{Lectio5} !~ /!/) { $str .= $w{Lectio5} . $w{Lectio6}; }
-	}
-	
-	$str =~ s/&teDeum\s*//;
-	$str =~ s/^(?=\p{Letter})/v. /;
-	push(@s, $str, '$Tu autem', '_');
-	
-	my $resp = '';
-	
-	if (exists($w{Responsory1})) {
-		$resp = $w{Responsory1};
-	} else {
-		my %c = (columnsel($lang)) ? %commune : %commune2;
-		
-		if (exists($c{Responsory1})) {
-			$resp = $c{Responsory1};
-		} else {
-			$resp = "Responsory for ne lesson not found!";
-		}
-	}
-	push(@s, responsory_gloria($resp, 3));
-	push(@s, matins_lectio_responsory_alleluia($resp, $lang));
+  my $lang = shift;
+  #1 lesson
+  absolutio_benedictio($lang);
+  my %w = (columnsel($lang)) ? %winner : %winner2;
+  my $str;
+
+  if (exists($w{Lectio94})) {
+    $str = $w{Lectio94};
+  } else {
+    $str = $w{Lectio4};
+    if (exists($w{Lectio5}) && $w{Lectio5} !~ /!/) { $str .= $w{Lectio5} . $w{Lectio6}; }
+  }
+
+  $str =~ s/&teDeum\s*//;
+  $str =~ s/^(?=\p{Letter})/v. /;
+  push(@s, $str, '$Tu autem', '_');
+
+  my $resp = '';
+
+  if (exists($w{Responsory1})) {
+    $resp = $w{Responsory1};
+  } else {
+    my %c = (columnsel($lang)) ? %commune : %commune2;
+
+    if (exists($c{Responsory1})) {
+      $resp = $c{Responsory1};
+    } else {
+      $resp = "Responsory for ne lesson not found!";
+    }
+  }
+  $resp = responsory_gloria($resp, 3);
+  matins_lectio_responsory_alleluia($resp, $lang);
+  push(@s, $resp);
 }
 
 #*** brevis_monstic($lang)
