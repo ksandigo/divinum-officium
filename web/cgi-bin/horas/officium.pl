@@ -25,6 +25,8 @@ use locale;
 use lib "$Bin/..";
 use DivinumOfficium::Main qw(liturgical_color);
 use DivinumOfficium::Date qw(prevnext);
+use DivinumOfficium::RunTimeOptions qw(check_version check_horas check_language);
+
 $error = '';
 $debug = '';
 
@@ -110,15 +112,22 @@ set_runtime_options('parameters'); # priest, lang1 ... etc
 
 if ($command =~ s/changeparameters//) { getsetupvalue($command); }
 
+$version = check_version($version);
+$lang1 = check_language($lang1);
+$lang2 = check_language($lang2);
+
 our $plures = strictparam('plures');
 my @horas = ();
 if ($command =~ s/^pray//) {
+  $command =~ s/SanctaMissa//;
   @horas = split(/(?=\p{Lu}\p{Ll}+)/, $command);
-  if (@horas > 1 && $votive ne 'C9') {
-    $plures = join('', @horas);
-  }
   if ($horas[0] eq 'Omnes') { 
     @horas = gethoras($votive eq 'C9');
+  } elsif ($horas[0] ne 'Plures') {
+    @horas = map { check_horas($_); } @horas;
+    if (@horas > 1 && $votive ne 'C9') {
+      $plures = join('', @horas);
+    }
   }
 }
 our $hora = (@horas > 0) ? $horas[0] : '';
@@ -128,9 +137,10 @@ setcookies("horasg$cookies_suffix", 'general');
 
 if ($Ck) {
   $version1 = $version; # save value for use in horas
+  $version2 = check_version($version2);
   $version2 ||= $version;
-  if ($version eq $version2) { $version2 = 'Divino Afflatu'; }
-  if ($version eq $version2) { $version2 = 'Rubrics 1960'; }
+  if ($version eq $version2) { $version2 = 'Divino Afflatu - 1954'; }
+  if ($version eq $version2) { $version2 = 'Rubrics 1960 - 1960'; }
   $lang1 = $lang2 = $langc;
 }
 
@@ -159,10 +169,6 @@ setsecondcol();
 our $psalmnum1 = 0;
 our $psalmnum2 = 0;
 
-# prepare title
-$daycolor = liturgical_color($dayname[1], $commune);
-build_comment_line();
-
 $completed = getcookie1('completed');
 if ( $date1 eq gettoday()
   && $command =~ /pray/i
@@ -173,15 +179,15 @@ if ( $date1 eq gettoday()
   setcookie1('completed', $completed);
 }
 
+# prepare title
+my $dayhead = setheadline();
+my $html_dayhead = html_dayhead($dayhead, $dayname[2]);
+
 if ($command =~ /kalendar/) {    # kalendar widget
   print "Access-Control-Allow-Origin: *\n";
   print "Content-type: text/html; charset=utf-8\n";
   print "\n";
-  $headline = setheadline();
-  $headline =~ s{!(.*)}{<FONT SIZE=1>$1</FONT>}s;
-  $comment =~ s/([\w]+)=([\w+-]+)/$1="$2"/g;
-  print "<p><span style='text-align:center;color:$daycolor'>$headline<br/></span>";
-  print "<span>$comment<BR/><BR/></span></p>";
+  print $html_dayhead;
   exit;
 }
 
@@ -195,9 +201,7 @@ if ($command =~ /setup(.*)/i) {
   print setuptable($command, "Divinum Officium setup");
   $command = "change" . $command . strictparam('pcommand');
 } else {
-  my $dayheadline = daylineheader(setheadline(), $Ck ? '' : $comment, $daycolor);
-  $dayheadline = daylineheader_c($dayheadline, $version, $version2) if $Ck;
-  print headline($dayheadline, substr($officium, 0, 1), $Ck ? "$version / $version2" : $version);
+  print headline($html_dayhead, substr($officium, 0, 1), $version, $version2);
 
   if ($horas[0] eq 'Plures') {
     print setplures();
@@ -208,10 +212,10 @@ if ($command =~ /setup(.*)/i) {
         precedence($date1); # prevent lost commemorations
       } elsif (/vesper/i && ($horas[0] !~ /vesper/i)) {
         precedence($date1);
-        my $vesperaheadline = setheadline();
-        if ($dayheadline ne $vesperaheadline) { 
-          $daycolor = liturgical_color($dayname[1], $commune);
-          print par_c("<BR><BR><FONT COLOR=$daycolor>$vesperaheadline</FONT>"); 
+        setsecondcol();
+        my $vesperahead = setheadline();
+        if ($dayhead ne $vesperahead) { 
+          print par_c("<BR><BR>" . html_dayhead($vesperahead)); 
         }
       }
       horas($hora);

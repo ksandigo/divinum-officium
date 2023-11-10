@@ -689,10 +689,10 @@ sub psalmi_minor {
 
     #if ($winner =~ /tempora/i && $dayofweek > 0 && $winner{Rank} =~ /Dominica/i && $rank < 6
     #  && $dayname[0] !~ /Nat/i) {$i = 2 * $dayofweek;}  #anticipated Sunday
-    if ( $version =~ /1960/
+    if ( $version =~ /19(?:55|60)/
       && $winner =~ /sancti/i
       && $rank < 6
-      && $hora =~ /(Prima|Tertia|Sexta|Nona)/i)
+      && $hora !~ /completorium/i)
     {
       $i = 2 * $dayofweek;
     }
@@ -1128,7 +1128,7 @@ sub oratio {
     || ($winner{Rank} =~ /Quattuor/i && $version !~ /1960|Monastic/i && $hora =~ /Vespera/i))
   {
     my $name = "$dayname[0]-0";
-    if ($name =~ /(Epi1|Nat)/i && $version ne 'Monastic') { $name = 'Epi1-0a'; }
+    if ($name =~ /(Epi1|Nat)/i && $version !~ /monastic/i) { $name = 'Epi1-0a'; }
     %w = %{setupstring($lang, subdirname('Tempora', $version) . "$name.txt")};
   }
 
@@ -2273,8 +2273,8 @@ sub loadspecial {
   my $str = shift;
   my @s = split("\n", $str);
 
-  # Un-double the antiphons, except in 1960 or Dominican.
-  unless ($version =~ /1960|Monastic|Praedicatorum/) {
+  # Un-double the antiphons, except in 1960
+  unless ($version =~ /196/) {
     my $i;
     my $ant = 0;
 

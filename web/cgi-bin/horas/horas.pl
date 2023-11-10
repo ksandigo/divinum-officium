@@ -575,7 +575,7 @@ sub psalm : ScriptFunc {
     $t .= "\n$lnum $line $rest";
   }
   $t .= "\n";
-  if ($version eq "Monastic" && $num == 129 && $hora eq 'Prima') { $t .= $prayers{$lang}->{Requiem}; }
+  if ($version =~ /Monastic/ && $num == 129 && $hora eq 'Prima') { $t .= $prayers{$lang}->{Requiem}; }
   elsif ($num != 210 && !$nogloria) { $t .= "\&Gloria\n"; }
   $t .= settone(0);
   return $t;
@@ -1114,6 +1114,8 @@ sub gregor {
     return ("Luna $ordinals[$gday-1] Anno Dómini $year\n", ' ');
   } elsif ($lang =~ /Polski/i) {
     return ("Roku Pańskiego $year");
+    } elsif ($lang =~ /Francais/i) {
+    return ("L'année du Seigneur $year, le $gday$sfx2 jour de la Lune");
   } else {
     return ("$months[$month - 1] $day$sfx1 $year, the $gday$sfx2 day of the Moon,", $months[$month - 1]);
   }
