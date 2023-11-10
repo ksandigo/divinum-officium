@@ -15,7 +15,7 @@ Large font~>$largefont~>Entry~>12~>10;;
 Small red~>$smallfont~>Entry~>12~>11;;
 Title font~>$titlefont~>Entry~>12~>12;;
 Screen height~>$screenheight~>Entry~>12~>13;;
-Text width percent~>$textwidth~>Entry~>12~>14;;
+Text width percent~>$textwidth~>Entry~>12~>14
 
 [general]
 Expand~>$expand~>Optionmenu~>{all,psalms,none,skeleton};;
@@ -25,7 +25,7 @@ Votive~>$votive~>Optionmenu~>votives;;
 
 [generalc]
 Expand~>$expand~>Optionmenu~>{all,psalms,none,skeleton};;
-Version 1~>$version1~>Optionmenu~>versions;;
+Version 1~>$version~>Optionmenu~>versions;;
 Version 2~>$version2~>Optionmenu~>versions;;
 Language~>$langc~>Optionmenu~>languages;;
 Votive~>$votive~>Optionmenu~>votives;;
@@ -34,7 +34,7 @@ Votive~>$votive~>Optionmenu~>votives;;
 Latin,Dansk,Deutsch,English,Español/Espanol,Français/Francais,Italiano,Magyar,Polski,Português/Portugues,Latin-Bea,Polski-Newer
 
 [versions]
-Tridentine 1570,Tridentine 1910,Divino Afflatu,Reduced 1955,Rubrics 1960,1960 Newcalendar,Monastic,Ordo Praedicatorum,Bavariae
+Tridentine - 1570,Tridentine - 1888,Divino Afflatu - 1954,Reduced - 1955,Rubrics 1960 - 1960,Rubrics 1960 - 2020 USA,Monastic - 1963,Ordo Praedicatorum - 1962,Bavariae
 
 [votives]
 Hodie,Dedicatio/C8,Defunctorum/C9,Parvum B.M.V./C12

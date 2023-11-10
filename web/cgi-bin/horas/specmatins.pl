@@ -6,7 +6,7 @@ use utf8;
 # Divine Office Matins subroutines
 use FindBin qw($Bin);
 use lib "$Bin/..";
-use DivinumOfficium::Directorium qw(get_stransfer);
+use DivinumOfficium::Directorium qw(get_stransfer hymnmerge hymnshift);
 
 # Defines ScriptFunc and ScriptShortFunc attributes.
 use horas::Scripting;
@@ -109,12 +109,16 @@ sub hymnusmatutinum {
 	my ($h, $c) = getproprium("$name Matutinum", $lang, $seasonalflag, 1);
 	
 	if ($h) {
-		if ($hymncontract) {			# if proper Vesper hymn has been omitted due to concurrent II. Vespers
+		if (hymnshift($version, $day, $month, $year)) {			# if 1st Vesper hymn has been omitted due to concurrent II. Vespers
+			my ($h1, $c1) = getproprium("$name Vespera", $lang, $seasonalflag, 1);
+			$h = $h1;
+			setbuild2("Hymnus shifted");
+    } elsif (hymnmerge($version, $day, $month, $year)) {	# if also 2nd Vesper been omitted
 			my ($h1, $c1) = getproprium("$name Vespera", $lang, $seasonalflag, 1);
 			$h =~ s/^(v. )//;
 			$h1 =~ s/\_(?!.*\_).*/\_\n$h/s;	# find the Doxology as last verse since e.g. Venantius(05-18) has a proper one
 			$h = $h1;
-			setbuild2("Hymnus contracted");
+			setbuild2("Hymnus merged");
 		}
 		$hymn = $h;
 		$comment = $c;
@@ -336,7 +340,7 @@ sub psalmi_matutinum {
 	# we've already returned.
 	if ($dayname[0] =~ /Pasc[1-6]/i && $version !~ /Trident/i) {    #??? ex
 		my $tde =
-		($version =~ /1960/ && ($dayname[0] =~ /Pasc6/i || ($dayname[0] =~ /Pasc5/i && $dayofweek > 3))) ? '1' : '';
+		($version =~ /196/ && ($dayname[0] =~ /Pasc6/i || ($dayname[0] =~ /Pasc5/i && $dayofweek > 3))) ? '1' : '';
 		my $i;
 		
 		if ($tde) {
@@ -712,7 +716,7 @@ sub lectio : ScriptFunc {
 	
 	# TODO: There seems to be a mismatch between taking care of a conflict of Die VII infra 8vam Immaculata Conceptio. and Q.T. in Adventum
 	# The lessons are repeated from the feast day 12-08 unless it is Feria IV Q.T.?
-	if($version =~ /(1570|1910|Divino|Bavariae)/i && $month == 12 && $day == 14 && $dayofweek !~ 3){ $w{"Lectio$num"} = $c{"Lectio$num"};}
+	if($version =~ /(Trident|Divino|Bavariae)/i && $month == 12 && $day == 14 && $dayofweek !~ 3){ $w{"Lectio$num"} = $c{"Lectio$num"};}
 	
 	#scriptura1960
 	if ( $num < 3
@@ -979,7 +983,7 @@ sub lectio : ScriptFunc {
 				$s = (columnsel($lang)) ? $scriptura{"Responsory$na 1960"} : $scriptura2{"Responsory$na 1960"};
 			}
 		} else {
-			if ($version eq "Monastic" && $dayofweek != 0 && $month == 1 && $day > 6 && $day < 13) {
+			if ($version =~ /monastic/i && $dayofweek != 0 && $month == 1 && $day > 6 && $day < 13) {
 				$na += 4 if ($dayofweek == 2 || $dayofweek == 5) ;
 				if ($dayofweek == 3) { # Saturday dont work due C10 || $dayofweek == 6 ) {
 					$na += 1 if ($na > 1);
@@ -1222,7 +1226,7 @@ use constant {
 sub gettype1960 {
 	my $type = LT1960_DEFAULT;
 	
-	if ($version =~ /1960|Monastic|Newcal/i && $votive !~ /(C9|Defunctorum)/i) {
+	if ($version =~ /196/i && $votive !~ /(C9|Defunctorum)/i) {
 		if ($dayname[1] =~ /post Nativitatem/i) {
 			$type = LT1960_OCTAVEII;
 		} elsif ($rank < 2 || $dayname[1] =~ /(feria|vigilia|die)/i) {
