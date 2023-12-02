@@ -1,12 +1,5 @@
 #Incipit
-$Pater noster
-$Ave Maria
-$Credo
-_
-$Deus in adjutorium
-&Alleluia
-_
-&Domine_labia
+$Domine labia
 _
 &psalm(3)
 
@@ -17,8 +10,8 @@ _
 #Psalmi cum lectionibus
 
 #Oratio
-_
-/:Reliqua omittuntur, nisi %Laudes% separandæ sint.:/
+
+!Reliqua omittuntur, nisi %Laudes% separandæ sint.
 
 #Conclusio
 &Dominus_vobiscum

@@ -4,7 +4,7 @@ S. Thomæ Cantuariensis Episcopi et Martyris;;Duplex;;3;;vide C2
 [Rank] (rubrica 1570 aut rubrica 1888)
 S. Thomæ Cantuariensis Episcopi et Martyris;;Semiduplex;;2.2;;vide C2
 
-[Rank](rubrica 1960)
+[Rank](rubrica 196)
 S. Thomæ Cantuariensis Episcopi et Martyris;;Simplex;;1.1;;vide C2
 
 [Rule]

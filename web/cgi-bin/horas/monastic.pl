@@ -116,9 +116,9 @@ sub psalmi_matutinum_monastic {
     for ($i = 0; $i < 3; $i++) { $psalmi[$i + 16] = $c[$i]; }
   }
 
-  if (($rank > 4.9 || $votive =~ /C8/) && !(($dayname[0] =~ /Pasc0/) && ($dayofweek > 2))) {
+  if ((($rank > 4.9 || $votive =~ /C8/) || ((($rank >= 4 && $version =~ /divino/i) || ($rank >= 2 && $version =~ /trident/i)) && !($dayname[1] =~ /infra octavam/))) && !($dayname[0] =~ /Pasc0/ && $dayofweek > 2)) {
     #** get proper Ant Matutinum for II. and I. class feasts unless it's Wednesday thru Saturday of the Easter Octave
-    my ($w, $c) = getproprium('Ant Matutinum', $lang, 0, 1);
+		my ($w, $c) = getproprium('Ant Matutinum', $lang, $version !~ /196/, 1);  # for Trid. und Divino also look in Commune
     if ($w) {
       @psalmi = split("\n", $w);
       $comment = $c;
@@ -132,7 +132,23 @@ sub psalmi_matutinum_monastic {
         $psalmi[$ind-1] =~ s/^.*?;;/$wa;;/;
       }
     }
-  }
+	} elsif ($dayname[1] =~ /infra octavam/i) {
+		if (exists($winner{'Ant Matutinum'})) {
+			my $start = 0;
+			my ($w,$c) = getproprium('Ant Matutinum', $lang, 0, 0);
+			my @p = split("\n", $w);
+			for (my $i = $start; $i < 14; $i++) {
+				my $p = $p[$i];
+				if ($psalmi[$i] =~ /;;(.*)/s) { $p = ";;$1"; }
+				if ($i == 0 || $i == 8) {
+						$p = "$p[$i]$p";
+				}
+				$psalmi[$i] = $p;
+			}
+			setbuild2("Antiphonas Psalmi Octavam special");
+			
+		}
+	}
   setcomment($label, 'Source', $comment, $lang, $prefix);
   my $i = 0;
   my %w = (columnsel($lang)) ? %winner : %winner2;
@@ -144,7 +160,7 @@ sub psalmi_matutinum_monastic {
 
   if ($rule =~ /12 lectiones/) {
     lectiones(1, $lang);    # first Nocturn of 4 lessons (
-  } elsif ($dayname[0] =~ /(Pasc[1-6]|Pent)/i && $month < 11 && $winner{Rank} !~ /vigil|quattuor/i) {
+  } elsif ($dayname[0] =~ /(Pasc[1-6]|Pent)/i && $month < 11 && $winner{Rank} !~ /vigil|quattuor|infra octavam/i) {
       # at least before 1960 (Breviarum Monasticum 1930), the change from "summer" to "winter" matins was tied to the 1st Sunday of November
       # not All Saints' Day. Unless this has been changed with moving the 1st Sunday of November occuring after 10-29 to after 11-01
       # the elsif above makes a mistake and refers to non-existing scriptura of the last week of October and should be replaced by the following:
@@ -153,11 +169,13 @@ sub psalmi_matutinum_monastic {
       || !(exists($winner{Lectio94}) || exists($winner{Lectio4})))
     {
       brevis_monastic($lang);   # on a ferial day in "Summer", we have just a Lectio brevis
+			setbuild2("Lectio brevis monastic");
     } elsif (exists($winner{Lectio94}) || exists($winner{Lectio4})) {
       legend_monastic($lang);   # on a III. class feast in "Summer", we have the contracted Saint's legend
+			setbuild2("Lectio legend monastic");
     }
   } else {
-    lectiones($winner{Rank} !~ /vigil/i, $lang);
+    lectiones($winner{Rank} !~ /vigil/i && $version !~ /trident|divino/i, $lang);
       # unless it's a vigil, the standard Nocturn 1 Absolutio is going to be combined with the Benedictions depending on the day of the week;
       # for a vigil, even the Absolutio is changed as above (Is this really what the BM1963 rubrics say?)
   }

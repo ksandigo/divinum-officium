@@ -1374,7 +1374,11 @@ sub setheadline {
 			'I. classis',
 			'I. classis'
 			);
+			
+			if ($version =~ /1930/) { $tradtable[1,2] = 'Memoria'; }
 			$rankname = ($version !~ /196/) ? $tradtable[$rank] : $newtable[$rank];
+			
+			
 			if ($version =~ /19(?:55|60)/ && $winner !~ /Pasc5-3/i && $dayname[1] =~ /feria/i) { $rankname = 'Feria'; }
 			
 			if ($version =~ /1570/i) { $rankname =~ s/ majus//;	} # no Duplex majus yet in 1570

@@ -8,7 +8,8 @@ v. Fratres: Sóbrii estóte, et vigiláte: quia adversárius vester diábolus ta
 $Tu autem
 
 $Adjutorium nostrum
-!Pater noster quod dicitur totum secreto.
+_
+!Examen conscientiæ vel Pater Noster totum secreto.
 $Pater noster
 $ConfiteorM
 $Misereatur
@@ -34,17 +35,9 @@ _
 V. Custódi nos, Dómine, ut pupíllam óculi.
 R. Sub umbra alárum tuárum prótege nos.
 
-$MLitany2
-_
-#Preces Dominicales
-$Credo secreto
-V. Dignáre, Dómine, nocte ista. 
-R. Sine peccáto nos custodíre.
-V. Dómine, exáudi oratiónem meam.
-R. Et clamor meus ad te véniat.
-
 #Oratio
-&Dominus_vobiscum1
+$MLitany2
+&Dominus_vobiscum
 $Oremus
 v. Vísita, quǽsumus, Dómine, habitatiónem istam, et omnes insídias inimíci ab ea lónge repélle: Ángeli tui sancti hábitent in ea, qui nos in pace custódiant; et benedíctio tua sit super nos semper.
 $Per Dominum
@@ -57,6 +50,3 @@ R. Amen.
 
 &antiphona_finalis
 &Divinum_auxilium
-$Pater noster
-$Ave Maria
-$Credo

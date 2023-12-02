@@ -1,7 +1,4 @@
 #Incipit
-$Pater noster
-$Ave Maria
-$Credo
 $Deus in adjutorium
 &Alleluia
 
@@ -15,21 +12,10 @@ _
 V. Auf, Christus, sei unser Beistand.
 R. Und mach uns [vom Übel] frei um deinetwillen.
 
+#Orationes
 $MLitany2
 _
-#Preces Dominicales
-$Credo secreto
-$Adjutorium nostrum
-$ConfiteorM
-$Misereatur
-$Indulgentiam
-V. Gewähre uns, o Herr, an diesem Tag die Gnade,
-R. daß du uns ohne Sünde bewahrest.
-V. O Herr, erhöre mein Gebet.
-R. Und laß mein Rufen zu dir kommen.
-
-#Orationes
-&Dominus_vobiscum1
+&Dominus_vobiscum
 $Oremus
 v. O allmächtiger Herr und Gott, der du uns zum Beginn dieses Tages hast gelangen lassen, erhalte uns heute heil auf Grund deiner Kraft, damit wir an diesem Tage zu keiner Sünde abweichen, sondern daß stets zum Erfüllen dessen, was bei dir Recht ist, das ausgehe, was wir reden, und das geleitet werde, was wir denken und tun.
 $Per Dominum
@@ -59,7 +45,7 @@ $MLitany2
 V. Schau doch hernieder,  o Herr, auf deine Knechte, die du selbst geschaffen, und leite richtig ihre Kinder.
 R. Es leuchte deine Huld, o Herr und unser Gott, nun über uns und leite die Werke unserer Hände durch dein Walten über uns und lenke das, was unsere Hände auszuführen haben.
 &Gloria
-$Oremus 	
+v. Lasset uns beten. 	
 Würdige dich, o Herr und Gott, du König des Himmels und der Erde, heute zu leiten und zu heiligen, zu beherrschen und zu lenken unsere Herzen und alles, was in uns ist, die Gedanken, die Worte und die Werke gemäß deinem Gesetz und so, daß sie zu den Werken gehören, die deinen Vorschriften entsprechen, damit wir, hier und auf ewig, mit deiner Hilfe würdig werden, heil und vom Übel frei zu sein, o du Heiland der Welt, der du lebst und regierst in alle Ewigkeit.
 _
 V. Laß, o Herr, den Segen erteilen.
@@ -75,7 +61,8 @@ _
 $Tu autem
 
 #Conclusio
-$Adjutorium nostrum
+V. Unsere Hilfe kommt + von der Majestät des Herrn. 
+R. Der gemacht den Himmel und die Erde.
 V. Gebt den Segen.
 R. Gott [möge ihn geben].
 Benedictio. Der Herr möge uns segnen + und uns vor allem Schaden bewahren und uns zum ewigen Leben führen.

@@ -749,7 +749,7 @@ sub psalmi_minor {
 
     if ($month == 12 && $day > 16 && $day < 24 && $dayofweek > 0) {
       my $i = $dayofweek + 1;
-      if ($dayofweek == 6 && $version =~ /trident/i) { # take ants from feria occuring Dec 21st
+      if ($dayofweek == 6 && $version =~ /trident|1930/i) { # take ants from feria occuring Dec 21st
         $i = get_stThomas_feria($year) + 1;
         if ($day == 23) { $i = ""; } # use Sundays ant
       }
@@ -877,10 +877,11 @@ sub psalmi_major {
     @psalmi = split("\n", $psalmi{"$head $hora"});
 
     if ($hora =~ /Laudes/i && $head =~ /Daym[1-6]/) {
-      unless ( (($dayname[0] =~ /Adv|Quadp/) && ($duplex < 3) && ($commune !~ /C10/))
-               || (($dayname[0] =~ /Quad\d/) && ($dayname[1] =~ /Feria/))
-               || ($dayname[1] =~ /Quattuor Temporum Septembris/)
-               || (($dayname[0] =~ /Pent/) && ($dayname[1] =~ /Vigil/)))
+      unless ($version=~ /trident/i
+				|| (($dayname[0] =~ /Adv|Quadp/) && ($duplex < 3) && ($commune !~ /C10/))
+        || (($dayname[0] =~ /Quad\d/) && ($dayname[1] =~ /Feria/))
+        || ($dayname[1] =~ /Quattuor Temporum Septembris/)
+        || (($dayname[0] =~ /Pent/) && ($dayname[1] =~ /Vigil/)))
       {
         my @canticles = split("\n", $psalmi{'DaymF Canticles'});
         if ($dayofweek == 6) { $psalmi[1] .= '(1-7)'; $psalmi[2] = ';;142(8-12)'; }
@@ -912,22 +913,27 @@ sub psalmi_major {
   setbuild("Psalterium/Psalmi major", "Day$dayofweek $name", 'Psalmi ord');
 
   my @antiphones;
-  if (($hora =~ /Laudes/ || ($hora =~ /Vespera/ && $version =~ /Monastic/)) && $month == 12 && $day > 16 && $day < 24 && $dayofweek > 0) {
+	if (($hora =~ /Laudes/ || ($hora =~ /Vespera/ && $version =~ /1963/)) && $month == 12 && $day > 16 && $day < 24 && $dayofweek > 0) { # TODO: is this really the case in Monastic 1963 Vespers throughout the week?
     my @p1 = split("\n", $psalmi{"Day$dayofweek Laudes3"});
-    if ($dayofweek == 6 && $version =~ /trident/i) { # take ants from feria occuring Dec 21st
+    if ($dayofweek == 6 && $version =~ /trident|1930/i) { # take ants from feria occuring Dec 21st
       my $expectetur = $p1[3]; # save Expectetur
       @p1 = split("\n", $psalmi{"Day" . get_stThomas_feria($year) . " Laudes3"});
       if ($day == 23) { # use Sundays ants
         my %w = %{setupstring($lang, subdirname('Tempora', $version) . "Adv4-0.txt")};
         @p1 = split("\n", $w{"Ant Laudes"});
       }
-      $p1[3] = $expectetur;
+			if ($version =~ /monastic/i) {
+				$p1[2] = $expectetur;
+				$p1[3] = '';
+			} else {
+				$p1[3] = $expectetur;
+			}
     }
     for (my $i = 0; $i < @p1; $i++) {
       my @p2 = split(';;', $psalmi[$i]);
       $antiphones[$i] = "$p1[$i];;$p2[1]";
     }
-    setbuild2("Special laudes antiphonas for week before vigil of Christmas");
+    setbuild2("Special Laudes antiphonas for week before vigil of Christmas");
   }
 
   #look for de tempore or Sancti
@@ -1218,6 +1224,7 @@ sub oratio {
       if ($version =~ /Monastic/) {
         if ($hora =~ /Laudes|Vespera/) { push(@s, $prayers{$lang}->{'MLitany'}); }
         else { push(@s, $prayers{$lang}->{'MLitany2'}); }
+				$precesferiales = 0;
       }
       if ($priest) {
         push(@s, "&Dominus_vobiscum");
@@ -1855,7 +1862,7 @@ sub hymnusmajor {
 sub getanthoras {
   my $lang = shift;
   my $tflag = ($version =~ /Trident|Monastic/i && $winner =~ /Sancti/i) ? 1 : 0;
-  $tflag = 0 if ($winner =~ /SanctiM.01-(?:(?:0[2-5789])|(?:1[012]))/);
+  $tflag = 0 if ($version=~/1963/ && $winner =~ /SanctiM.01-(?:(?:0[2-5789])|(?:1[012]))/);
 
   my $ant = '';
   if ($rule !~ /Antiphonas horas/i && $communerule !~ /Antiphonas horas/i && !$tflag) { return ''; }
@@ -2054,8 +2061,8 @@ sub doxology {
       && $commemoratio{Rule} =~ /Doxology=([a-z]+)/i)
     {
       $dname = $1;
-    } elsif (($month == 8 && $day > 15 && $day < 23 && $version !~ /Monastic/i)
-      || ($version != /1570/ && $month == 12 && $day > 8 && $day < 16 && $dayofweek > 0))
+    } elsif (($month == 8 && $day > 15 && $day < 23 && $version !~ /1955|1963/i)
+      || ($version !~ /1570|1617/ && $month == 12 && $day > 8 && $day < 16 && $dayofweek > 0))
     {
       $dname = 'Nat';
     } else {

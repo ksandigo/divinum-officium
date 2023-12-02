@@ -26,12 +26,7 @@ sub invitatorium {
 	: ($dayname[0] =~ /Pasc/i) ? 'Pasch'
 	: '';
 	
-	if (
-		$version =~ /Trid|Monastic/i
-		&& (!$name
-		|| ($name eq 'Quad' && $dayofweek != 0))
-		)
-	{
+	if ($version =~ /Trid|Monastic/i && (!$name	|| ($name eq 'Quad' && $dayofweek != 0))) {
 		$name = 'Trid';
 	}
 	
@@ -48,7 +43,8 @@ sub invitatorium {
 	setbuild('Psalterium/Matutinum Special', $name, 'Invitatorium ord');
 	my $ant = chompd($invit[$i]);
 	my ($w, $c);
-	if ($version =~ /Monastic/i && $dayofweek && $winner =~ /Pasc/ && $winner !~ /Pasc[07]/ && $winner !~ /Pasc5-4/) {
+	if ($version =~ /Monastic/i && $dayofweek && $winner =~ /Pasc/ && $winner !~ /Pasc[07]/ && $winner !~ /Pasc5-4/
+			&& !($version =~ /trident|divino/i && $dayname[1] =~ /ascensio|pent|joseph/i)) {
 		$ant = $prayers{$lang}{"Alleluia Duplex"};
 		$ant =~ s/(\S+), (\S+)\./$1, $2, * $1/;
 	} else {
@@ -586,13 +582,13 @@ sub lectiones {
 			my $j = 6;                                                                          # "Cujus …, ipse"
 			if ($winner{Rank} =~ /(virgin|vidua|poenitentis|pœnitentis|C6|C7)/i) { $j += 2; }   # "Cujus …, ipsa"
 			if ($winner{Rank} =~ /ss\./i) { $j++; }                                             # "Quorum / Quarum"
-			$a[($version =~ /Monastic/) ? 4 : 3] = $a[$j];                                      # Replace Benediction 8 (or 11)
+			$a[($version =~ /Monastic/i) ? 4 : 3] = $a[$j];                                      # Replace Benediction 8 (or 11)
 		}
 		if ($rule =~ /Ipsa Virgo Virginum/i && !$divaux) { $a[3] = $a[10]; }                  # Special B.M.V. benedictio '… ipsa Virgo'
 		if ($rule =~ /Quorum Festum/i && !$divaux) { $a[3] = $a[7]; }                         # Feast of several saints in tempora
 		setbuild2("B" . ($j1+1) . ". : " . beginwith($a[3]));
 		$w = lectio($j1+2, $lang);                                                            # check if final Lectio is a commemorated Homily
-		if ($w =~ $evan_regexp) { $a[4] = $benedictio{Evangelica9}; }                         # "Per evangélica dicta, …"
+		if ($w =~ $evan_regexp) { $a[$version =~ /Monastic/i ? 5 : 4] = $benedictio{Evangelica9}; }   # "Per evangélica dicta, …" Benedictio 9 (or 12)
 		setbuild2("B" . ($j1+2) . ". : " . beginwith($a[4]));
 	}
 	if ($version =~ /1960/ && $lang =~ /Latin/i) { $a[1] = 'Jube, Dómine, benedícere.'; }
@@ -648,26 +644,14 @@ sub lectio : ScriptFunc {
 	
 	if ($ltype1960 == 2 && $num == 3) {     # 3rd reading in a Sunday office
 		$num = 7;       # diverge to Gospel / Homily
-	} elsif (
-	($ltype1960 == 3 && $num == 3 && $votive !~ /(C9|Defunctorum)/i) # 3rd reading in sanctoral office of 3 readings
-	|| (
-	$version !~ /1960/
-	&& $rule !~ /1 et 2 lectiones/i
-	&& $num == 3
-	&& $winner =~ /Sancti/i
-	&& $rank < 2
-	&& $winner{Rank} !~ /vigil/i
-	&& ( $version !~ /monastic/i
-	|| $dayname[0] !~ /Nat|Epi1/i)
-	)      # sanctoral simplex feast (unless monastic in Nativitytide and Epiphany => prevent the former Octave days of Stephanus, Joannes, Innocents)
-	)
-	{
+	} elsif (($ltype1960 == 3 && $num == 3 && $votive !~ /(C9|Defunctorum)/i) # 3rd reading in sanctoral office of 3 readings
+		|| ($version !~ /1960/ && $rule !~ /1 et 2 lectiones/i && $num == 3	&& $winner =~ /Sancti/i && $rank < 2 && $winner{Rank} !~ /vigil/i
+			&& !($version =~ /1963/i && $dayname[0] != /Nat|Epi1/i))) {     # sanctoral simplex feast (unless monastic in Nativitytide and Epiphany => prevent the former Octave days of Stephanus, Joannes, Innocents)
 		$num = 4;   # diverge to legend
 	}
 	my %w = (columnsel($lang)) ? %winner : %winner2;
 	
-
-	if ($num < 4 && $version =~ /trident/i && $winner{Rank} =~ /Dominica/i && $dayofweek > 0) {
+	if ($num < 4 && $version =~ /trident/i && $winner{Rank} =~ /Dominica/i && $month != 12 && $dayofweek > 0) {
 		my $inum = $num + 6;
 		$w{"Lectio$num"} = $w{"Lectio$inum"};
 		if ($num==1) {
@@ -676,15 +660,14 @@ sub lectio : ScriptFunc {
 	}
 	
 	#Nat1-0 special rule
-	# TODO: Get rid of this special case by separating the temporal and sanctoral
-	# parts of Christmas, thus allowing occurring Scripture to be defined.
+	# TODO: Get rid of this special case by separating the temporal and sanctoral parts of Christmas, thus allowing occurring Scripture to be defined.
 	if ($num <= 3 && $rule =~ /Lectio1 OctNat/i) {
 		my $c;
 		
 		if ($day < 29) {
-			$c = officestring($lang, "Sancti/12-$day.txt");
+			$c = officestring($lang, subdirname('Sancti', $version) . "12-$day.txt");
 		} else {
-			my $tfile = "Tempora/Nat$day" . ($version =~ /trident/i ? "o.txt" : ".txt");
+			my $tfile = subdirname('Tempora', $version) . "Nat$day" . ($version =~ /trident/i ? "o.txt" : ".txt");
 			$c = officestring($lang, $tfile);
 		}
 		$c->{'Lectio2'} .= $c->{'Lectio3'} if (contract_scripture(2));
@@ -1218,7 +1201,8 @@ use constant {
 	LT1960_FERIAL => 1,
 	LT1960_SUNDAY => 2,
 	LT1960_SANCTORAL => 3,
-	LT1960_OCTAVEII => 4
+	LT1960_OCTAVEII => 4,
+	LT1960_OCTAVE => 5
 };
 
 #*** gettype1960
@@ -1227,7 +1211,7 @@ use constant {
 #  2 for Sunday office
 #  3 for saint's office
 #  4 for office within II. cl. octave
-# 0 for the other versions or if there are 9 lectiones
+#  0 for the other versions or if there are 9 lectiones
 sub gettype1960 {
 	my $type = LT1960_DEFAULT;
 	
@@ -1241,8 +1225,17 @@ sub gettype1960 {
 		} elsif ($rank < 5) {
 			$type = LT1960_SANCTORAL;
 		}
-		if ($rule =~ /9 lectiones 1960|12 lectiones/i) { $type = LT1960_DEFAULT; }
+	} elsif ($version =~ /monastic/i && $votive !~ /(C9|Defunctorum)/i) {
+		if ($rank < 2 || ($dayname[1] =~ /(feria|vigilia|die)/i && $dayname[1] !~ /infra octavam/i)) {
+			$type = LT1960_FERIAL;
+		} elsif ($dayname[1] =~ /infra octavam/i) {
+			$type = LT1960_OCTAVE;
+		} elsif ($version !~ /trident/i && $rank < 4) {
+			$type = LT1960_SANCTORAL;
+		}
 	}
+	if ($rule =~ /9 lectiones 1960|12 lectiones/i) { $type = LT1960_DEFAULT; }
+	
 	return $type;
 }
 
