@@ -208,6 +208,11 @@ sub occurrence {
 					$srank = '';
 				} elsif ($version !~ /196/ && $srank && ($tname =~ /Quadp3\-3/i || $tname =~ /Quad6\-[1-3]/i)) {
 					$srank[2] = 1;	# Feria privilegiata: only comm.
+				} elsif ($month == 12 && $day == 23) {	# ensure the Dominica IV adventus win in case it has a "1st Vespers" on Dec 23
+					$srank = '';
+					%saint = undef;
+					$sname = '';
+					@srank = undef;
 				}
 			} elsif ($hora =~ /(Vespera|Completorium)/i) {
 				$svesp = 3;
@@ -809,7 +814,6 @@ sub concurrence {
 			if ($commemo =~ /tempora/i && $trank[2] < 2) { next; }	# Feria minor and Vigils have no Vespers if superseded
 			if (!(-e "$datafolder/Latin/$commemo") && $commemo !~ /txt$/i) { $commemo =~ s/$/\.txt/; }
 			%cstr = %{officestring('Latin', $commemo, 0)};
-			#$dayname[2] .= " occ: $commemo $cstr{Rank}";
 			if (%cstr) {
 				my @cr = split(";;", $cstr{Rank});
 				unless (($cr[2] < $ranklimit && !($cr[2] == 2.1 || $cr[2] == 2.99)) || $cstr{Rule} =~ /No secunda vespera/i) { push(@comentries, $commemo); }   # sort out Simplex
@@ -826,7 +830,6 @@ sub concurrence {
 			if ($commemo =~ /tempora/i && $trank[2] < 2) { next; }	# Feria minor and Vigils have no Vespers if superseded
 			if (!(-e "$datafolder/Latin/$commemo") && $commemo !~ /txt$/i) { $commemo =~ s/$/\.txt/; }
 			%cstr = %{officestring('Latin', $commemo, 0)};
-			#$dayname[2] .= " occ: $commemo $cstr{Rank}";
 			if (%cstr) {
 				my @cr = split(";;", $cstr{Rank});
 				unless (($cr[2] < $ranklimit && !($cr[2] == 2.1 || $cr[2] == 2.99)) || $cstr{Rule} =~ /No secunda vespera/i) { push(@comentries, $commemo); }   # sort out (Semi-)duplex and infra 8vam communis except for Feria major / Dominica major
@@ -1064,16 +1067,14 @@ sub precedence {
 	# Restrict/Add commemorations
 	if ($winner =~ /Sancti/ && $rule =~ /Tempora none/i) {
 		$commemoratio = $scriptura = $dayname[2] = '';
+		@commemoentries = ();
 	}
-#	if ($version !~ /1960/ && $hora =~ /Vespera/ && $month == 12 && $day == 28 && $dayofweek == 6) {
-#		$commemoratio1 = $commemoratio;
-#		$commemoratio = 'Sancti/12-29.txt';
-#	}
 	if ($version !~ /1960/ && $hora =~ /Vespera/ && $month == 1 && $day == 3 && $dayofweek == 6) {
 		$commemoratio1 = 'Sancti/01-04.txt';
 	}
 	if ($version =~ /1960/ && $winner{Rule} =~ /No Sunday commemoratio/i && $dayofweek == 0) {
 		$commemoratio = $commemoratio1 = $dayname[2] = '';
+		@commemoentries = ();
 	}
 	
 	if ($commemoratio) {
@@ -1084,16 +1085,19 @@ sub precedence {
 			$commemoratio = '';
 			%commemoratio = undef;
 			$dayname[2] = '';
+			@commemoentries = ();
 		}
 		if ($version =~ /196/ && $commemoratio =~ /06-28r?/i && $dayofweek == 0) {
 			$commemoratio = '';
 			%commemoratio = undef;
 			$dayname[2] = '';
+			@commemoentries = ();
 		}
 		if ($vespera == $svesp && $vespera == 1 && $cvespera == 3 && $commemoratio{Rule} =~ /No second Vespera/i) { # should be obsolte already
 			$commemoratio = '';
 			%commemoratio = undef;
 			$dayname[2] = '';
+			@commemoentries = ();
 		}
 	}
 	
