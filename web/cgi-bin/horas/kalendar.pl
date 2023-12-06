@@ -28,7 +28,7 @@ use DivinumOfficium::RunTimeOptions qw(check_version);
 our $error;
 our $debug;
 
-#filled by getrank()
+#filled by occurence()
 our @dayname;    #0=Adv|{Nat|Epi|Quadp|Quad|Pass|Pent 1=winner|2=commemoratio/scriptura
 our $winner;     #the folder/filename for the winner of precedence
 our $commemoratio;    #the folder/filename for the commemorated
@@ -200,11 +200,11 @@ sub kalendar_entry {
   if (dirge($version, 'Laudes', $day, $month, $year)) { $c1 .= setfont($smallblack, ' dirge'); }
   if ($version !~ /1960/ && $initia) { $c1 .= setfont($smallfont, ' *I*'); }
 
-  if ($version !~ /1955|1960|Monastic/ && $winner{Rule} =~ /\;mtv/i) {
+  if ($version !~ /1955|196/ && $winner{Rule} =~ /\;mtv/i) {
     $c2 .= setfont($smallblack, ' m.t.v.');
   }
 
-  if ( $version !~ /1960|Monastic/
+  if ( $version !~ /196/
     && $winner =~ /Sancti/
     && exists($winner{Lectio1})
     && $winner{Lectio1} !~ /\@Commune/i
@@ -321,8 +321,11 @@ PrintTag
     print '<P ALIGN=CENTER><A HREF="#" onclick="callkalendar(0)">Single Calendar</A>';
   } else {
     print '<P ALIGN=CENTER><A HREF="#" onclick="callkalendar(1)">Compare Calendars</A>';
+    my $tyear;
+    ($tyear = gettoday()) =~ s/.*-//;
+    my $iyear =  $tyear != $kyear ? "&kyear=$kyear" : '';
+    print "&nbsp;&nbsp;&nbsp;<A HREF='$ENV{PATH_INFO}?format=ical&version=$ver[0]$iyear'>iCal</A>";
   }
-  print "&nbsp;&nbsp;&nbsp;<A HREF='$ENV{PATH_INFO}?format=ical&version=$ver[0]'>iCal</A>" unless $compare;
 
   my $date1 = strictparam('date1');
   my $browsertime = strictparam('browsertime');

@@ -24,14 +24,16 @@ sub getweek {
   my $n;
 
   my $advent1 = getadvent($year);
-
+	my $christmas = date_to_ydays(25, 12, $year);
+	my $tDay = $tomorrow ? $day+1 : $day;
+	
   #Advent in december
   if ($t >= $advent1) {
-    if ($t < ($advent1 + 28)) {
+    if ($t < $christmas) {
       $n = 1 + floor(($t - $advent1) / 7);
       if ($month == 11 || $day < 25) { return "Adv$n"; }
     }
-    return '';
+    return "Nat$tDay";
   }
 
   if ($month == 1 && $day < 7) {
@@ -164,7 +166,7 @@ sub monthday {
   return '' if $month < 7;
 
   my $leapyear = leapyear $year;
-  my $day_of_year = date_to_ydays $day, $month, $year;
+  my $day_of_year = date_to_ydays($day, $month, $year);
   $day_of_year++ if $tomorrow;
 
   my $lit_month = 0;

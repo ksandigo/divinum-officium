@@ -46,7 +46,7 @@ sub horas {
   @script1 = getordinarium($lang1, $command);
   @script1 = specials(\@script1, $lang1);
   $column = 2;
-  if ($Ck) { $version = $version2; precedence(); }
+	if ($Ck) { $version = $version2; precedence(); setsecondcol(); }
   @script2 = getordinarium($lang2, $command);
   @script2 = specials(\@script2, $lang2);
   $expandnum = strictparam('expandnum');
@@ -72,7 +72,7 @@ sub horas {
     ($text1, $ind1) = getunit(\@script1, $ind1);
     ($text2, $ind2) = getunit(\@script2, $ind2);
     $column = 1;
-    $version = $version1 if $Ck;
+		if ($Ck) { $version = $version1; precedence(); }
     $text1 = resolve_refs($text1, $lang1);
 
     # Suppress (Alleluia) during Quadrigesima.
@@ -85,7 +85,7 @@ sub horas {
 
     if (!$only) {
       $column = 2;
-      if ($Ck) { $version = $version2; }
+			if ($Ck) { $version = $version2; precedence(); setsecondcol(); }
       $text2 = resolve_refs($text2, $lang2);
 
       if ($dayname[0] =~ /Quad/i && !Septuagesima_vesp()) {
@@ -299,7 +299,7 @@ sub Alleluia_ant {
   my ($lang, $full, $ucase) = @_;
   my $s = translate('Alleluia', $lang);
   $s =~ s/\.$//;
-  if (($full || ($duplex >= 3) || ($version =~ /1960|Newcal|Monastic|Praedicatorum/i))) {
+  if (($full || ($duplex >= 3) || ($version =~ /196/))) {
     $s .= ", * $s, $s.";
     $s =~ s/ ./\L$&/g unless $ucase;
   }
@@ -324,7 +324,7 @@ sub triduum_gloria_omitted() {
   return
        $dayname[0] =~ /Quad6/i
     && $dayofweek > 3
-    && $tvesp == 3;
+    && $tvesp != 1;
 }
 
 #*** Gloria
@@ -890,7 +890,7 @@ sub ant_Benedictus : ScriptFunc {
     $ant = $specials{"Adv Ant $day" . "L"};
   }
   my @ant_parts = split('\*', $ant);
-  if ($num == 1 && $duplex < 3 && $version !~ /1960|Newcal|Praedicatorum/ && $version !~ /monastic/i) { return "Ant. $ant_parts[0]"; }
+  if ($num == 1 && $duplex < 3 && $version !~ /196/) { return "Ant. $ant_parts[0]"; }
 
   if ($num == 1) {
     return "Ant. $ant";
@@ -928,7 +928,7 @@ sub ant_Magnificat : ScriptFunc {
     $num = 2;
   }
   my @ant_parts = split('\*', $ant);
-  if ($num == 1 && $duplex < 3 && $version !~ /1960/ && $version !~ /monastic/i) { return "Ant. $ant_parts[0]"; }
+  if ($num == 1 && $duplex < 3 && $version !~ /196/) { return "Ant. $ant_parts[0]"; }
 
   if ($num == 1) {
     return "Ant. $ant";
@@ -1253,7 +1253,7 @@ sub setasterisk {
 
 sub columnsel {
   my $lang = shift;
-  if ($Ck) { return ($column == 1) ? 1 : 0; }
+	if ($Ck) { return ($column == 1) ? 1 : 0; }
   return ($lang =~ /^$lang1$/i) ? 1 : 0;
 }
 

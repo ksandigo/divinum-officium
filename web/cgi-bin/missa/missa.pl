@@ -40,7 +40,7 @@ our $officium = 'missa.pl';
 #filled  getweek()
 our @dayname;    #0=Advn|Natn|Epin|Quadpn|Quadn|Pascn|Pentn 1=winner title|2=other title
 
-#filled by getrank()
+#filled by occurence()
 our $winner;     #the folder/filename for the winner of precedence
 our $commemoratio;    #the folder/filename for the commemorated
 our $scriptura;       #the folder/filename for the scripture reading (if winner is sancti)
@@ -166,11 +166,11 @@ PrintTag
 }
 
 # translate from new breviary version names
+$version =~ s/ - 196.$//;
 $version =~ s/ -//;
 $version =~ s/1888/1910/;
 $version =~ s/ 1954//;
-$version =~ s/ 196.$//;
-$version =~ s/Rubrics 1960 - 2020 USA/1960 Newcalendar/;
+$version =~ s/Rubrics 1960 2020 USA/1960 Newcalendar/;
 $version =~ s/Ordo Praedicatorum/Dominican/;
 
 if ($pmode =~ /(main|missa)/i) {

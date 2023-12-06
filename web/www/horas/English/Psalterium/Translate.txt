@@ -182,7 +182,7 @@ Divine Office
 After
 
 [Commemoratio]
-Commemoration:
+Commemoration
 
 [Antiphona]
 Antiphon
@@ -219,3 +219,9 @@ Glory be to you, O Lord.
 
 [MLitany]
 Lord have mercy … Our Father
+
+[Dominica]
+Sunday
+
+[Octava]
+Octave
