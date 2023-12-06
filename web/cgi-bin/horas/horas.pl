@@ -656,7 +656,7 @@ sub settone {
   my @parray;
   my $tone = '';
 
-    if ($version =~ /Monastic|Bavariae/i) {           # da bin ich mir nicht sicher
+    if ($version =~ /Monastic/i) {           # da bin ich mir nicht sicher
     if ($hora =~ /Matutinum/i) { return ''; }
 
     if ($hora =~ /(Laudes|Vespera)/i) {
@@ -1190,8 +1190,8 @@ sub getordinarium {
   my $suffix = "";
   if ($command =~ /Matutinum/i && $rule =~ /Special Matutinum Incipit/i) { $suffix .= "e"; } # for Epiphanias
   if ($version =~ /(1955|1960|Newcal)/) { $suffix .= "1960"; }
-  elsif ($version =~ /Monastic/i) { $suffix .= "M"; }  # mal schauen
-  elsif ($version =~ /Bavariae/i) { $suffix .= "B"; }  # mal schauen
+	elsif ($version =~ /Bavariae/i) { $suffix .= "B"; }  # mal schauen
+	elsif ($version =~ /Monastic/i) { $suffix .= "M"; }  # mal schauen
   elsif ($version =~ /Ordo Praedicatorum/i) { $suffix .= "OP"; }
   my $fname = checkfile($lang, "Ordinarium/$command$suffix.txt");
 

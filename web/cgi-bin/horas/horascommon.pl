@@ -92,11 +92,11 @@ sub occurrence {
 		if ($transfer) {
 			if ($transfer !~ /tempora/i) {
 				$transfer = subdirname('Sancti', $version) . "$transfer"; }	# add path to Sancti folder if necessary
-			elsif ($version =~ /Bavariae/i) {
-				$transfer =~ s/Tempora[MB]?/TemporaB/;
-			}
 			elsif ($version =~ /monastic/i) {
 				$transfer =~ s/TemporaM?/TemporaM/; 	# modify path to Monastic Tempora folder if necessary
+			}
+			elsif ($version =~ /Bavariae/i) {
+				$transfer =~ s/Tempora[MB]?/TemporaB/;
 			}
 		}
 	}
@@ -1492,6 +1492,7 @@ sub subdirname {
   my($subdir, $version) = @_;
   $subdir .= 'M' if $version =~ /monastic/i;
 	$subdir .= 'B' if $version =~ /Bavariae/i;
+	$subdir =~ s/MB/B/;
    "$subdir/"
 }
 

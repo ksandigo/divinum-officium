@@ -27,7 +27,7 @@ sub invitatorium {
 	: '';
 	
 	if (
-		$version =~ /Trid|Monastic|Bavariae/i
+		$version =~ /Trid|Monastic/i
 		&& (!$name
 		|| ($name eq 'Quad' && $dayofweek != 0))
 		)
@@ -146,7 +146,7 @@ sub hymnusmatutinum {
 # collects and returns psalms and lections for matutinum
 sub psalmi_matutinum {
 	$lang = shift;
-	if ($version =~ /monastic|Bavariae/i && $winner{Rule} !~ /Matutinum Romanum/i) { return psalmi_matutinum_monastic($lang); }
+	if ($version =~ /monastic/i && $winner{Rule} !~ /Matutinum Romanum/i) { return psalmi_matutinum_monastic($lang); }
 	my %psalmi = %{setupstring($lang, 'Psalterium/Psalmi matutinum.txt')};
 	my $d = ($version =~ /trident/i) ? 'Daya' : 'Day';
 	my $dw = $dayofweek;
@@ -586,7 +586,7 @@ sub lectiones {
 			my $j = 6;																																					# "Cujus …, ipse"
 			if ($winner{Rank} =~ /(virgin|vidua|poenitentis|pœnitentis|C6|C7)/i) { $j += 2; }	 # "Cujus …, ipsa"
 			if ($winner{Rank} =~ /ss\./i) { $j++; }																						 # "Quorum / Quarum"
-			$a[($version =~ /Monastic|Bavariae/) ? 4 : 3] = $a[$j];														 # Replace Benediction 8 (or 11)
+			$a[($version =~ /Monastic/) ? 4 : 3] = $a[$j];														 # Replace Benediction 8 (or 11)
 		}
 		if ($rule =~ /Ipsa Virgo Virginum/i && !$divaux) { $a[3] = $a[10]; }									# Special B.M.V. benedictio '… ipsa Virgo'
 		if ($rule =~ /Quorum Festum/i && !$divaux) { $a[3] = $a[7]; }												 # Feast of several saints in tempora
@@ -715,7 +715,7 @@ sub lectio : ScriptFunc {
 	
 	# TODO: There seems to be a mismatch between taking care of a conflict of Die VII infra 8vam Immaculata Conceptio. and Q.T. in Adventum
 	# The lessons are repeated from the feast day 12-08 unless it is Feria IV Q.T.?
-	if($version =~ /(Trident|Divino|Bavariae)/i && $month == 12 && $day == 14 && $dayofweek !~ 3){ $w{"Lectio$num"} = $c{"Lectio$num"};}
+	if($version =~ /(Trident|Divino)/i && $month == 12 && $day == 14 && $dayofweek !~ 3){ $w{"Lectio$num"} = $c{"Lectio$num"};}
 	
 	#scriptura1960
 	if ( $num < 3
@@ -800,7 +800,7 @@ sub lectio : ScriptFunc {
 		$w .= $w1;
 	}
 	
-	if ($version =~ /monastic|Bavariae/i && $num == 3) { $w = monastic_lectio3($w, $lang); } # check for diverge in monastic
+	if ($version =~ /monastic/i && $num == 3) { $w = monastic_lectio3($w, $lang); } # check for diverge in monastic
 	
 	#look for commune if sancti and 'ex' or 'vide'
 	if (!$w && $winner =~ /sancti/i && $rule =~ /(ex\s*C|vide\s*C)/i) {
@@ -967,7 +967,7 @@ sub lectio : ScriptFunc {
 	}
 	if (($ltype1960 || ($winner =~ /Sancti/i && $rank < 2)) && $num > 2) { $num = 3; $w = addtedeum($w); }
 	if ($num == 3 && $winner =~ /Tempora/ && $rule !~ /9 lectiones/i && $rule =~ /Feria Te Deum/i) { $w = addtedeum($w); }
-	if ($version =~ /monastic|Bavariae/i) { $w =~ s/\&teDeum//g; } # remove te deum from ninth/twelve lesson as it comes only after the last response
+	if ($version =~ /monastic/i) { $w =~ s/\&teDeum//g; } # remove te deum from ninth/twelve lesson as it comes only after the last response
 	
 	#get item from [Responsory$num] if no responsory
 	if ($w && $w !~ /\nR\./ && $w !~ /\&teDeum/i) {
@@ -977,7 +977,7 @@ sub lectio : ScriptFunc {
 		if ($version =~ /1960/ && $winner =~ /tempora/i && $dayofweek == 0 && $dayname[0] =~ /(Adv|Quad)/i && $na == 3) {
 			$na = 9;
 		}
-		if (contract_scripture($num) && $version !~ /Monastic|Bavariae/i) { $na = 3; }
+		if (contract_scripture($num) && $version !~ /Monastic/i) { $na = 3; }
 		
 		if ($version =~ /1955|1960/ && exists($w{"Responsory$na 1960"})) {
 			$s = $w{"Responsory$na 1960"};
@@ -1279,7 +1279,7 @@ sub responsory_gloria {
 		delete($winner2{Responsory9});
 	}
 	if ($num == 8 && exists($winner{Responsory9}) && ($rule !~ /12 lectio/)) { return $w; }
-	if ($version =~ /Monastic|Bavariae/i && $num == 2) { return $prev; }
+	if ($version =~ /Monastic/i && $num == 2) { return $prev; }
 	my $flag = 0;
 	
 	my $read_per_noct = ($rule =~ /12 lectio/) ? 4 : 3;
