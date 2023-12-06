@@ -533,7 +533,7 @@ sub getrank {
     $rank = $srank[2];
     $dayname[1] = "$srank[0] $srank[1]";
     $winner = $sname;
-    %winner = updaterank(setupstring('Latin', $winner));
+		%winner = %{setupstring('Latin', $winner)};
     $vespera = $svesp;
 
     if (my ($new_ct, $new_c) = extract_common($srank[3], $rank, $version, $dayname[0] =~ /Pasc/)) {
@@ -1177,7 +1177,7 @@ sub officestring($$;$) {
       $s{$key} = $m{$key};
     }
   }
-  %s = updaterank(\%s);
+	#%s = updaterank(\%s);
   return \%s;
 }
 
