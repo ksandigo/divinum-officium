@@ -1,4 +1,7 @@
 #Incipit
+$Pater noster
+$Ave Maria
+$Credo
 $Deus in adjutorium
 &Alleluia
 
@@ -12,10 +15,22 @@ _
 V. Arise, O Christ, and help us.
 R. And deliver us for thy name's sake.
 
-#Orationes
+
 $MLitany2
 _
-&Dominus_vobiscum
+#Preces Dominicales
+$Credo secreto
+$Adjutorium nostrum
+$ConfiteorM
+$Misereatur
+$Indulgentiam
+V. Vouchsafe, O Lord, 
+R. To keep us this day without sin.
+V. O Lord, hear my prayer,
+R. And let my cry come unto thee.
+
+#Orationes
+&Dominus_vobiscum1
 $Oremus
 v. O Lord, our heavenly Father, Almighty and everlasting God, who has safely brought us to the beginning of this day: defend us by thy mighty power; and grant that this day we fall into no sin, but that all our doings may be ordered by thy governance, to do always what is righteous in thy sight.
 $Per Dominum
@@ -46,7 +61,7 @@ V. Look upon thy servants and upon thy works: and direct their children.
 R. And let the brightness of the Lord our God be upon us. Direct thou~
 the works of our hands; yea, the work of our hands do thou direct.
 &Gloria
-v. Let us pray.
+$Oremus
 v. O Lord, Almighty God, King of heaven and earth, Saviour of the world, bless, lead, rule and govern our hearts and bodies, our senses, words and deeds today, following thy law and commandments, that here and for eternity with thy help we shall be saved in freedom. 
 r. Who lives and reigns for ever and ever.
 R. Amen. 
@@ -56,14 +71,15 @@ Benedictio. May Almighty God arrange our deeds and our day in His peace. Amen.
 
 &regula
 _
+/:Not in choir, it is also laudible to read from the Regula; otherwise the following Short reading is said.:/
+_
 #Lectio brevis
 _
-/: :/
+/: At the end: :/
 $Tu autem
 
 #Conclusio
-V. Our help + is in the name of the Lord.
-R. Who made heaven and earth.
+$Adjutorium nostrum
 V. Let us bless.
 R. God.
 Benedictio. May the Lord bless us, + protect us from all evil and bring us to everlasting life. And may the souls of the faithful, through the mercy of God, rest in peace. 

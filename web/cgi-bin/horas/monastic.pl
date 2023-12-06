@@ -116,9 +116,9 @@ sub psalmi_matutinum_monastic {
 		for ($i = 0; $i < 3; $i++) { $psalmi[$i + 16] = $c[$i]; }
 	}
 	
-	if ((($rank > 4.9 || $votive =~ /C8/) || ($rank > 3.9 && $version =~ /Bavariae/i)) && !(($dayname[0] =~ /Pasc0/) && ($dayofweek > 2))) {
+	if ((($rank > 4.9 || $votive =~ /C8/) || ((($rank >= 4 && $version =~ /divino/i) || ($rank >= 2 && $version =~ /trident/i)) && !($dayname[1] =~ /infra octavam/))) && !($dayname[0] =~ /Pasc0/ && $dayofweek > 2)) {
 		#** get proper Ant Matutinum for II. and I. class feasts unless it's Wednesday thru Saturday of the Easter Octave
-		my ($w, $c) = getproprium('Ant Matutinum', $lang, $version =~ /Bavariae/i, 1); # for Bavariae also look in Commune!
+		my ($w, $c) = getproprium('Ant Matutinum', $lang, $version !~ /196/, 1);  # for Trid. und Divino also look in Commune
 		if ($w) {
 			@psalmi = split("\n", $w);
 			$comment = $c;
@@ -132,12 +132,28 @@ sub psalmi_matutinum_monastic {
 				$psalmi[$ind-1] =~ s/^.*?;;/$wa;;/;
 			}
 		}
-	} elsif (($rank > 1.9 && $version =~ /Bavariae/i) && !(($dayname[0] =~ /Pasc0/) && ($dayofweek > 2))) {
-		my ($wB, $cB) = getproprium('Ant Matutinum', $lang, 1, 1);
-		if ($wB) {
-			my @psalmiB = split("\n", $wB);
-			for (16..18) {$psalmi[$_] = $psalmiB[$_];}
+	} elsif ($dayname[1] =~ /infra octavam/i) {
+		if (exists($winner{'Ant Matutinum'})) {
+			my $start = 0;
+			my ($w,$c) = getproprium('Ant Matutinum', $lang, 0, 0);
+			my @p = split("\n", $w);
+			for (my $i = $start; $i < 14; $i++) {
+				my $p = $p[$i];
+				if ($psalmi[$i] =~ /;;(.*)/s) { $p = ";;$1"; }
+				if ($i == 0 || $i == 8) {
+					$p = "$p[$i]$p";
+				}
+				$psalmi[$i] = $p;
+			}
+			setbuild2("Antiphonas Psalmi Octavam special");
+			
 		}
+#	} elsif (($rank > 1.9 && $version =~ /Bavariae/i) && !(($dayname[0] =~ /Pasc0/) && ($dayofweek > 2))) {
+#		my ($wB, $cB) = getproprium('Ant Matutinum', $lang, 1, 1);
+#		if ($wB) {
+#			my @psalmiB = split("\n", $wB);
+#			for (16..18) {$psalmi[$_] = $psalmiB[$_];}
+#		}
 	}
 	setcomment($label, 'Source', $comment, $lang, $prefix);
 	my $i = 0;
@@ -162,10 +178,9 @@ sub psalmi_matutinum_monastic {
 			legend_monastic($lang);	 # on a III. class feast in "Summer", we have the contracted Saint's legend
 		}
 	} else {
-		lectiones($winner{Rank} !~ /vigil/i && $version !~ /Bavariae/i, $lang);
+    lectiones($winner{Rank} !~ /vigil/i && $version !~ /trident|divino/i, $lang);
 		# unless it's a vigil, the standard Nocturn 1 Absolutio is going to be combined with the Benedictions depending on the day of the week;
 		# for a vigil, even the Absolutio is changed as above (Is this really what the BM1963 rubrics say?)
-		# for Bavariae, we always choose the Absolutio according to the day of the week
 	}
 	push(@s, "\n", '!Nocturn II.', '_');
 	for (8..13) { antetpsalm_mm($psalmi[$_], $_); }
@@ -210,7 +225,7 @@ sub psalmi_matutinum_monastic {
 		my @e;
 		if (exists($w{LectioE})) {		#** set evangelium
 			@e = split("\n", $w{LectioE}); }
-		elsif ($version =~ /Bavariae/i && $commune) {
+		elsif ($version =~ /Bavariae/i && $commune) {		# TODO: see if this can be generalised
 			my ($wB, $cB) = getproprium('LectioE', $lang, 1, 1);
 			if($wB) {
 				@e = split("\n", $wB);
@@ -221,8 +236,7 @@ sub psalmi_matutinum_monastic {
 			# if the Evangelium is missing in the Sanctoral or is just a cross-reference
 			my ($w, $s) = split(/:/, $e[0]);
 			if ($w) { $w .= '.txt'; } else { $w = $winner; }
-			$w =~ s/M//g;				 # there is no corresponding folder missa/latin/SanctiM
-			$w =~ s/B//g;					# auch von SanctiB nach Sancti verweisen
+			$w =~ s/[MB]//g;				 # there is no corresponding folder missa/latin/SanctiM # auch von SanctiB nach Sancti verweisen
 			$s =~ s/(?:LectioE)?/Evangelium/;
 			my %missa = %{setupstring("../missa/$lang", $w)};
 			@e = split("\n", $missa{$s});
@@ -265,8 +279,7 @@ sub psalmi_matutinum_monastic {
 		$w = $s{"MM Capitulum$name"};
 	}
 	postprocess_vr($w,$lang) if ($dayname[0] =~ /Pasc/);
-	#push(@s, "!!Capitulum", $w, "\n", '$MLitany', "\n");	# print Capitulum, V.R., Kyrie, Pater...
-	push(@s, "!!Capitulum", $w, "\n");	# print Capitulum, V.R.
+	push(@s, "!!Capitulum", $w, "\n");  # print Capitulum, V.R.
 }
 
 #*** antetpsal_mmm($line, $i)

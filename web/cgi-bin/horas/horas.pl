@@ -54,7 +54,7 @@ sub horas {
   $ind1 = $ind2 = 0;
   $searchind = 0;
 
-  if ($version !~ /(Monastic|1570|1955|1960|Newcal|Praedicatorum)/i) {
+  if ($version !~ /(1570|1955|196)/i) {
     ante_post('Ante');
   } else {
     $searchind++;
@@ -97,7 +97,7 @@ sub horas {
     }
   }
 
-  if ($version !~ /(Monastic|1570|1955|1960|Newcal|Praedicatorum)/) {
+  if ($version !~ /(1570|1955|196)/) {
     ante_post('Post');
   } else {
     $searchind++;
@@ -446,15 +446,15 @@ sub psalm : ScriptFunc {
   my $nogloria = 0;
   my $canticlef = 230 < $num && $num < 234;
 
-  if ($num =~ /^-(.*)/) {
-    $num = $1;
-
-    if ( ($version =~ /Trident/i && $num =~ /(62|148|149)/)             # Tridentine Laudes: Pss. 62/66 & 148/149/150 under 1 gloria
-      || ($version =~ /Monastic|Bavariae/i && $num =~ /(115|148|149)/)) # Monastic Vespers: Pss. 115/116 & 148/149/150 under 1 gloria
-    {
-      $nogloria = 1;
-    }
-  }
+	if ($num =~ /^-(.*)/) {
+		$num = $1;
+		
+		if (($version =~ /Trident/i && $version !~ /Monastic/i && $num =~ /(62|148|149)/)     # Tridentine Romanum Laudes: Pss. 62/66 & 148/149/150 under 1 gloria
+			|| ($version =~ /Monastic/i && $num =~ /(115|148|149)/))  # Monastic Vespers: Pss. 115/116 & 148/149/150 under 1 gloria
+		{
+			$nogloria = 1;
+		}
+	}
 
   $nogloria ||= $canticlef;
 
@@ -1191,7 +1191,8 @@ sub getordinarium {
   if ($command =~ /Matutinum/i && $rule =~ /Special Matutinum Incipit/i) { $suffix .= "e"; } # for Epiphanias
   if ($version =~ /(1955|1960|Newcal)/) { $suffix .= "1960"; }
 	elsif ($version =~ /Bavariae/i) { $suffix .= "B"; }  # mal schauen
-	elsif ($version =~ /Monastic/i) { $suffix .= "M"; }  # mal schauen
+	elsif ($version =~ /1963/) { $suffix .= "M1963"; }
+  elsif ($version =~ /Monastic/i) { $suffix .= "M"; }
   elsif ($version =~ /Ordo Praedicatorum/i) { $suffix .= "OP"; }
   my $fname = checkfile($lang, "Ordinarium/$command$suffix.txt");
 

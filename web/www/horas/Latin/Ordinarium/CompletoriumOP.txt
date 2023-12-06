@@ -7,8 +7,7 @@ Benedictio. Noctem quiétam et finem perféctum tríbuat nobis Dóminus omnípot
 v. Fratres: Sóbrii estóte, et vigiláte: quia adversárius vester diábolus tamquam leo rúgiens círcuit, quærens quem dévoret: cui resístite fortes in fide. 
 $Tu autemOP
 
-V. Adjutórium nóstrum + in nómine Dómini. 
-R. Qui fecit cælum et terram.
+$Adjutorium nostrum
 
 !Examen conscientiæ vel Pater Noster totum secreto.
 $Pater noster
@@ -16,8 +15,7 @@ $Pater noster
 $ConfiteorOP
 $MisereaturOP
 
-V. Convérte nos +++ Deus, salutáris noster.
-R. Et avérte iram tuam a nobis.
+$Converte nos
 $Deus in adjutorium
 &Alleluia
 
@@ -76,7 +74,7 @@ _
 V. {::}Ora pro nobis, sancta Dei Génetrix.
 R. Ut digni efficiámur promissiónibus Christi.
 _
-v. Orémus.
+$Oremus
 _
 v. Omnípotens sempitérne Deus, qui gloriósæ Vírginis Matris Maríæ corpus et ánimam, ut dignum Fílii tui habitáculum éffici mererétur, Spíritu Sancto cooperánte, præparásti: da, ut, cujus commemoratióne lætámur, ejus pia intercessióne, ab instántibus malis et a morte perpétua liberémur. Per eúndem Christum Dóminum nóstrum. Amen.
 
@@ -86,6 +84,6 @@ _
 V. Ora pro nobis, beate Pater Dominice.
 R. Ut digni efficiamur promissionibus Christi.
 _
-v. Oremus:
+$Oremus
 _
 v. Concede, quaesumus omnipotens Deus, ut qui peccatorum nostrorum pondere premimur, beati Dominici confessoris tui Patris nostri patrocinio sublevemur. Per Christium Dominum Nostrum. Amen.

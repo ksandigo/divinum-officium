@@ -1,4 +1,7 @@
 #Incipit
+$Pater noster
+$Ave Maria
+_
 $Deus in adjutorium
 &Alleluia
 
@@ -18,4 +21,4 @@ $Deus in adjutorium
 &Dominus_vobiscum
 &Benedicamus_Domino
 $Fidelium animae
-&Divinum_auxilium
+$Pater noster

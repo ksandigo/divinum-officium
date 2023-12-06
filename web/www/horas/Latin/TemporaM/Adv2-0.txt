@@ -3,6 +3,9 @@
 [Rule]
 12 lectiones
 
+[Ant Vespera](rubrica tridentina)
+@Psalterium/Psalmi major:Daym6 Vespera
+
 [Capitulum Vespera]
 @Tempora/Adv2-0
 _

@@ -7,17 +7,14 @@ Benedictio. Noctem quiétam et finem perféctum concédat nobis Dóminus omnípo
 v. Fratres: Sóbrii estóte, et vigiláte: quia adversárius vester diábolus tamquam leo rúgiens círcuit, quærens quem dévoret: cui resístite fortes in fide.
 $Tu autem
 
-V. Adjutórium nóstrum + in nómine Dómini.
-R. Qui fecit cælum et terram.
-_
-!Examen conscientiæ vel Pater Noster totum secreto.
+$Adjutorium nostrum
+!Pater noster quod dicitur totum secreto.
 $Pater noster
 $ConfiteorM
 $Misereatur
 $Indulgentiam
 
-V. Convérte nos +++ Deus, salutáris noster.
-R. Et avérte iram tuam a nobis.
+$Converte nos
 $Deus in adjutorium
 &Alleluia
 
@@ -37,9 +34,17 @@ _
 V. Custódi nos, Dómine, ut pupíllam óculi.
 R. Sub umbra alárum tuárum prótege nos.
 
-#Oratio
 $MLitany2
-&Dominus_vobiscum
+_
+#Preces Dominicales
+$Credo secreto
+V. Dignáre, Dómine, nocte ista. 
+R. Sine peccáto nos custodíre.
+V. Dómine, exáudi oratiónem meam.
+R. Et clamor meus ad te véniat.
+
+#Oratio
+&Dominus_vobiscum1
 $Oremus
 v. Vísita, quǽsumus, Dómine, habitatiónem istam, et omnes insídias inimíci ab ea lónge repélle: Ángeli tui sancti hábitent in ea, qui nos in pace custódiant; et benedíctio tua sit super nos semper.
 $Per Dominum
@@ -52,3 +57,6 @@ R. Amen.
 
 &antiphona_finalis
 &Divinum_auxilium
+$Pater noster
+$Ave Maria
+$Credo

@@ -1,4 +1,7 @@
 #Incipit
+$Pater noster
+$Ave Maria
+$Credo
 $Deus in adjutorium
 &Alleluia
 
@@ -12,10 +15,21 @@ _
 V. Exsúrge, Christe, ádjuva nos.
 R. Et líbera nos propter nomen tuum.
 
-#Orationes
 $MLitany2
 _
-&Dominus_vobiscum
+#Preces Dominicales
+$Credo secreto
+$Adjutorium nostrum
+$ConfiteorM
+$Misereatur
+$Indulgentiam
+V. Dignáre, Dómine, die isto.
+R. Sine peccáto nos custodíre.
+V. Dómine, exáudi oratiónem meam.
+R. Et clamor meus ad te véniat.
+
+#Orationes
+&Dominus_vobiscum1
 $Oremus
 v. Dómine Deus omnípotens, qui ad princípium hujus diéi nos perveníre fecísti: tua nos hódie salva virtúte; ut in hac die ad nullum declinémus peccátum, sed semper ad tuam justítiam faciéndam nostra procédant elóquia, dirigántur cogitatiónes et ópera.
 $Per Dominum
@@ -45,7 +59,7 @@ $MLitany2
 V. Réspice in servos tuos, Dómine, et in ópera tua, et dírige fílios eórum.
 R. Et sit splendor Dómini Dei nostri super nos, et ópera mánuum nostrárum dírige super nos, et opus mánuum nostrárum dírige.
 &Gloria
-v. Orémus.
+$Oremus
 v. Dirígere et sanctificáre, régere et gubernáre dignáre, Dómine Deus, Rex cæli et terræ, hódie corda et córpora nostra, sensus, sermónes et actus nostros in lege tua, et in opéribus mandatórum tuórum: ut hic et in ætérnum, te auxiliánte, salvi et líberi esse mereámur, Salvátor mundi: 
 r. Qui vivis et regnas in sǽcula sæculórum.
 R. Amen.
@@ -63,8 +77,7 @@ _
 $Tu autem
 
 #Conclusio
-V. Adjutórium nóstrum + in nómine Dómini.
-R. Qui fecit cælum et terram.
+$Adjutorium nostrum
 V. Benedicite.
 R. Deus.
 Benedictio. Dóminus nos benedícat, + et ab omni malo deféndat, * et ad vitam perdúcat ætérnam.
