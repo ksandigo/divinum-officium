@@ -603,10 +603,10 @@ sub preces {
   }
 
   if ($item =~ /Feriales/i
-      && $dayofweek 
-      && ($winner !~ /sancti/i && ($rule =~ /Preces/i || $dayname[0] =~ /Adv|Quad(?!p)/i || emberday())
-          || ($version !~ /1955|1960|Newcal/ && $winner{Rank} =~ /vigil/i && $dayname[1] !~ /Epi|Pasc/i))
-      && ($version !~ /1955|1960|Newcal/ || $dayofweek =~ /[35]/ || emberday())
+      && $dayofweek && !($dayofweek == 6 && $hora =~ /vespera/i)
+			&& ($winner !~ /sancti/i && ($rule =~ /Preces/i || $dayname[0] =~ /Adv|Quad(?!p)/i || emberday())	#
+				|| ($version !~ /1955|1960|Newcal/ && $winner{Rank} =~ /vigil/i && $dayname[1] !~ /Epi|Pasc/i)) # certain vigils before 1955
+			&& ($version !~ /1955|1960|Newcal/ || $dayofweek =~ /[35]/ || emberday())		# in 1955 and 1960, only Wednesdays, Fridays and emberdays
      ) {
     $precesferiales = 1;
     return 1;
@@ -1319,6 +1319,16 @@ sub oratio {
 				$cc{$key} = $ic;
 				setbuild2("Commemorated: $key");
 			}
+					
+			if ($transfervigil) {
+				if (!(-e "$datafolder/$lang/$transfervigil")) { $transfervigil =~ s/v\.txt/\.txt/; }
+				$c = vigilia_commemoratio($transfervigil, $lang);
+				if ($c) {
+					$ccind++;
+					$key = $ccind + 8500; # 10000 - 1.5 * 1000
+					$cc{$key} = $c;
+				}
+			}
 		}
 
 		if($hora =~ /vespera/i) {
@@ -1400,8 +1410,10 @@ sub oratio {
 				my $key = 0;	# let's start with lowest rank
 				if (!(-e "$datafolder/$lang/$commemo") && $commemo !~ /txt$/i) { $commemo =~ s/$/\.txt/; }
 				$c = getcommemoratio($commemo, $cv, $lang);
+				my $c2 = ($cv == 2) ? vigilia_commemoratio($commemo, $lang) : '';
+				$c ||= $c2;
 				%c = %{officestring($lang, $commemo, 0)};
-				
+
 				if($c) {
 					
 					my @cr = split(";;", $c{Rank});
@@ -1422,12 +1434,12 @@ sub oratio {
 				|| ($version =~ /196/ && $c{Rule} =~ /nocomm1960/i)) {
 					if (exists($c{"Commemoratio $cv"})) {
 						$c = getrefs($c{"Commemoratio $cv"}, $lang, $cv, $c{Rule});
-					} elsif (exists($c{Commemoratio}) && $cv == 1) {
+					} elsif (exists($c{Commemoratio}) && ($cv != 3 || $commemo =~ /Tempora/i || $c{Commemoratio} =~ /!.*O[ckt]ta/i)) {
 						$c = getrefs($c{Commemoratio}, $lang, $cv, $c{Rule});
 					} else {
 						$c = undef;
 					}
-
+					
 					if($c && $octvespera && $c =~ /$octavestring/ ) {
 						setbuild2("Substitute Commemoratio of Octave to $octvespera");
 						if (exists($c{"Commemoratio $octvespera"})) {
@@ -1478,9 +1490,7 @@ sub oratio {
 		# than $rank as sometimes the latter is adjusted for
 		# calculating precedence.
 		my @rank = split(';;', $winner{Rank});
-		if ($version =~ /1960/ &&
-			($rank[2] >= 5 || ($dayname[1] =~ /Feria/i && $rank[2] >= 3)) &&
-			$ccind > 1) {
+		if ($version =~ /1960/ && ($rank[2] >= 5 || ($dayname[1] =~ /Feria/i && $rank[2] >= 3)) && $ccind > 1) {
 				my @keys = sort(keys(%cc));
 				%cc = ($keys[0] => $cc{$keys[0]});
 				$ccind = 1;
@@ -1623,7 +1633,10 @@ sub vigilia_commemoratio {
   if ($version =~ /1955|1960/) {
     my $dt = sprintf("%02i-%02i", $month, $day);
     if ($dt !~ /(08\-14|06\-23|06\-28|08\-09)/) { return ''; }
-  }
+	} elsif ($dayname[0] =~ /Adv|Quad[0-6]/i || ($dayname[0] =~ /Quadp3/i && $dayofweek >= 4)) {
+		return '';
+	}
+	
   if ($fname !~ /\.txt$/) { $fname .= '.txt'; }
   if ($fname !~ /(Tempora|Sancti)/i) { $fname = "Sancti/$fname"; }
   my %w = %{setupstring($lang, $fname)};
@@ -1634,7 +1647,7 @@ sub vigilia_commemoratio {
     $w = $w{'Oratio Vigilia'};
   }
   if (!$w) { return ''; }
-  my $c = "!Commemoratio Vigilia\n";
+  my $c = "!" . &translate('Commemoratio', $lang) . ": " . &translate("Vigilia", $lang) . "\n";
   if ($w =~ /(\!.*?\n)(.*)/s) { $c = $1; $w = $2; }
   my %p = %{setupstring($lang, 'Psalterium/Major Special.txt')};
   my $a = $p{"Day$dayofweek Ant 2"};
