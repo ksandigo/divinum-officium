@@ -19,4 +19,4 @@ Rubrics 1960,1960,1960,1960
 1960 Newcalendar,NC,Newcal,Newcal
 Monastic,M1963,M,XXXX
 Ordo Praedicatorum,1967OP,1960,XXXX
-Monastic Tridentinum - Bavariae,B,B,DA
+Bavariae<!--Monastic Tridentinum-->,B,B,DA
