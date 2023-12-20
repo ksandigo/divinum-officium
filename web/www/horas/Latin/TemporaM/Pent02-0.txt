@@ -1,7 +1,4 @@
-@Tempora/Pent02-0r
-
-[Rank]
-Dominica II Post Pentecosten;;Semiduplex II classis;;5
+@Tempora/Pent02-0
 
 [Rule]
 12 lectiones
@@ -78,3 +75,6 @@ Dominica II Post Pentecosten;;Semiduplex II classis;;5
 
 [Responsory12]
 @Tempora/Pent01-0:Responsory8
+
+[Commemoratio] (rubrica 196)
+
