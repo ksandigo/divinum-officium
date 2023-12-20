@@ -169,7 +169,7 @@ sub psalmi_matutinum_monastic {
   antetpsalm_mm('', -2);    # set antiphon for multiple psalms under one antiphon situation
   push(@s, $psalmi[6], $psalmi[7], "\n");
 
-  if ($rule =~ /12 lectiones/) {
+  if ($rule =~ /12 lectiones/ || ((($rank >= 4 && $version =~ /divino/i) || ($rank >= 2 && $version =~ /trident/i)) && $dayname[1] !~ /infra octavam/i)) {
     lectiones(1, $lang);    # first Nocturn of 4 lessons (
   } elsif ($dayname[0] =~ /(Pasc[1-6]|Pent)/i && $month < 11 && $winner{Rank} !~ /vigil|quattuor|infra octavam/i) {
       # at least before 1960 (Breviarum Monasticum 1930), the change from "summer" to "winter" matins was tied to the 1st Sunday of November
