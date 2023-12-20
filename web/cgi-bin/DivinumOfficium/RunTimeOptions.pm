@@ -31,7 +31,7 @@ sub unequivocal {
 
 use constant LEGACY_VERSION_NAMES => { 
   'Tridentine 1570' => 'Tridentine - 1570',
-  'Tridentine 1910' => 'Tridentine - 1888',
+  'Tridentine 1910' => 'Tridentine - 1906',
   'Rubrics 1960' => 'Rubrics 1960 - 1960',
   'Reduced 1955' => 'Reduced - 1955',
 	'Monastic' => 'Monastic - 1963',
@@ -42,7 +42,7 @@ use constant LEGACY_VERSION_NAMES => {
 sub check_version {
   my $v = shift;
 
-  LEGACY_VERSION_NAMES->{$v} || unequivocal($v, 'versions')
+	LEGACY_VERSION_NAMES->{$v} || unequivocal($v, 'versions') =~ s/.*\///r;
 }
 
 sub check_horas {
