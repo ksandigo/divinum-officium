@@ -126,7 +126,7 @@ sub psalmi_matutinum_monastic {
     for ($i = 0; $i < 3; $i++) { $psalmi[$i + 16] = $c[$i]; }
   }
 
-  if ((($rank > 4.9 || $votive =~ /C8/) || ((($rank >= 4 && $version =~ /divino/i) || ($rank >= 2 && $version =~ /trident/i)) && !($dayname[1] =~ /infra octavam/))) && !($dayname[0] =~ /Pasc0/ && $dayofweek > 2)) {
+  if ((($rank > 4.9 || $votive =~ /C8/) || ((($rank >= 4 && $version =~ /divino/i) || ($rank >= 2 && $version =~ /trident/i)) && $dayname[1] !~ /infra octavam/i)) && !($dayname[0] =~ /Pasc0/ && $dayofweek > 2)) {
     #** get proper Ant Matutinum for II. and I. class feasts unless it's Wednesday thru Saturday of the Easter Octave
 		my ($w, $c) = getproprium('Ant Matutinum', $lang, $version !~ /196/, 1);  # for Trid. und Divino also look in Commune
     if ($w) {
@@ -142,6 +142,7 @@ sub psalmi_matutinum_monastic {
         $psalmi[$ind-1] =~ s/^.*?;;/$wa;;/;
       }
     }
+		setbuild2("Antiphonas Psalmi Proprium aut Communem")
 	} elsif ($dayname[1] =~ /infra octavam/i) {
 		if (exists($winner{'Ant Matutinum'})) {
 			my $start = 0;
