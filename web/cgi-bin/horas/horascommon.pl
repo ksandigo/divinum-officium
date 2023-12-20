@@ -293,7 +293,7 @@ sub occurrence {
 	
 	# Sort out occurrence between the sanctoral and temporal cycles.
 	# Dispose of some cases in which the office can't be sanctoral:
-	if (!$srank[2] || ($version =~ /19(?:55|6)/i && $srank[2] <= 1.1) || $trank[0] =~ /Sanctæ Mariaæ Sabbato/i) {
+	if (!$srank[2] || ($version =~ /19(?:55|6)|Monastic.*Divino/i && $srank[2] <= 1.1) || $trank[0] =~ /Sanctæ Mariaæ Sabbato/i) {
 		# if we have no sanctoral office, or it was reduced to a commemoration by Cum nostra or its our Lady on Saturday
 		$sanctoraloffice = 0; # Office is temporal
 	}
@@ -1418,7 +1418,7 @@ sub setheadline {
 			'I. classis'
 			);
 			
-			if ($version =~ /1930/) { $tradtable[1,2] = 'Memoria'; }
+			if ($version =~ /Monastic.*Divino/i) { $tradtable[1,2] = 'Memoria'; }
 			$rankname = ($version !~ /196/) ? $tradtable[$rank] : $newtable[$rank];
 			
 			
