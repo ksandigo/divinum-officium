@@ -320,9 +320,22 @@ sub antetpsalm_mm {
       if ($ind == 4) { $line[0] = Alleluia_ant($lang, 0, 0); }
     }
   }
-  if ($line[0] && $lastantiphon) { push(@s, "Ant. $lastantiphon"); push(@s, "\n"); }
-  if ($line[0]) { push(@s, "Ant. $line[0]"); $lastantiphon = $line[0]; }
-  my $p = $line[1];
+
+	if ($version !~ /1963/i) {						# ensure Antiphones are only doubled on Duplex feasts
+		my @ant = split('\*', $line[0]);
+		my $ant = $line[0];
+		postprocess_ant($ant, $lang);
+		my $ant1 = ($duplex > 2) ? $ant : $ant[0];
+		
+		if ($line[0] && $lastantiphon) { push(@s, "Ant. $lastantiphon"); push(@s, "\n"); }
+		if ($ant1) { push(@s, "Ant. $ant1"); $lastantiphon = $ant; }
+	}
+	else {																	# in Monastic 1963, Antiphones are always doubled
+		if ($line[0] && $lastantiphon) { push(@s, "Ant. $lastantiphon"); push(@s, "\n"); }
+		if ($line[0]) { push(@s, "Ant. $line[0]"); $lastantiphon = $line[0]; }
+	}
+
+	my $p = $line[1];
   my @p = split(';', $p);
   my $i = 0;
 
