@@ -588,7 +588,7 @@ sub concurrence {
 	%winner = $sanctoraloffice ? %saint : %tempora;
 	my @wrank = $sanctoraloffice ? @srank : @trank;
 	
-	if ($winner{Rule} =~ /No secunda Vespera/i && $version !~ /1960|Monastic/i) {
+	if ($winner{Rule} =~ /No secunda Vespera/i && $version !~ /196/i) {
 		@wrank = undef;
 		%winner = undef;
 		$winner = '';

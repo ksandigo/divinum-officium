@@ -915,13 +915,16 @@ sub psalmi_major {
   my @antiphones;
 	if (($hora =~ /Laudes/ || ($hora =~ /Vespera/ && $version =~ /1963/)) && $month == 12 && $day > 16 && $day < 24 && $dayofweek > 0) { # TODO: is this really the case in Monastic 1963 Vespers throughout the week?
     my @p1 = split("\n", $psalmi{"Day$dayofweek Laudes3"});
-    if ($dayofweek == 6 && $version =~ /trident|1930/i) { # take ants from feria occuring Dec 21st
-      my $expectetur = $p1[3]; # save Expectetur
-			@p1 = split("\n", $psalmi{"Day" . get_stThomas_feria($year) . " Laudes3"});  # take ants from feria occuring Dec 21st
-      if ($day == 23) { # unless Saturday is Dec 23, then use Sundays (Adv 4) ants
-        my %w = %{setupstring($lang, subdirname('Tempora', $version) . "Adv4-0.txt")};
-        @p1 = split("\n", $w{"Ant Laudes"});
-      }
+    if ($dayofweek == 6 && $version =~ /trident|monastic/i) {
+			my $expectetur = $p1[3]; # save Expectetur
+			if ($version =~ /trident|monastic.*divino/i) { # take ants from feria occuring Dec 21st
+				@p1 = split("\n", $psalmi{"Day" . get_stThomas_feria($year) . " Laudes3"});
+				if ($day == 23 && $version !~ /divino/i) { # unless Saturday is Dec 23, then use Sundays (Adv 4) ants
+					my %w = %{setupstring($lang, subdirname('Tempora', $version) . "Adv4-0.txt")};
+					@p1 = split("\n", $w{"Ant Laudes"});
+				}
+			}
+
 			if ($version =~ /monastic/i) {
 				$p1[2] = $expectetur;
 				$p1[3] = '';

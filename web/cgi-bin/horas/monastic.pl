@@ -338,7 +338,7 @@ sub antetpsalm_mm {
 		#else { ensure_single_alleluia($line[0], $lang); }
 	}
 	
-	if ($version =~ /Bavariae/i) {						# ensure Antiphones are only doubled on Duplex feasts
+	if ($version !~ /1963/i) {						# ensure Antiphones are only doubled on Duplex feasts
 		my @ant = split('\*', $line[0]);
 		my $ant = $line[0];
 		postprocess_ant($ant, $lang);
@@ -351,6 +351,7 @@ sub antetpsalm_mm {
 		if ($line[0] && $lastantiphon) { push(@s, "Ant. $lastantiphon"); push(@s, "\n"); }
 		if ($line[0]) { push(@s, "Ant. $line[0]"); $lastantiphon = $line[0]; }
 	}
+
 	my $p = $line[1];
 	my @p = split(';', $p);
 	my $i = 0;
