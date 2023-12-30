@@ -871,7 +871,7 @@ sub lectio : ScriptFunc {
 		}
 		
 		$j0 = ($num == 12) ? 9 : 7; # where to look for Homily
-		if (($commemoratio =~ /tempora/i && $commemoratio !~ /Nat30/i || $commemoratio =~ /01\-05/)
+		if (($commemoratio =~ /tempora/i && $commemoratio !~ /Nat(29|30|31)/i || $commemoratio =~ /01\-05/)
 				&& ($homilyflag || exists($commemoratio{"Lectio$j0"}))
 				&& $comrank > 1
 				&& ($rank > 4 || ($rank >= 3 && $version =~ /Trident/i)	|| $homilyflag || exists($winner{Lectio1}))) {

@@ -35,7 +35,7 @@ sub psalmi_matutinum_monastic {
   #** reads the set of antiphons-psalms from the psalterium
   my %psalmi = %{setupstring($lang, 'Psalterium/Psalmi matutinum.txt')};
   my $dw = $dayofweek;
-  if ($winner{Rank} =~ /Dominica/i) { $dw = 0; }
+	#if ($winner{Rank} =~ /Dominica/i) { $dw = 0; }
   my @psalmi = split("\n", $psalmi{"Daym$dw"});
   setbuild("Psalterium/Psalmi matutinum monastic", "dayM$dw", 'Psalmi ord');
   $comment = 1;
@@ -126,7 +126,7 @@ sub psalmi_matutinum_monastic {
     for ($i = 0; $i < 3; $i++) { $psalmi[$i + 16] = $c[$i]; }
   }
 
-  if ((($rank > 4.9 || $votive =~ /C8/) || ((($rank >= 4 && $version =~ /divino/i) || ($rank >= 2 && $version =~ /trident/i)) && $dayname[1] !~ /infra octavam/i)) && !($dayname[0] =~ /Pasc0/ && $dayofweek > 2)) {
+  if ((($rank > 4.9 || $votive =~ /C8/) || ((($rank >= 4 && $version =~ /divino/i) || ($rank >= 2 && $version =~ /trident/i)) && $dayname[1] !~ /infra octavam/i)) && !($dayname[0] =~ /Pasc0/ && $dayofweek > 2) && !($dayname[1] =~ /infra.*Nativitatis/i && $dayofweek && $version !~ /196/)) {
     #** get proper Ant Matutinum for II. and I. class feasts unless it's Wednesday thru Saturday of the Easter Octave
 		my ($w, $c) = getproprium('Ant Matutinum', $lang, $version !~ /196/, 1);  # for Trid. und Divino also look in Commune
     if ($w) {
@@ -143,7 +143,7 @@ sub psalmi_matutinum_monastic {
       }
     }
 		setbuild2("Antiphonas Psalmi Proprium aut Communem")
-	} elsif ($dayname[1] =~ /infra octavam/i) {
+	} elsif ($dayname[1] =~ /infra octavam/i && !($dayname[0] =~ /Pasc0/ && $dayofweek > 2)) {
 		if (exists($winner{'Ant Matutinum'})) {
 			my $start = 0;
 			my ($w,$c) = getproprium('Ant Matutinum', $lang, 0, 0);
