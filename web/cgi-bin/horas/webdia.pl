@@ -508,6 +508,7 @@ sub setcell {
 			$text =~ s/\|\|(<BR>)/<BR>/g;
 			$text =~ s/\|\|/\_/g;
 		}
+  		}
 	}
 				
   if ($Ck) {
