@@ -471,44 +471,46 @@ sub setcell {
   my $lang = shift;
   my $width = ($only) ? 100 : 50;
 
-  if (!$Ck) {
-    if (columnsel($lang)) {
-      $searchind++ if ($text !~ /{omittitur}/);
-      print "<TR>";
-
-      if ($notes && $text =~ /\{\:(.*?)\:\}/) {
-        my $notefile = $1;
-        $notefile =~ s/^pc/p/;
-        my $colspan = ($only) ? 1 : 2;
-        print "<TR><TD COLSPAN=$colspan WIDTH=100% VALIGN=MIDDLE ALIGN=CENTER>\n"
-          . "<IMG SRC=\"$imgurl/$notefile.gif\" WIDTH=80%></TD></TR>\n";
-      }
-    }
-    print "<TD VALIGN=TOP WIDTH=$width%" . ($lang1 ne $lang || $text =~ /{omittitur}/ ? "" : " ID=$hora$searchind") . ">";
-    topnext_cell($lang);
-
+	if (!$Ck) {
+		if (columnsel($lang)) {
+			$searchind++ if ($text !~ /{omittitur}/);
+			print "<TR>";
+			
+			if ($notes && $text =~ /\{\:(.*?)\:\}/) {
+				my $notefile = $1;
+				$notefile =~ s/^pc/p/;
+				my $colspan = ($only) ? 1 : 2;
+				print "<TR><TD COLSPAN=$colspan WIDTH=100% VALIGN=MIDDLE ALIGN=CENTER>\n"
+				. "<IMG SRC=\"$imgurl/$notefile.gif\" WIDTH=80%></TD></TR>\n";
+			}
+		}
+		print "<TD VALIGN=TOP WIDTH=$width%" . ($lang1 ne $lang || $text =~ /{omittitur}/ ? "" : " ID=$hora$searchind") . ">";
+		topnext_cell($lang);
+		
 		if ($lang =~ /gabc/i) {
 			my $dId = 0;
 			while($text =~ /\{(.*?)\(\:\:\)\}/is) {
 				$dId++;
 				$text =~ s/\{/<DIV ID="GABC$searchind$dId" class="GABC">/s;
-				$text =~ s/\(\:\:\)\}/\(\:\:\)<\/DIV><DIV ID="GCHANT$searchind$dId" class="GCHANT" width="100\%"><\/DIV>/s;
+					$text =~ s/\(\:\:\)\}/\(\:\:\)<\/DIV><DIV ID="GCHANT$searchind$dId" class="GCHANT" width="100\%"><\/DIV>/s;
 				$text =~s/\_/\|\|/g;
 			}
 		} else {
 			if ($text =~ /%(.*?)%/) {
 				$text = activate_links(\$text, $lang);
 			}
-		$text =~ s/wait[0-9]+//ig;
-		$text =~ s/\_/ /g;
-		$text =~ s/\{\:.*?\:\}(<BR>)*\s*//g;
-		$text =~ s/\{\:.*?\:\}//sg;
-		$text =~ s/\`//g;			#`
-		if($lang =~ /gabc/i) {
-			$text =~ s/\|\|(<BR>)/<BR>/g;
-			$text =~ s/\|\|/\_/g;
 		}
 	}
+	$text =~ s/wait[0-9]+//ig;
+	$text =~ s/\_/ /g;
+	$text =~ s/\{\:.*?\:\}(<BR>)*\s*//g;
+	$text =~ s/\{\:.*?\:\}//sg;
+	$text =~ s/\`//g;			#`
+	if($lang =~ /gabc/i) {
+		$text =~ s/\|\|(<BR>)/<BR>/g;
+		$text =~ s/\|\|/\_/g;
+	}
+	
 				
   if ($Ck) {
     if ($column == 1) {
