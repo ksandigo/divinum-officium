@@ -79,7 +79,7 @@ sub invitatorium {
       s/&Gloria/\&Gloria2/;
 			s/v\. .* \^ (.)/v. \u\1/m;
 			s/\$ant2\s*(?=\$)//s;
-		} elsif (!$w && $dayofweek == 1 && $dayname[0] =~ /(Epi|Pent|Quadp)/i && $winner =~ /Tempora/) { 
+		} elsif (!$w && $dayofweek == 1 && $dayname[0] =~ /(Epi|Pent|Quad)/i && $winner =~ /Tempora/) { 
 			# old Invitatorium4
 			s/^v\. .* \+ (.)/v. \u\1/m;
 		}
@@ -595,6 +595,7 @@ sub lectio : ScriptFunc {
 	if ($winner =~ /C12/i) { $ltype1960 = 0; }  # Officium parvum B.M.V.
 	
 	if ($ltype1960 == 2 && $num == 3) {     # 3rd reading in a Sunday office
+		setbuild2("Lectio 3 diverged to Homily");
 		$num = 7;       # diverge to Gospel / Homily
 	} elsif (
 	($ltype1960 == 3 && $num == 3 && $votive !~ /(C9|Defunctorum)/i) # 3rd reading in sanctoral office of 3 readings
@@ -1103,6 +1104,9 @@ sub lect1960 {
 		if ($i == 0) { $i = 3; }
 	}
 	my $w = lectio(1, $lang);
+	if (!$w) { $w = $w{'Lectio1'}; }
+	if (!$w) { $w = $s{'Lectio1'}; }
+	
 	if ($w =~ $evan_regexp) { $i = 3; }
 	my @a = split("\n", $benedictio{"Nocturn $i"});
 	
@@ -1122,9 +1126,7 @@ sub lect1960 {
 	if ($rule =~ /Ipsa Virgo Virginum/i || $winner{Rank} =~ /Mari\w*\b\s*Virgin/i) { $a[3] = $a[10]; }
 	if ($rule =~ /Quorum Festum/i && !$divaux) { $a[3] = $a[7]; }
 	if ($rule =~ /Quarum Festum/i && !$divaux) { $a[3] = $a[9]; }
-	$w = $w{'Lectio1'};
-	if (!$w) { $w = $s{'Lectio1'}; }
-	
+
 	if ($w =~ $evan_regexp) {
 		$a[2] = $benedictio{Evangelica};
 	} else {
