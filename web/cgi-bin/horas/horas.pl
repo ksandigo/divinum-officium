@@ -488,12 +488,13 @@ sub psalm : ScriptFunc {
   if ($version =~ /1960|Newcal/) { $fname =~ s/Psalm226/Psalm226r/; }
   if ($version =~ /1960|Newcal/ && $num !~ /\(/ && $dayname[0] =~ /Nat/i) { $fname =~ s/Psalm88/Psalm88r/; }
   if ($version =~ /1960|Newcal/ && $num !~ /\(/ && $month == 8 && $day == 6) { $fname =~ s/Psalm88/Psalm88a/; }
-  $fname = checkfile($lang, $fname);
+	if ($lang =~ /gabc/i) { $fname = "$psalmfolder/Psalm$num.txt"; $fname =~ s/,/-/g; $num =~ s/,/; Tone: /; }
+	$fname = checkfile($lang, $fname);
 
   # load psalm
   my(@lines) = do_read($fname);
   unless (@lines > 0) {
-    return "$t$datafolder/$lang/$psalmfolder/Psalm$psnum.txt not found";
+    return "$t$datafolder/$lang/$fname not found";
   }
 
   # Extract limits of the division of the psalm.
@@ -520,9 +521,12 @@ sub psalm : ScriptFunc {
   my $formatted_antline;
   my $first = $antline;
   my $initial = $nonumbers;
-
+  my $gabc = 0;
+	
   foreach my $line (@lines) {
 
+		if ($line =~ /^\{(name:|\(.*\))/ && $lang =~ /gabc/i) { $gabc = 1; }
+		
     # Interleave antiphon into the psalm "Venite exsultemus".
     if ($psnum == 94 && $line =~ /^\s*\$ant\s*$/) {
       $formatted_antline ||= setfont($redfont, 'Ant.') . " $antline";
@@ -530,38 +534,51 @@ sub psalm : ScriptFunc {
       next;
     }
 
-    if ($line =~ /^\s*([0-9]+)\:([0-9]+)/) {
-      $v = $2;
-    } elsif ($line =~ /^\s*([0-9]+)/) {
-      $v = $1;
-    }
-    if ($v < $v1 && $v > 0) { next; }
-    if ($v > $v2) { last; }
-    my $lnum = '';
-
-    if ($line =~ /^([0-9]*[\:]*[0-9]+)(.*)/) {
-      $lnum = setfont($smallfont, $1) unless ($nonumbers);
-      $line = $2;
-    }
-    my $rest;
-
-    if ($line =~ /(.*?)(\(.*?\))(.*)/) {
-      $rest = $3;
-      $before = $1;
-      $this = $2;
-      $before =~ s/^\s*([a-z])/uc($1)/ei;
-      $line = $before . setfont($smallfont, ($this));
-      $initial = 0 if ($rest);
-    } else {
-      $rest = $line;
-      $line = '';
-      if ($initial) {
-        $lnum = "v. ";
-        $initial = 0;
-      }
-    }
-    $rest =~ s/[ ]*//;
-
+			if ($gabc) {
+				$line =~ s/<\/?i>/\_/g;
+				$line =~ s/<\/?b>|<v>\\greheightstar<\/v>/*/g;
+				$line =~ s/<\/?sc>/\%/g;
+				$line =~ s/<sp>'(?:ae|æ)<\/sp>/ǽ/g;
+				$line =~ s/<sp>'(?:ae|œ)<\/sp>/œ́/g;
+				$line =~ s/(\s)_([\^\s*]+)_(\(\))?(\s)/$1\^_$2_\^$3$4/g;
+				$line =~ s/(\([cf][1-4]\)|\s?)(\d+\.)(\s\S)/$1\^$2\^$3/g;
+				$t .= "\n$line ";
+				next;
+			}
+			
+			if ($line =~ /^\s*([0-9]+)\:([0-9]+)/) {
+				$v = $2;
+			} elsif ($line =~ /^\s*([0-9]+)/) {
+				$v = $1;
+			}
+			if ($v < $v1 && $v > 0) { next; }
+			if ($v > $v2) { last; }
+			my $lnum = '';
+			
+			if ($line =~ /^([0-9]*[\:]*[0-9]+)(.*)/) {
+				$lnum = setfont($smallfont, $1) unless ($nonumbers);
+				$line = $2;
+			}
+			my $rest;
+			
+			if ($line =~ /(.*?)(\(.*?\))(.*)/) {
+				$rest = $3;
+				$before = $1;
+				$this = $2;
+				$before =~ s/^\s*([a-z])/uc($1)/ei;
+				$line = $before . setfont($smallfont, ($this));
+				$initial = 0 if ($rest);
+			} else {
+				$rest = $line;
+				$line = '';
+				if ($initial) {
+					$lnum = "v. ";
+					$initial = 0;
+				}
+			}
+			$rest =~ s/[ ]*//;
+		
+			
     if ($prepend_dagger) {
       $rest = "\x{2021} $rest";
       $prepend_dagger = 0;

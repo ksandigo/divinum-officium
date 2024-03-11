@@ -489,11 +489,16 @@ sub setcell {
 		
 		if ($lang =~ /gabc/i) {
 			my $dId = 0;
-			while($text =~ /\{\((.*?)\(\:\:\)\}/is) {
+			while($text =~ /\{(\(|name:)(.*?)\(\:\:\)\}/is) {
 				$dId++;
-				$text =~ s/\{\(/<DIV ID="GABC$searchind$dId" class="GABC">\(/s;
+				$text =~ s/\{(\(|name:)/<DIV ID="GABC$searchind$dId" class="GABC">$1/s;
+				$text =~ s/; <br>\n/;\n/gi;
+				$text =~ s/%% <br>\n/%%\n/gi;
+				$text =~ s/%%\(/%%\n\(/gi;
+				$text =~ s/;([a-z\%\(])/;\n$1/gi;
+				$text =~ s/(\(\:\:\)\}?) <br>\n/$1 \n/gi;
 				$text =~ s/\(\:\:\)\}/\(\:\:\)<\/DIV><DIV ID="GCHANT$searchind$dId" class="GCHANT" width="100\%"><\/DIV>/s;
-				$text =~s/\_/\|\|/g;
+				$text =~ s/\_/\|\|/g;
 			}
 		} else {
 			if ($text =~ /%(.*?)%/) {

@@ -12,7 +12,7 @@ Minores sine Antiphona
 Feria
 
 [Ant Matutinum]
-{(c4) ZE(j)lus(j) do(j)mus(j) tu(j_k)æ(ji/jkj') * co(h)mé(j')dit(i) me,(g.) (;) et(f) op(h)pró(j')bri(i)a(g_[uh:l]h) ex(f)pro(h)brán(j')ti(k)um(i') ti(j)bi(h.) (,) ce(h)ci(g)dé(hi)runt(h') su(g)per(fg~) me.(g.) (::)};;68
+{name:Zelus domus tuae;office-part:Antiphona;mode:8;book:The Liber Usualis, 1961, p. 626;transcriber:Andrew Hinkley;annotation: 8 c.;%%(c4) ZE(j)lus(j) do(j)mus(j) tu(j_k)æ(ji/jkj') * (`) co(h)mé(j')dit(i) me,(g.) (;) et(f) op(h)pró(j')bri(i)a(g_[uh:l]h) ex(f)pro(h)brán(j')ti(k)um(i') ti(j)bi(h.) (,) ce(h)ci(g)dé(hi)runt(h') su(g)per(fg~) me.(g.) (::)};;'68,8c'
 Avertántur retrórsum, * et erubéscant, qui cógitant mihi mala.;;69
 Deus meus, * éripe me de manu peccatóris.;;70
 V. Avertántur retrórsum, et erubéscant.
