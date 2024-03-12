@@ -499,14 +499,20 @@ sub setcell {
 			while($text =~ /\{(\(|name:)(.+?)\(\:\:\)\}/is) {
 				$dId++;
 				$text =~ s/\{(\(|name:)/<DIV ID="GABC$searchind$dId" class="GABC">$1/s;
+				$text =~ s/<\/?i>/\_/g;
+				$text =~ s/<\/?b>|<v>\\greheightstar<\/v>/*/g;
+				$text =~ s/<\/?sc>/\%/g;
+				$text =~ s/<sp>'(?:ae|æ)<\/sp>/ǽ/g;
+				$text =~ s/<sp>'(?:ae|œ)<\/sp>/œ́/g;
 				$text =~ s/; <br>\n/;\n/gi;
 				$text =~ s/%% <br>\n/%%\n/gi;
 				$text =~ s/%%\(/%%\n\(/gi;
 				$text =~ s/;([a-z\%\(])/;\n$1/gi;
 				$text =~ s/(\(\:\:\)\}?) <br>\n/$1 \n/gi;
 				$text =~ s/\* /\*() /g;
-				$text =~ s/<sp>V\/<\/sp>/V\//g;
-				$text =~ s/<sp>R\/<\/sp>/R\//g;
+				$text =~ s/<sp>V\/<\/sp>\.?/V\/\./g;
+				$text =~ s/<sp>R\/<\/sp>\.?/R\/\./g;
+				$text =~ s/<\/?nlba>//g;
 				$text =~ s/\(\:\:\)\}/\(\:\:\)<\/DIV><DIV ID="GCHANT$searchind$dId" class="GCHANT" width="100\%"><\/DIV>/s;
 				$text =~ s/\_/\|\|/g;
 			}

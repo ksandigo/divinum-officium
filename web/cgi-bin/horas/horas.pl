@@ -535,11 +535,6 @@ sub psalm : ScriptFunc {
     }
 
 			if ($gabc) {
-				$line =~ s/<\/?i>/\_/g;
-				$line =~ s/<\/?b>|<v>\\greheightstar<\/v>/*/g;
-				$line =~ s/<\/?sc>/\%/g;
-				$line =~ s/<sp>'(?:ae|æ)<\/sp>/ǽ/g;
-				$line =~ s/<sp>'(?:ae|œ)<\/sp>/œ́/g;
 				$line =~ s/(\s)_([\^\s*]+)_(\(\))?(\s)/$1\^_$2_\^$3$4/g;
 				$line =~ s/(\([cf][1-4]\)|\s?)(\d+\.)(\s\S)/$1\^$2\^$3/g;
 				$t .= "\n$line ";
