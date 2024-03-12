@@ -1,5 +1,6 @@
 #!/usr/bin/perl
 use utf8;
+use LWP::Simple;
 
 # Name : Laszlo Kiss
 # Date : 01-11-04
@@ -489,7 +490,13 @@ sub setcell {
 		
 		if ($lang =~ /gabc/i) {
 			my $dId = 0;
-			while($text =~ /\{(\(|name:)(.*?)\(\:\:\)\}/is) {
+			while($text =~ /\{gabc:(.+?)\}/is) {
+				my $gregFile = "chants/$1.gabc";
+				$gregFile = checkfile($lang, $gregFile);
+				my(@gregScore) = do_read($gregFile);
+				$text =~ s/gabc:$1/@gregScore/s;
+			}
+			while($text =~ /\{(\(|name:)(.+?)\(\:\:\)\}/is) {
 				$dId++;
 				$text =~ s/\{(\(|name:)/<DIV ID="GABC$searchind$dId" class="GABC">$1/s;
 				$text =~ s/; <br>\n/;\n/gi;
@@ -497,6 +504,9 @@ sub setcell {
 				$text =~ s/%%\(/%%\n\(/gi;
 				$text =~ s/;([a-z\%\(])/;\n$1/gi;
 				$text =~ s/(\(\:\:\)\}?) <br>\n/$1 \n/gi;
+				$text =~ s/\* /\*() /g;
+				$text =~ s/<sp>V\/<\/sp>/V\//g;
+				$text =~ s/<sp>R\/<\/sp>/R\//g;
 				$text =~ s/\(\:\:\)\}/\(\:\:\)<\/DIV><DIV ID="GCHANT$searchind$dId" class="GCHANT" width="100\%"><\/DIV>/s;
 				$text =~ s/\_/\|\|/g;
 			}
