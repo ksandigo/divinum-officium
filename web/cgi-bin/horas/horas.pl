@@ -485,10 +485,16 @@ sub psalm : ScriptFunc {
   # the invitatory, lives elsewhere, and is loaded here only for its
   # special third-nocturn use on the day of the Epiphany.
   my $fname = ($psnum == 94) ? 'Psalterium/Invitatorium1.txt' : "$psalmfolder/Psalm$psnum.txt";
+	my $ftone = '';	# to save the chant tone to retrieve the Gloria Patri
   if ($version =~ /1960|Newcal/) { $fname =~ s/Psalm226/Psalm226r/; }
   if ($version =~ /1960|Newcal/ && $num !~ /\(/ && $dayname[0] =~ /Nat/i) { $fname =~ s/Psalm88/Psalm88r/; }
   if ($version =~ /1960|Newcal/ && $num !~ /\(/ && $month == 8 && $day == 6) { $fname =~ s/Psalm88/Psalm88a/; }
-	if ($lang =~ /gabc/i) { $fname = "$psalmfolder/Psalm$num.txt"; $fname =~ s/,/-/g; $num =~ s/,/; Tone: /; }
+	if ($lang =~ /gabc/i) {
+		$fname = ($num =~ /,/) ? "$psalmfolder/$num.gabc" : "$psalmfolder/Psalm$num.txt"; # distingiush between chant and text
+		$fname =~ s/,/-/g;	# file name with dash not comma
+		$ftone = ($num =~ /,(.*)/) ? $1 : '';
+		$num =~ s/,/; Tone: /;	# name Tone in Psalm headline
+	}
 	$fname = checkfile($lang, $fname);
 
   # load psalm
@@ -525,7 +531,10 @@ sub psalm : ScriptFunc {
 	
   foreach my $line (@lines) {
 
-		if ($line =~ /^\{(name:|\(.*\))/ && $lang =~ /gabc/i) { $gabc = 1; }
+		if ($lang =~ /gabc/i && !$gabc && $line =~ /^(name:|\([cf][1-4]\))/) {
+			$gabc = 1;
+			$line = "{" . $line; # append brace, s.t. gabc is recognized by webdia.pl
+		}
 		
     # Interleave antiphon into the psalm "Venite exsultemus".
     if ($psnum == 94 && $line =~ /^\s*\$ant\s*$/) {
@@ -535,9 +544,10 @@ sub psalm : ScriptFunc {
     }
 
 			if ($gabc) {
-				$line =~ s/(\s)_([\^\s*]+)_(\(\))?(\s)/$1\^_$2_\^$3$4/g;
+				if ($line !~ /\S/) { last; }
+				$line =~ s/(\s)_([\^\s*]+)_(\(\))?(\s)/$1\^_$2_\^$3$4/g; # ensure red digits for chant
 				$line =~ s/(\([cf][1-4]\)|\s?)(\d+\.)(\s\S)/$1\^$2\^$3/g;
-				$t .= "\n$line ";
+				$t .= " \n$line";
 				next;
 			}
 			
@@ -592,9 +602,21 @@ sub psalm : ScriptFunc {
     $rest =~ s/^\s*([a-z])/uc($1)/ei;
     $t .= "\n$lnum $line $rest";
   }
-  $t .= "\n";
+  $t .= $gabc ? "}\n" : "\n";			# end chant with brace for recognition
   if ($version =~ /Monastic/ && $num == 129 && $hora eq 'Prima') { $t .= $prayers{$lang}->{Requiem}; }
-  elsif ($num != 210 && !$nogloria) { $t .= "\&Gloria\n"; }
+	elsif ($num != 210 && !$nogloria) {
+		if ($gabc && !triduum_gloria_omitted()) {
+			$fname = "$psalmfolder/gloria-$ftone.gabc";
+			$fname = checkfile($lang, $fname);
+			my(@lines) = do_read($fname);
+			foreach my $line (@lines) {
+				$t =~ s/\}\n$/ \n$line\}\n/;
+			}
+		#	$t .= "$fname\n";
+		} else {
+			$t .= "\&Gloria\n";
+		}
+	}
   $t .= settone(0);
   return $t;
 }
