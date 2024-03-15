@@ -491,10 +491,16 @@ sub setcell {
 		if ($lang =~ /gabc/i) {
 			my $dId = 0;
 			while($text =~ /\{gabc:(.+?)\}/is) {
+				my $temp = $1;
 				my $gregFile = "chants/$1.gabc";
 				$gregFile = checkfile($lang, $gregFile);
+				if ($gregFile =~ /\/Latin\/.*gloria\.gabc/i ) { # if second Responsory GABC doesnot exist
+					$gregFile = "chants/$temp.gabc";
+					$gregFile =~ s/\-gloria//;
+					$gregFile = checkfile($lang, $gregFile);
+				}
 				my(@gregScore) = do_read($gregFile);
-				$text =~ s/gabc:$1/@gregScore/s;
+				$text =~ s/gabc:$temp/@gregScore/s;
 			}
 			while($text =~ /\{(\(|name:)(.+?)\(\:\:\)\}/is) {
 				$dId++;
