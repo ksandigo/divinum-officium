@@ -1,5 +1,5 @@
 name: 99-per;
-initial-style: 0;
+initial-style: 1;
 annotation: per.;
 user-notes: Psalm 99.;
 centering-scheme: latin;

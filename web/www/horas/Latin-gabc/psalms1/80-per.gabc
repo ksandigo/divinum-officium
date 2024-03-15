@@ -1,5 +1,5 @@
 name: 80-per;
-initial-style: 0;
+initial-style: 1;
 annotation: per.;
 user-notes: Psalm 80.;
 centering-scheme: latin;

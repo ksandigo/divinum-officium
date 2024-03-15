@@ -1,5 +1,5 @@
 name: 110-per;
-initial-style: 0;
+initial-style: 1;
 annotation: per.;
 user-notes: Psalm 110.;
 centering-scheme: latin;

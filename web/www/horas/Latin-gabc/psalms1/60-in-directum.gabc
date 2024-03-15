@@ -1,5 +1,5 @@
 name: 60-in-directum;
-initial-style: 0;
+initial-style: 1;
 annotation: in;
 user-notes: Psalm 60.;
 centering-scheme: latin;
