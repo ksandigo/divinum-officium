@@ -80,7 +80,7 @@ sub horas {
       $text1 =~ s/$alleluia_regex//g;
     }
     $text1 =~ s/\<BR\>\s*\<BR\>/\<BR\>/g;
-    if ($lang1 =~ /Latin/i) { $text1 = spell_var($text1); }
+    if ($lang1 =~ /Latin$/i) { $text1 = spell_var($text1); }
     if ($text1 && $text1 !~ /^\s+$/) { setcell($text1, $lang1); }
 
     if (!$only) {
@@ -92,7 +92,7 @@ sub horas {
         $text2 =~ s/$alleluia_regex//ig;
       }
       $text2 =~ s/\<BR\>\s*\<BR\>/\<BR\>/g;
-      if ($lang2 =~ /Latin/i) { $text2 = spell_var($text2); }
+      if ($lang2 =~ /Latin$/i) { $text2 = spell_var($text2); }
       if ($text2 && $text2 !~ /^\s+$/) { setcell($text2, $lang2); }
     }
   }
@@ -609,7 +609,7 @@ sub psalm : ScriptFunc {
   }
   $t .= $gabc ? "}\n" : "\n";			# end chant with brace for recognition
   if ($version =~ /Monastic/ && $num == 129 && $hora eq 'Prima') { $t .= $prayers{$lang}->{Requiem}; }
-	elsif ($num != 210 && !$nogloria) {
+	elsif ($num != 210 && !$nogloria || ($gabc && $canticlef)) {
 		if ($gabc && !triduum_gloria_omitted()) {
 			$fname = "$psalmfolder/gloria-$ftone.gabc";
 			$fname =~ s/,/-/g;	# file name with dash not comma
