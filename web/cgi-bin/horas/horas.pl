@@ -490,10 +490,15 @@ sub psalm : ScriptFunc {
   if ($version =~ /1960|Newcal/ && $num !~ /\(/ && $dayname[0] =~ /Nat/i) { $fname =~ s/Psalm88/Psalm88r/; }
   if ($version =~ /1960|Newcal/ && $num !~ /\(/ && $month == 8 && $day == 6) { $fname =~ s/Psalm88/Psalm88a/; }
 	if ($lang =~ /gabc/i) {
+		if($num > 230 && $num < 234) { $num .= ",$canticaTone"; }
 		$fname = ($num =~ /,/) ? "$psalmfolder/$num.gabc" : "$psalmfolder/Psalm$num.txt"; # distingiush between chant and text
+		$fname =~ s/\:/\./g;
 		$fname =~ s/,/-/g;	# file name with dash not comma
-		$ftone = ($num =~ /,(.*)/) ? $1 : '';
+		$num =~ s/\:\:/ \& /g;  # Multiple Psalms joined together
+		$num =~ s/\:/; Part: /; # n-th Part of Psalm
+		$num =~ s/,,.*?,,//;
 		$num =~ s/,/; Tone: /;	# name Tone in Psalm headline
+		$ftone = ($num =~ /Tone: (.*)/) ? $1 : '';
 	}
 	$fname = checkfile($lang, $fname);
 
@@ -512,7 +517,7 @@ sub psalm : ScriptFunc {
   my $title = translate('Psalmus', $lang) . " $num";
   my $source;
 
-  if ($num > 150 && $num < 300 && @lines) {
+  if ($num > 150 && $num < 300 && @lines && $fname !~ /\.gabc/) {
     shift(@lines) =~ /\(?(?<title>.*?) \* (?<source>.*?)\)?\s*$/;
     ($title, $source) = ($+{title}, $+{source});
     if ($v1) { $source =~ s/:\K.*/"$v1-$v2"/e; }
@@ -607,6 +612,7 @@ sub psalm : ScriptFunc {
 	elsif ($num != 210 && !$nogloria) {
 		if ($gabc && !triduum_gloria_omitted()) {
 			$fname = "$psalmfolder/gloria-$ftone.gabc";
+			$fname =~ s/,/-/g;	# file name with dash not comma
 			$fname = checkfile($lang, $fname);
 			my(@lines) = do_read($fname);
 			foreach my $line (@lines) {
@@ -930,6 +936,7 @@ sub ant_Benedictus : ScriptFunc {
     $ant = $specials{"Adv Ant $day" . "L"};
   }
   my @ant_parts = split('\*', $ant);
+	if ($lang =~ /gabc/i && $ant =~ /\{.*\}/) { $ant_parts[0] =~ s/(.*)(\(.*?\))\s*$/$1\.$2 (::)\}/; }
   if ($num == 1 && $duplex < 3 && $version !~ /196/) { return "Ant. $ant_parts[0]"; }
 
   if ($num == 1) {
@@ -943,34 +950,38 @@ sub ant_Benedictus : ScriptFunc {
 #*** ant_Magnificat($num, $lang)
 # returns the antiphon for $num=1 the beginning, or =2 for the end
 sub ant_Magnificat : ScriptFunc {
-
-  my $num = shift;    #1=before, 2=after
-  my $lang = shift;
-
-  our ($version, $winner);
-  our ($month, $day);
-  our $duplex;
-  our $rank;
-  our $vespera;
-
-  my $v = ($version =~ 1960 && $winner =~ /Sancti/i && $rank < 5) ? 3 : $vespera;
-  my ($ant) = getantvers('Ant', $v, $lang);
-
-  # Special processing for Common of Supreme Pontiffs. Confessor-Popes
-  # have a common Magnificat antiphon at second Vespers.
+	
+	my $num = shift;    #1=before, 2=after
+	my $lang = shift;
+	
+	our ($version, $winner);
+	our ($month, $day);
+	our $duplex;
+	our $rank;
+	our $vespera;
+	
+	my $v = ($version =~ 1960 && $winner =~ /Sancti/i && $rank < 5) ? 3 : $vespera;
+	my ($ant) = getantvers('Ant', $v, $lang);
+	
+	# Special processing for Common of Supreme Pontiffs. Confessor-Popes
+	# have a common Magnificat antiphon at second Vespers.
 	my $popeclass = '';
 	if ($version !~ /Trident/i && $v == 3 && ( (undef, $popeclass, undef) = papal_rule($winner{Rule})) && $popeclass =~ /C/i) {
-    $ant = papal_antiphon_dum_esset($lang);
+		$ant = papal_antiphon_dum_esset($lang);
 		setbuild2("subst: Special Magnificat Ant. Dum esset");
-  }
+	}
 	
 	
-  if ($month == 12 && ($day > 16 && $day < 24) && $winner =~ /tempora/i) {
-    my %specials = %{setupstring($lang, "Psalterium/Major Special.txt")};
-    $ant = $specials{"Adv Ant $day"};
-    $num = 2;
-  }
-  my @ant_parts = split('\*', $ant);
+	if ($month == 12 && ($day > 16 && $day < 24) && $winner =~ /tempora/i) {
+		my %specials = %{setupstring($lang, "Psalterium/Major Special.txt")};
+		$ant = $specials{"Adv Ant $day"};
+		$num = 2;
+	}
+	my @ant_parts = split('\*', $ant);
+	if ($lang =~ /gabc/i && $ant =~ /\{.*\}/) {
+		if ($ant =~ /tone:(.*?);/) { our $canticaTone = $1; }
+		$ant_parts[0] =~ s/(.*)(\(.*?\))\s*$/$1\.$2 (::)\}/;
+	}
   if ($num == 1 && $duplex < 3 && $version !~ /196/) { return "Ant. $ant_parts[0]"; }
 
   if ($num == 1) {

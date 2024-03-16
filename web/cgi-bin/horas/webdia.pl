@@ -502,9 +502,9 @@ sub setcell {
 				my(@gregScore) = do_read($gregFile);
 				$text =~ s/gabc:$temp/@gregScore/s;
 			}
-			while($text =~ /\{(\(|name:)(.+?)\(\:\:\)\}/is) {
+			while($text =~ /\{(\(|name:|initial-style:)(.+?)\(\:\:\)\}/is) {
 				$dId++;
-				$text =~ s/\{(\(|name:)/<DIV ID="GABC$searchind$dId" class="GABC">$1/s;
+				$text =~ s/\{(\(|name:|initial-style:)/<DIV ID="GABC$searchind$dId" class="GABC">$1/s;
 				$text =~ s/<\/?i>/\_/g;
 				$text =~ s/<\/?b>|<v>\\greheightstar<\/v>/*/g;
 				$text =~ s/<\/?sc>/\%/g;
