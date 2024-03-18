@@ -927,21 +927,24 @@ sub translate {
 #*** ant_Benedictus($num, $lang)
 # returns the antiphona $num=1 = for beginning =2 for end
 sub ant_Benedictus : ScriptFunc {
-
-  my $num = shift;
-  my $lang = shift;
-  our ($version, $winner);
-  our ($month, $day);
-  our $duplex;
-
-  my ($ant) = getantvers('Ant', 2, $lang);
-
-  if ($month == 12 && ($day == 21 || $day == 23) && $winner =~ /tempora/i) {
-    my %specials = %{setupstring($lang, "Psalterium/Major Special.txt")};
-    $ant = $specials{"Adv Ant $day" . "L"};
-  }
-  my @ant_parts = split('\*', $ant);
-	if ($lang =~ /gabc/i && $ant =~ /\{.*\}/) { $ant_parts[0] =~ s/(.*)(\(.*?\))\s*$/$1\.$2 (::)\}/; }
+	
+	my $num = shift;
+	my $lang = shift;
+	our ($version, $winner);
+	our ($month, $day);
+	our $duplex;
+	
+	my ($ant) = getantvers('Ant', 2, $lang);
+	
+	if ($month == 12 && ($day == 21 || $day == 23) && $winner =~ /tempora/i) {
+		my %specials = %{setupstring($lang, "Psalterium/Major Special.txt")};
+		$ant = $specials{"Adv Ant $day" . "L"};
+	}
+	my @ant_parts = split('\*', $ant);
+	if ($lang =~ /gabc/i && $ant =~ /\{.*\}/) {
+		if ($ant =~ /tone:(.*?);/) { our $canticaTone = $1; }
+		$ant_parts[0] =~ s/(.*)(\(.*?\))\s*$/$1\.$2 (::)\}/;
+	}
   if ($num == 1 && $duplex < 3 && $version !~ /196/) { return "Ant. $ant_parts[0]"; }
 
   if ($num == 1) {
