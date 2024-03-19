@@ -183,7 +183,7 @@ R. Et erat súbditus illis.
 &teDeum 
 
 [Ant Laudes]
-Ibant paréntes Jesu * per omnes annos in Jerúsalem, in die solémni Paschæ.
+{name:Ibant parentes Jesu;office-part:Antiphona;mode:1;annotation:1.a3;book:The Liber Usualis, 1961, p. 1405;transcriber:Andrew Hinkley;%%(c4) I(ixdh'!iv)bant(h) *() pa(gf)rén(gh)tes(fe) Je(d)su(f'_) (,) per(d) o(e')mnes(f) an(gh)nos(g) in(hg~) Je(hji)rú(h)sa(g)lem,(h.) (;) in(fh~) di(h)e(ghg___) sol(f_e)é(g)mni(fe) Pa(d.)schae.(d.) (::)};;;;1a3
 Cum redírent, * remánsit puer Jesus in Jerúsalem, et non cognovérunt paréntes ejus.
 Non inveniéntes * Jesum, regréssi sunt in Jerúsalem requiréntes eum; et post tríduum invenérunt illum in templo sedéntem in médio doctórum, audiéntem et interrogántem eos.
 Dixit Mater ejus * ad illum: Fili, quid fecísti nobis sic? Ecce pater tuus, et ego doléntes quærebámus te.

@@ -108,6 +108,10 @@ R. Fidélis servus et prudens, quem constítuit Dóminus super famíliam suam
 V. Qui custos est Dómini sui, glorificátur.
 R. Amen dico vobis, quóniam super ómnia bona sua constítuet eum.
 
+[Ant Laudes]
+{name:Ibant parentes Jesu;office-part:Antiphona;mode:7;annotation:7.d;book:Antiphonale Monasticum, 1934, p. 841;transcriber:Dominique CROCHU;%%(c3)I(e_i)bant(i') *() pa(i)rén(j')tes(h) Je(jk)su(i'_) (,) per(i) om(i')nes(g) an(ij)nos(i') in(h) Je(hg)rú(fe)sa(fh)lem,(h'_) (,) in(i) di(h)e(hg) so(fe)lém(fg)ni(f) † Pas(e.)chæ.(e.) (::) <i>T.P.</i> Pas(e)chæ,(e_f) al(g>)le(fg)lú(e.)ia.(e.) (::)};;;;7d
+@Sancti/03-19::2-5
+
 [Capitulum Laudes]
 @Sancti/03-19
 _
@@ -122,3 +126,5 @@ _
 [Responsory Nona]
 @Sancti/03-19:Responsory Sexta:8-9
 
+[Ant Vespera 3]
+@:Ant Laudes

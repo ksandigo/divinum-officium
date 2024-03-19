@@ -867,7 +867,8 @@ sub psalmi_major {
   my $name = $hora;
   if ($hora =~ /Laudes/) { $name .= $laudes; }
   my @psalmi = splice(@psalmi, @psalmi);
-
+	my @psalmTones;
+	
   if ($version =~ /monastic/i) {
     my $head = "Daym$dayofweek";
     if ($hora =~ /Laudes/i) {
@@ -965,6 +966,17 @@ sub psalmi_major {
   if ($antecapitulum) { $w = (columnsel($lang)) ? $antecapitulum : $antecapitulum2; }
   if ($w) { @antiphones = split("\n", $w); $comment = $c; }
 
+	if ($lang =~ /gabc/ && @antiphones) {
+		foreach $myant (@antiphones) {
+			if ($myant =~ s/;;(.*);;(.*)/;;$1/ ) {
+				push (@psalmTones, $2);
+				$myant =~ s/;;\s*$//;
+			} else {
+				push (@psalmTones, '');
+			}
+		}
+	}
+
   #Psalmi de dominica
   if ( $version =~ /Trident/i
     && $testmode =~ /seasonal/i
@@ -1002,7 +1014,8 @@ sub psalmi_major {
 		if ($antiphones[4]) {															# if 5 psalms and antiphones are given
 			local($a1,$p1) = split(/;;/, $antiphones[3]);	  # split no. 4
 			local($a2,$p2) = split(/;;/, $antiphones[4]);		# spilt no. 5
-			$antiphones[3] = "$a2;;$p1"											# and say antiphone 5 with psalm no. 4
+			$antiphones[3] = "$a2;;$p1";										# and say antiphone 5 with psalm no. 4
+			if (@psalmTones) { $psalmTones[3] = "$psalmTones[4]"; } # and use the Tone of the 5th antiphone
     }
   }
 
@@ -1010,8 +1023,8 @@ sub psalmi_major {
     for ($i = 0; $i < $lim; $i++) {
       my $aflag = 0;
       $p = ($p[$i] =~ /;;(.*)/s) ? $1 : 'missing';
-
-      if ( $i == 4
+			
+			if ( $i == 4
         && $hora =~ /vespera/i
         && !$antecapitulum
         && $rule !~ /no Psalm5/i
@@ -1026,13 +1039,17 @@ sub psalmi_major {
         setbuild2("Psalm5 = $p");
         $aflag = 1;
       }
+			
+			if ($lang =~ /gabc/i ) { $p = ($p =~ /\'(.*),/s) ? $1 : $p; }
+			
       $psalmi[$i] =
           ($antiphones[$i] =~ /\;\;[0-9\;\n]+/ && !$aflag) ? $antiphones[$i]
         : ($antiphones[$i] =~ /(.*?);;/s) ? "$1;;$p"
         : "$antiphones[$i];;$p";
+			if ($lang =~ /gabc/i ) { $psalmi[$i] =~ s/;;(.*)/;;\'$1,$psalmTones[$i]\'/; }
     }
   }
-
+	
   if (alleluia_required($dayname[0], $votive)
     && (!exists($winner{"Ant $hora"}) || $commune =~ /C10/)
     && $communetype !~ /ex/i
@@ -1050,7 +1067,7 @@ sub psalmi_major {
       $psalmi[3] =~ s/.*(?=;;)//;
     }
   }
-
+	
   if (($dayname[0] =~ /(Adv|Quad)/i || emberday()) && $hora =~ /laudes/i && $version !~ /trident/i) {
     $prefix = "Laudes:$laudes $prefix";
   }
