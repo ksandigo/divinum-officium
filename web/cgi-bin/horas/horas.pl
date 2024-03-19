@@ -462,7 +462,7 @@ sub psalm : ScriptFunc {
     }
   }
 
-  $nogloria ||= $canticlef;
+  #$nogloria ||= $canticlef; taken out of Ordinarium files
 
   #$psalmfolder = ($accented =~ /plain/i) ? 'psalms' : 'psalms1';
   $psalmfolder = 'psalms1';
@@ -499,13 +499,18 @@ sub psalm : ScriptFunc {
 		$num =~ s/,,.*?,,//;
 		$num =~ s/,/; Tone: /;	# name Tone in Psalm headline
 		$ftone = ($num =~ /Tone: (.*)/) ? $1 : '';
+		if (!(-e "$datafolder/$lang/$fname")) {
+			$num =~ s/;.*//;
+			$fname = "$psalmfolder/Psalm$num.txt";
+		}
 	}
 	$fname = checkfile($lang, $fname);
 
   # load psalm
   my(@lines) = do_read($fname);
   unless (@lines > 0) {
-    return "$t$datafolder/$lang/$fname not found";
+    #return "$datafolder/$lang/$fname not found";
+		return "$fname not found";
   }
 
   # Extract limits of the division of the psalm. (potentially within a psalm verse)
@@ -614,7 +619,7 @@ sub psalm : ScriptFunc {
   }
   $t .= $gabc ? "}\n" : "\n";			# end chant with brace for recognition
   if ($version =~ /Monastic/ && $num == 129 && $hora eq 'Prima') { $t .= $prayers{$lang}->{Requiem}; }
-	elsif ($num != 210 && !$nogloria || ($gabc && $canticlef)) {
+	elsif ($num != 210 && !$nogloria ) { #|| ($gabc && $canticlef)
 		if ($gabc && !triduum_gloria_omitted()) {
 			$fname = "$psalmfolder/gloria-$ftone.gabc";
 			$fname =~ s/,/-/g;	# file name with dash not comma
