@@ -945,9 +945,9 @@ sub ant_Benedictus : ScriptFunc {
 		my %specials = %{setupstring($lang, "Psalterium/Major Special.txt")};
 		$ant = $specials{"Adv Ant $day" . "L"};
 	}
+	
 	my @ant_parts = split('\*', $ant);
 	if ($lang =~ /gabc/i && $ant =~ /\{.*\}/) {
-		if ($ant =~ /tone:(.*?);/) { our $canticaTone = $1; }
 		$ant_parts[0] =~ s/(.*)(\(.*?\))\s*$/$1\.$2 (::)\}/;
 	}
   if ($num == 1 && $duplex < 3 && $version !~ /196/) { return "Ant. $ant_parts[0]"; }
@@ -990,9 +990,9 @@ sub ant_Magnificat : ScriptFunc {
 		$ant = $specials{"Adv Ant $day"};
 		$num = 2;
 	}
+	
 	my @ant_parts = split('\*', $ant);
 	if ($lang =~ /gabc/i && $ant =~ /\{.*\}/) {
-		if ($ant =~ /tone:(.*?);/) { our $canticaTone = $1; }
 		$ant_parts[0] =~ s/(.*)(\(.*?\))\s*$/$1\.$2 (::)\}/;
 	}
   if ($num == 1 && $duplex < 3 && $version !~ /196/) { return "Ant. $ant_parts[0]"; }
@@ -1388,6 +1388,12 @@ sub postprocess_ant(\$$) {
 
   # Don't do anything to null antiphons.
   return unless $$ant;
+	
+	if ($lang =~ /gabc/i && $$ant =~ /;;(.*)/) { # strip tone from Antiphone and save it
+		our $canticaTone = $1;
+		$$ant =~ s/;;.*//;
+	}
+	
   process_inline_alleluias($$ant);
   ensure_single_alleluia($$ant, $lang) if alleluia_required($dayname[0], $votive);
 }

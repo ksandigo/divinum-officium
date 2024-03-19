@@ -31,7 +31,7 @@ $Deo gratias
 {initial-style:0;%%(c3) R/. Et(h) prí(h)nci(h)pem(h) om(hi)nis(h_0) (,) pos(h)ses(h)si(h)ó(h)nis(fe) su(f_h)æ.(hiH'Ghih.ghG'FE'fggf.) (::)}
 
 [Ant 1]
-{name:Exsurgens Joseph;office-part:Antiphona;annotation:1.g3;tone:solemn1g3;book:Antiphonale Monasticum, 1934, p. 840;transcriber:Dominique CROCHU;%%(c4) EX(f)súr(h)gens(g') Jo(h)seph(g') a(f) som(gf~)no,(d.) *(,) fe(hih)cit(g') sic(h)ut(g') præ(h)cé(jk)pit(j) e(ji)i(hg) An(ij)ge(ih)lus(i) Dó(h')mi(g)ni,(h.) (;) et(fe) ac(c_d)cé(ffg)pit(ff)  cón(e_f)ju(g)gem(fe) su(d.)am.(d.) (::)}
+{name:Exsurgens Joseph;office-part:Antiphona;annotation:1.g3;book:Antiphonale Monasticum, 1934, p. 840;transcriber:Dominique CROCHU;%%(c4) EX(f)súr(h)gens(g') Jo(h)seph(g') a(f) som(gf~)no,(d.) *(,) fe(hih)cit(g') sic(h)ut(g') præ(h)cé(jk)pit(j) e(ji)i(hg) An(ij)ge(ih)lus(i) Dó(h')mi(g)ni,(h.) (;) et(fe) ac(c_d)cé(ffg)pit(ff)  cón(e_f)ju(g)gem(fe) su(d.)am.(d.) (::)};;solemn1g3
 
 [Oratio]
 Sanctíssimæ Genetrícis tuæ spónsi, quǽsumus, Dómine, méritis adjuvémur; ut quod possibílitas nostra non óbtinet, ejus nobis intercessióne donétur.
