@@ -10,7 +10,7 @@ Psalmi Dominica
 [Capitulum Vespera]
 @Sancti/03-19:Capitulum Laudes
 _
-{gabc:rb--invocavi_dominum--solesmes_1957}
+{gabc:Sancti/rb--invocavi_dominum--solesmes_1957}
 
 [AntMatutinumM]
 Induxérunt * púerum Jesum paréntes ejus † ut fácerent secúndum consuetúdinem legis pro eo.;;23
@@ -109,8 +109,9 @@ V. Qui custos est Dómini sui, glorificátur.
 R. Amen dico vobis, quóniam super ómnia bona sua constítuet eum.
 
 [Ant Laudes]
-{name:Ibant parentes Jesu;office-part:Antiphona;mode:7;annotation:7.d;book:Antiphonale Monasticum, 1934, p. 841;transcriber:Dominique CROCHU;%%(c3)I(e_i)bant(i') *() pa(i)rén(j')tes(h) Je(jk)su(i'_) (,) per(i) om(i')nes(g) an(ij)nos(i') in(h) Je(hg)rú(fe)sa(fh)lem,(h'_) (,) in(i) di(h)e(hg) so(fe)lém(fg)ni(f) † Pas(e.)chæ.(e.) (::) <i>T.P.</i> Pas(e)chæ,(e_f) al(g>)le(fg)lú(e.)ia.(e.) (::)};;;;7d
-@Sancti/03-19::2-5
+{name:Ibant parentes Jesu;mode:7;annotation:7.d;book:Antiphonale Monasticum, 1934, p. 841;transcriber:Dominique CROCHU;%%(c3)I(e_i)bant(i') *() pa(i)rén(j')tes(h) Je(jk)su(i'_) (,) per(i) om(i')nes(g) an(ij)nos(i') in(h) Je(hg)rú(fe)sa(fh)lem,(h'_) (,) in(i) di(h)e(hg) so(fe)lém(fg)ni(f) † Pas(e.)chæ.(e.) (::) <i>T. P.</i> Pas(e)chæ,(e_f) al(g>)le(fg)lú(e.)ia.(e.) (::)};;;;7d
+{name:Cum redirent;mode:2;annotation:2. d;book:Antiphonale Monasticum, 1934, p. 841;transcriber:Dominique CROCHU;%%(f3)CUM(f) red(c)í(ef)rent,(f_e) *(,) re(h)mán(i)sit(gf) pu(ghg)er(fe) Je(fh)sus(h) in(i') Je(h)rú(ij)sa(ih)lem,(h.) (;) et(hji) non(hg) co(f')gno(g)vé(ff)runt(e.) (,) † pa(g_h)rén(i>)tes(hg) e(f.)jus.(f.) (::) <i>T. P.</i> pa(g_h)rén(i'>)tes(h) e(hg~)jus,(fe) al(f)le(hg)lú(f.)ia.(f.) (::)};;;;2-monasticus
+{name:Non invenientes Jesum;mode:3;annotation:3. a2;book:Antiphonale Monasticum, 1934, p. 842;transcriber:Dominique CROCHU;%%(c4)NON(e) in(f)ve(e_f)ni(d_g)én(g)tes(hi) Je(ij)sum,(i.) *(,) re(i_j)grés(k)si(j) sunt(kl) in(k) Je(j')ru(k)sá(ji)lem(h.) (,) re(h)qui(j)rén(ji)tes(hi) e(h)um:(g.) (:) et(g) post(h') trí(g)du(hi)um(i'_) (,) in(j)ve(i_j)né(k)runt(ji) il(h)lum(g') in(e) tem(fg~)plo(g'_) (,) se(g)dén(hi)tem(h) in(gf~) mé(gh)di(g)o(fd) doc(e)tó(ef)rum,(e.) (;) au(e)di(f)én(ed~)tem(g'_) et(g) in(h)ter(g')ro(f)gán(gh)tem(gf) † e(e.)os.(e.) (::) <i>T. P.</i> † e(e)os,(e_f) al(g)le(gf)lú(e.)ia.(e.) (::)};;;;3-antiquo-a2
 
 [Capitulum Laudes]
 @Sancti/03-19

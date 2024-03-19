@@ -1042,11 +1042,20 @@ sub psalmi_major {
 			
 			if ($lang =~ /gabc/i ) { $p = ($p =~ /\'(.*),/s) ? $1 : $p; }
 			
-      $psalmi[$i] =
-          ($antiphones[$i] =~ /\;\;[0-9\;\n]+/ && !$aflag) ? $antiphones[$i]
-        : ($antiphones[$i] =~ /(.*?);;/s) ? "$1;;$p"
-        : "$antiphones[$i];;$p";
-			if ($lang =~ /gabc/i ) { $psalmi[$i] =~ s/;;(.*)/;;\'$1,$psalmTones[$i]\'/; }
+			if ($lang =~ /gabc/i ) {
+				$p = ($antiphones[$i] =~ s/\;\;([0-9\;\n]+)// && !$aflag) ? $1 : $p;
+				my @p = split(';', $p);
+				foreach $p1 (@p) {
+					$p1 = "\'$p1,$psalmTones[$i]\'";
+				}
+				$p = join(';', @p);
+				$psalmi[$i] = "$antiphones[$i];;$p";
+			} else {
+				$psalmi[$i] =
+					($antiphones[$i] =~ /\;\;[0-9\;\n]+/ && !$aflag) ? $antiphones[$i]
+						: ($antiphones[$i] =~ /(.*?);;/s) ? "$1;;$p"
+						: "$antiphones[$i];;$p";
+			}
     }
   }
 	
@@ -1104,7 +1113,8 @@ sub antetpsalm {
     $p = $p[$i];
     $p =~ s/[\(\-]/\,/g;
     $p =~ s/\)//;
-    if ($i < (@p - 1)) { $p = '-' . $p; }
+		if ($i < (@p - 1)) { $p = '-' . $p; }
+		$p =~ s/\-\'/\'\-/;
     push(@s, "\&psalm($p)");
     if ($i < (@p - 1)) { push(@s, "\n"); }
   }
