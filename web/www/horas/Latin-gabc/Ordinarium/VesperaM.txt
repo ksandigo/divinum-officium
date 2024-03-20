@@ -2,16 +2,14 @@
 &Deus_in_adjutorium
 &Alleluia
 
-&psalm('66,in-dir-monasticus')
-
 #Psalmi
 
 #Capitulum Responsorium Hymnus Versus
 
-#Canticum Benedictus
-&ant_Benedictus(1)
-&canticum(1)
-&ant_Benedictus(2)
+#Canticum Magnificat
+&ant_Magnificat(1)
+&canticum(2)
+&ant_Magnificat(2)
 
 #Oratio
 

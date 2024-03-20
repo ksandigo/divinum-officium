@@ -280,12 +280,43 @@ sub teDeum : ScriptFunc {
   return "\n_\n!Te Deum\n$prayers{$lang}->{'Te Deum'}";
 }
 
+#*** Deus_in_adjutorium($lang)
+# return Ferial, Festal, or Solemn chant
+sub Deus_in_adjutorium : ScriptFunc {
+	my $lang = shift;
+	our %prayers;
+	
+	our ($winner, @dayname);
+	my %latwinner = %{setupstring('Latin', $winner)};
+	my @latrank = split(';;', $latwinner{Rank});
+	my $latname = $latrank[0];
+	my $latrank = $latrank[2];
+	
+	if ($lang !~ /gabc/ || $hora !~ /matutinum|laudes|vespera/i || $rank < 2 || $latname =~ /Feria|Sabbato|Vigilia(?! Epi)/i || $latrank < 2) {
+		return $prayers{$lang}->{'Deus in adjutorium'};
+	}
+	
+	if ($hora !~ /vespera/i || $rank < (($version =~ /196/) ? 6 : 5) || ($latname =~ /Dominica|In(.*)Octava/i && ($dayname[0] !~ /Pasc[017]|Pent01/i || $dayofweek > 0))) {
+		our $toneType = 'festal';
+		return $prayers{$lang}->{'Deus in adjutorium1'};
+	} else {
+		our $toneType = 'solemn';
+		return $prayers{$lang}->{'Deus in adjutorium2'};
+	}
+}
+
 #*** Alleluia($lang)
 # return the text Alleluia or Laus tibi
 sub Alleluia : ScriptFunc {
   my $lang = shift;
   our %prayers;
   my $text = $prayers{$lang}->{'Alleluia'};
+	
+	our $toneType;  # filled by &Deus_in_adjutorium, if at all
+	if ($lang =~ /gabc/i && $toneType) {
+		$text = ($toneType =~ /festal/i) ? $prayers{$lang}->{'Alleluia1'} : $prayers{$lang}->{'Alleluia2'};
+	}
+  
   my @text = split("\n", $text);
 
   if ($dayname[0] =~ /Quad/i && !Septuagesima_vesp()) {
