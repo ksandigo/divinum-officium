@@ -509,6 +509,7 @@ sub setcell {
 			  $text =~ s/<\/?i>/\_/g;
 				$text =~ s/<\/?b>|<v>\\greheightstar<\/v>/*/g;
 				$text =~ s/<\/?sc>/\%/g;
+				$text =~ s/<\/?c>/\^/g;
 				$text =~ s/<sp>'(?:ae|æ)<\/sp>/ǽ/g;
 				$text =~ s/<sp>'(?:ae|œ)<\/sp>/œ́/g;
 				$text =~ s/; <br>\n/;\n/gi;

@@ -1049,7 +1049,7 @@ sub psalmi_major {
 					$p1 = "\'$p1,$psalmTones[$i]\'";
 				}
 				$p = join(';', @p);
-				$psalmi[$i] = "$antiphones[$i];;$p";
+				$psalmi[$i] = ($antiphones[$i] =~ /(.*?);;/s) ? "$1;;$p" : "$antiphones[$i];;$p";
 			} else {
 				$psalmi[$i] =
 					($antiphones[$i] =~ /\;\;[0-9\;\n]+/ && !$aflag) ? $antiphones[$i]
@@ -1108,8 +1108,7 @@ sub antetpsalm {
   } 
 
   my @p = split(';', $line[1]);
-
-  for (my $i = 0; $i < @p; $i++) {
+	for (my $i = 0; $i < @p; $i++) {
     $p = $p[$i];
     $p =~ s/[\(\-]/\,/g;
     $p =~ s/\)//;
