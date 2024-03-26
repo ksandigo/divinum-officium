@@ -802,6 +802,7 @@ sub psalmi_minor {
 
   if ($w{Rule} =~ /Minores sine Antiphona/i) {
     $ant = '';
+		$psalmTone = ($version =~ /monastic/) ? 'in-dir-monasticus' : 'in-directum';
     setbuild2('Sine antiphonae');
   }
 

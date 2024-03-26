@@ -320,7 +320,7 @@ R. Et de Sion tuére eos.
 
 (sed rubrica tridentina dicuntur)
 @:Dominus:3-4
-&psalm(129) 
+&psalm('129,in-directum') 
 
 (deinde dicuntur)
 V. Dómine, Deus virtútum, convérte nos.
