@@ -437,7 +437,7 @@ sub Benedicamus_Domino : ScriptFunc {
 	
 	my %benedicamus = %{setupstring($lang, 'Psalterium/Benedicamus.txt')};
 	
-	return ($benedicamus{"$chantTone$vespera"}) || ($prayers{'Latin'}->{'Benedicamus Domino'});
+	return ($benedicamus{"$chantTone$vespera"}) || ($benedicamus{"$chantTone"}) || ($prayers{'Latin'}->{'Benedicamus Domino'});
 }
 
 #*** antiphona_finalis

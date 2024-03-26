@@ -1533,10 +1533,10 @@ sub getChantTones {
 					local $_ = getweek($day, $month, $year, $dayofweek == 6 && $hora =~ /Vespera|Completorium/i);
 					$chantTone = (/Pasc0/i) ? 'resurrectionis'
 						: (/Pasc7|Pent01/i) ? 'solemnis'
-				    : (/Pasc[1-6]/i) ? 'dominicalis et paschalis'
+				    : (/Pasc[1-6]/i) ? 'paschalis'
 					  : (/(Adv[1-4]|Quad[1-6])/i) ? 'dominicalis major'
 					  : (/Nat/i) ? 'festivus minor'
-					  : (/Epi1|Pent02/i && $version !~ /19(?:55|6)/ ) ? '8valis privilegiatus'
+					  : (/Epi1|Pent02/i && $version !~ /19(?:55|6)/ ) ? 'festivus 8vam priv'
 					#: (/(Adv[2-4]|Quadp)/i) ? 'Semiduplex Dominica II. classis'
 					#: (/(Epi[1-6])|Pent[22-23]/i && $dayofweek > 0 && !($dayofweek == 6 && $hora =~ /Vespera|Completorium/i)) ? 'Semiduplex Dominica anticipata'
 					: 'dominicalis minor';
@@ -1552,7 +1552,7 @@ sub getChantTones {
 		#} elsif ($version =~ /196/ && $dayname[0] =~ /Pasc[07]/i && $dayofweek > 0 && $winner !~ /Pasc7-0/) {
 		#	$chantTone = 'Dies Octavæ I. classis';		# Paschal & Pentecost Octave post 1960
 		} elsif ($version =~ /196/ && $winner =~ /Pasc6-6/) {
-			$chantTone = 'I. classis';		# Vigilia Pentecostes
+			$chantTone = 'paschalis';		# Vigilia Pentecostes
 		#} elsif ($version =~ /196/ && $winner =~ /Pasc5-3/) {
 		#	$chantTone = 'II. classis';	# Vigilia Asc
 		#} elsif ($version =~ /196/ && $month == 12 && $day > 16 && $day < 25 && $dayofweek > 0) {
@@ -1563,39 +1563,31 @@ sub getChantTones {
 			$chantTone = ($rank =~ 7) ? 'resurrectionis' : 'paschalis'; # Paschal Octave
 		} elsif ($version !~ /196/ && $dayname[0] =~ /Pasc7/i && $dayofweek > 0) {
 			$chantTone = ($rank =~ 7) ? 'solemnis' : 'paschalis'; # pentecost Octave
-		} elsif ($version =~ /trid/i && $name =~ /^In Octava/i) {
+		} elsif ($version =~ /trid/i && $name =~ /^In Octava(?! Asc)/i) {
 			$chantTone = 'festivus'; # all other Octaves pre Divino
-		} elsif ($version =~ /trid/i && $name =~ /infra Octavam|post Octavam Asc|Vigilia Pent/i) {
+		} elsif ($version =~ /trid/i && $name =~ /in.* Octavam? Asc|post Octavam Asc|Vigilia Pent/i) {
+			$chantTone = 'paschalis'; # all other Octaves pre Divino
+		} elsif ($version =~ /trid/i && $name =~ /infra Octavam/i) {
 			$chantTone = 'festivus minor'; # all other Octaves pre Divino
 		} elsif ($version =~ /Divino/ && $name =~ /^In Octava|infra Octavam|post Octavam Asc|Vigilia Pent/i) {
-			$chantTone = ($rank < 2) ? '8valis communis'
-			: ($rank < 3 && $name !~ /Asc|Nat|Cord/i || $name =~ /post|Joan/) ? '8valis communis'
-			: ($rank < 3) ? '8valis privilegiatus'
+			$chantTone = ($rank < 2) ? 'festivus minor'		# etiam in octava simplici
+			: ($rank < 3 && $name !~ /Asc|Nat|Cord/i || $name =~ /post|Joan/) ? 'festivus minor'
+			: ($rank < 3 && $name !~ /Asc/i) ? 'festivus 8vam priv'
+			: ($rank < 3) ? 'paschalis'
 			: ($rank < 5 && $name !~ /Asc|Nat|Cord/i) ? 'festivus major'
 			: ($rank < 5) ? 'festivus major'
-			: ($rank < 5.61) ? '8valis privilegiatus'
+			: ($rank < 5.61) ? ($name =~ /Asc/i) ? 'paschalis' : 'festivus major'
 			: ($rank < 6.5) ? 'festivus major'
 			: 'paschalis' ;
 		} else {	# Default for Ferias
 			if ($version !~ /196/) {
 				$chantTone = ($rank < 2) ? 'ferialis' : ($rank < 3) ? 'ferialis major' : ($rank < 5) ? 'ferialis major' : 'ferialis major';
 			} else {
-				my @ranktable = (
-				'',
-				'IV. classis',
-				'III. classis',
-				'III. classis',
-				'II. classis',
-				'II. classis',
-				'II. classis',
-				'I. classis',
-				'I. classis'
-				);
-				$chantTone = 'ferialis'; #$ranktable[$rank];
+				$chantTone = ($dayname[0] =~ /Adv|Quad(?!p)/i || $rank > 3) ? 'ferialis major' : 'ferialis'; #$ranktable[$rank];
 			}
 		}
 		if (($commune =~ /C11/i || $name =~ /(?:Beat|Sanct)(?:ae|æ) Mari/ && $name !~ /Vigil|Sabbato/i) && $chantTone !~ /solemnis/i ) { $chantTone = 'festivus BMV'; }
-		elsif ($winner =~ /tempora/i && $dayname[0] =~ /Pasc/i && $chantTone =~ /8valis priv|ferialis/i ) { $chantTone = 'paschalis'; }
+		elsif ($winner =~ /tempora/i && $dayname[0] =~ /Pasc/i && $chantTone =~ /|ferialis/i ) { $chantTone = 'paschalis'; }
 		#  if Feria / Octava T.P. => paschalis
 		#
 		return "$chantTone";
