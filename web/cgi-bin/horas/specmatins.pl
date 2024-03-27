@@ -456,7 +456,7 @@ sub lectiones {
 	if ($rule !~ /Limit.*?Benedictio/i) {
 		push(@s, "\&pater_noster");
 	} else {
-		push(@s, "\$Pater noster");
+		push(@s, "\$Pater totum secreto");
 	}
 	my %benedictio = %{setupstring($lang, 'Psalterium/Benedictions.txt')};
 	my $i = $num;
@@ -508,8 +508,8 @@ sub lectiones {
 	#absolutiones
 	if ($rule !~ /Limit.*?Benedictio/i) {
 		push(@s, "Absolutio. $a[0]");
-		push(@s, "\n");
 	}
+	push(@s, "\n");
 	
 	# if 1960 or monastic of ferial type diverge to sub routine
 	my $ltype1960 = gettype1960();
