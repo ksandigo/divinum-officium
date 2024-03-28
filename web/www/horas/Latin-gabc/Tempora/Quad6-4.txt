@@ -137,7 +137,7 @@ $Qui tecum
 {gabc:tenebrae/an--considerabam_ad_dexteram--solesmes_1934};;141;;7a
 
 [Ant 3]
-{name:Coenantibus autem;annotation:1.f;book:Antiphonale Romanum 1949, p. 437;%%(c4) CŒ(d)nán(d_c)ti(f)bus(g) au(fgwhv_)tem,(h_') (,) ac(f)cé(h')pit(j) Je(h)sus(gf) pa(g_0h)nem,(g.) (;) be(g)ne(g')dí(g)xit(e') ac(g) fre(h_g)git,(f_') (,) de(g)dít(e) di(dc)scí(e_0g)pu(e)lis(fe) su(d.)is.(d.) (::)};;1f
+{name:Coenantibus autem;annotation:1.f;book:Antiphonale Romanum 1949, p. 437;%%(c4) CŒ(d)nán(d_c)ti(f)bus(g) au(fgwhv_)tem,(h_') (,) ac(f)cé(h')pit(j) Je(h)sus(gf) pa(g_0h)nem,(g.) (;) be(g)ne(g')dí(g)xit(e') ac(g) fre(h_g)git,(f_') (,) de(g)dít(e) di(dc)scí(e_0g)pu(e)lis(fe) su(d.)is.(d.) (::)};;solemn1f
 
 [Oratio Vespera]
 /:sine cantu:/
