@@ -105,6 +105,8 @@ Feria
 
 [Oratio]
 v. . {(c4) CHri(ffg)stus(f.) *(,) fa(fg)ctus(f) est(f') pro(f) no(ghF'ED.g_[oh:h]e/fg)bis(f.) (;) ob(f)é(hf/gh!jj/kjk)di(jij)ens(h_g) (,) us(h!jjh)que(f.) ad(ixfiH'Gh) mor(f_[oh:h]g_[oh:h]f_[oh:h])tem.(f.) (::)}
+(sed hora vespera)
+v. Christus factus est pro nobis obédiens usque ad mortem. /:sine cantu:/
 $Pater totum secreto
 !aliquantulum altius
 _
@@ -136,6 +138,17 @@ $Qui tecum
 
 [Ant 3]
 {name:Coenantibus autem;annotation:1.f;book:Antiphonale Romanum 1949, p. 437;%%(c4) CŒ(d)nán(d_c)ti(f)bus(g) au(fgwhv_)tem,(h_') (,) ac(f)cé(h')pit(j) Je(h)sus(gf) pa(g_0h)nem,(g.) (;) be(g)ne(g')dí(g)xit(e') ac(g) fre(h_g)git,(f_') (,) de(g)dít(e) di(dc)scí(e_0g)pu(e)lis(fe) su(d.)is.(d.) (::)};;1f
+
+[Oratio Vespera]
+/:sine cantu:/
+v. Christus factus est pro nobis obédiens usque ad mortem.
+$Pater totum secreto
+!aliquantulum altius
+_
+&psalm(50)
+(sed rubrica 1955 aut rubrica 196 omittitur)
+@Tempora/Quad6-4:Oratio Matutinum
+
 
 [Special Completorium]
 !Special Completorium
